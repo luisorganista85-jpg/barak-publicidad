@@ -1,0 +1,42 @@
+ESTRUCTURA DEL PROYECTO
+
+1) index.html
+- Archivo principal con toda la estructura del sitio.
+- Aquí cambias secciones, textos, botones y orden del contenido.
+
+2) assets/styles.css
+- Todos los estilos visuales de la página.
+- Aquí cambias colores, tamaños, espacios, responsive, tarjetas y apariencia general.
+
+3) assets/main.js
+- Funcionalidades interactivas.
+- Aquí cambias el menú móvil, modo oscuro, filtros del catálogo, FAQ y animaciones de entrada.
+
+RECOMENDACIONES DE EDICIÓN
+
+- Si quieres cambiar el número de WhatsApp, busca: TELEFONO_WHATSAPP
+- Si quieres cambiar textos del negocio, edita el HTML.
+- Si quieres cambiar colores del branding, edita las variables al inicio de styles.css.
+- Si quieres reemplazar la galería por imágenes reales, puedes agregar archivos en /assets/ y sustituir los bloques visuales por etiquetas <img>.
+
+EJEMPLO PARA IMÁGENES REALES
+
+Guarda tus imágenes aquí:
+assets/catalogo-1.jpg
+assets/catalogo-2.jpg
+
+Luego sustituye un bloque como este:
+<div class="gallery-visual"><div class="gallery-sheet">...</div></div>
+
+Por algo como esto:
+<img src="./assets/catalogo-1.jpg" alt="Producto promocional" loading="lazy" width="800" height="1000" style="border-radius: 1rem; width: 100%; height: 100%; object-fit: cover;">
+
+SUGERENCIA DE ENTREGA
+
+Para entregar el proyecto de forma ordenada, comparte la carpeta completa:
+- barak-publicidad-landing.html
+- assets/styles.css
+- assets/main.js
+- assets/imagenes...
+
+Así será mucho más fácil mantenerlo y modificarlo después.
