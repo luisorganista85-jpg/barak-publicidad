@@ -65,3 +65,94 @@
 
   document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
 })();
+
+const lightbox = document.querySelector('#lightbox');
+const lightboxImage = document.querySelector('#lightboxImage');
+const lightboxClose = document.querySelector('#lightboxClose');
+const referenceImages = document.querySelectorAll('.references-image');
+
+referenceImages.forEach(img => {
+  img.addEventListener('click', () => {
+    if (!lightbox || !lightboxImage) return;
+    lightboxImage.src = img.src;
+    lightboxImage.alt = img.alt || 'Vista ampliada de referencia';
+    lightbox.classList.add('active');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+const closeLightbox = () => {
+  if (!lightbox || !lightboxImage) return;
+  lightbox.classList.remove('active');
+  lightbox.setAttribute('aria-hidden', 'true');
+  lightboxImage.src = '';
+  document.body.style.overflow = '';
+};
+
+lightboxClose?.addEventListener('click', closeLightbox);
+
+lightbox?.addEventListener('click', (e) => {
+  if (e.target === lightbox) {
+    closeLightbox();
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && lightbox?.classList.contains('active')) {
+    closeLightbox();
+  }
+});
+
+const referencesTrack = document.querySelector('#referencesTrack');
+const referencesPrev = document.querySelector('.references-btn-prev');
+const referencesNext = document.querySelector('.references-btn-next');
+
+if (referencesTrack) {
+  const getCardWidth = () => {
+    const firstCard = referencesTrack.querySelector('.references-card');
+    if (!firstCard) return 340;
+    const styles = window.getComputedStyle(referencesTrack);
+    const gap = parseInt(styles.gap || 16, 10);
+    return firstCard.offsetWidth + gap;
+  };
+
+  const moveReferences = (direction = 1) => {
+    const step = getCardWidth();
+    const maxScroll = referencesTrack.scrollWidth - referencesTrack.clientWidth;
+
+    if (direction === 1 && referencesTrack.scrollLeft + step >= maxScroll - 5) {
+      referencesTrack.scrollTo({ left: 0, behavior: 'smooth' });
+      return;
+    }
+
+    if (direction === -1 && referencesTrack.scrollLeft <= 5) {
+      referencesTrack.scrollTo({ left: maxScroll, behavior: 'smooth' });
+      return;
+    }
+
+    referencesTrack.scrollBy({
+      left: direction * step,
+      behavior: 'smooth'
+    });
+  };
+
+  referencesPrev?.addEventListener('click', () => moveReferences(-1));
+  referencesNext?.addEventListener('click', () => moveReferences(1));
+
+  let autoReferences = setInterval(() => moveReferences(1), 3000);
+
+  const stopAutoReferences = () => clearInterval(autoReferences);
+  const startAutoReferences = () => {
+    stopAutoReferences();
+    autoReferences = setInterval(() => moveReferences(1), 3000);
+  };
+
+  referencesTrack.addEventListener('mouseenter', stopAutoReferences);
+  referencesTrack.addEventListener('mouseleave', startAutoReferences);
+  referencesTrack.addEventListener('touchstart', stopAutoReferences, { passive: true });
+  referencesTrack.addEventListener('touchend', startAutoReferences);
+
+  referencesPrev?.addEventListener('click', startAutoReferences);
+  referencesNext?.addEventListener('click', startAutoReferences);
+}
