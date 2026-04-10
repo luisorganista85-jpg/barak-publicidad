@@ -156,3 +156,68 @@ if (referencesTrack) {
   referencesPrev?.addEventListener('click', startAutoReferences);
   referencesNext?.addEventListener('click', startAutoReferences);
 }
+// Usamos una variable global para no buscar el elemento cada vez (más rápido)
+let capaCacheNode = null;
+
+function cambiarColor(colorElegido) {
+    // Si la caché está vacía, buscamos el elemento una sola vez
+    if (!capaCacheNode) {
+        capaCacheNode = document.getElementById("capaColor");
+    }
+
+    if (!capaCacheNode) {
+        console.error("No se encontró el elemento con id 'capaColor'");
+        return;
+    }
+
+    // Cambiamos el color de forma DIRECTA y RÁPIDA
+    // mix-blend-mode: screen en el CSS hará el resto.
+
+    if (colorElegido === 'rojo') {
+        // Rojo intenso, usando RGBA para controlar la saturación sobre el negro.
+        // mix-blend-mode: screen hará el resto.
+        capaCacheNode.style.backgroundColor = "rgba(230, 33, 23, 0.9)";
+    } 
+    else if (colorElegido === 'rosa') {
+        capaCacheNode.style.backgroundColor = "rgba(246, 183, 197, 0.8)";
+    }
+    else if (colorElegido === 'verde') {
+        capaCacheNode.style.backgroundColor = "rgba(18, 140, 70, 0.8)";
+    }
+    else if (colorElegido === 'vino') {
+        capaCacheNode.style.backgroundColor = "rgba(128, 24, 44, 0.9)";
+    }
+    else if (colorElegido === 'morado') {
+        capaCacheNode.style.backgroundColor = "rgba(94, 23, 138, 0.85)";
+    }
+    else if (colorElegido === 'amarillo') {
+        // El amarillo necesita ser muy intenso para verse sobre negro
+        capaCacheNode.style.backgroundColor = "rgba(255, 220, 17, 0.95)";
+    }
+    else if (colorElegido === 'azulrey') {
+        capaCacheNode.style.backgroundColor = "rgba(30, 92, 194, 0.85)";
+    }
+    else if (colorElegido === 'naranja') {
+        capaCacheNode.style.backgroundColor = "rgba(255, 138, 17, 0.9)";
+    }
+    else if (colorElegido === 'azulmarino') {
+        // Los colores oscuros necesitan menos intensidad o se verán negros
+        capaCacheNode.style.backgroundColor = "rgba(28, 60, 111, 0.7)";
+    }
+    else if (colorElegido === 'fucsia') {
+        capaCacheNode.style.backgroundColor = "rgba(219, 45, 161, 0.8)";
+    }
+    else if (colorElegido === 'azulcielo') {
+        capaCacheNode.style.backgroundColor = "rgba(142, 202, 230, 0.8)";
+    }
+    else if (colorElegido === 'gris') {
+        capaCacheNode.style.backgroundColor = "rgba(177, 177, 177, 0.75)";
+    }
+    else if (colorElegido === 'negro') {
+        // Volvemos a la playera negra original
+        capaCacheNode.style.backgroundColor = "transparent";
+    }
+    else {
+        capaCacheNode.style.backgroundColor = "transparent";
+    }
+}

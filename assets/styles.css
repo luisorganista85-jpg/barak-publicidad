@@ -235,6 +235,20 @@ p { color: var(--color-text-muted); max-width: 68ch; }
   object-fit: contain;
   box-shadow: var(--shadow-sm);
 }
+.mini-colores {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.mini {
+  width: 60px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.mini:hover {
+  transform: scale(1.1);
+}
 .gallery-visual::before { content: ''; position: absolute; inset: .75rem; border-radius: .85rem; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.2); }
 .gallery-sheet { position: relative; z-index: 1; width: 82%; min-height: 64%; margin-left: auto; border-radius: 1rem; background: rgba(255,255,255,.94); box-shadow: 0 20px 35px rgba(37,8,55,.2); transform: rotate(-7deg); padding: 1rem; color: #35184a; display: grid; align-content: end; gap: .45rem; }
 .gallery-sheet::before { content: ''; position: absolute; inset: .8rem; border-radius: .75rem; border: 2px dashed rgba(195,26,142,.24); }
@@ -413,4 +427,50 @@ footer { padding: 2rem 0 6rem; border-top: 1px solid var(--color-divider); }
     flex: 0 0 82%;
     height: 340px;
   }
+}
+/* EL CONTENEDOR SE QUEDA IGUAL */
+.contenedor-interactivo {
+    position: relative;
+    display: inline-block;
+    width: 100%; /* O el ancho que tengas configurado */
+    max-width: 1000px; /* Ejemplo de ancho máximo */
+}
+
+.imagen-base {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* --- ESTO ES LO QUE CORREGIMOS --- */
+.capa-color {
+    position: absolute;
+    
+    /* HEMOS AJUSTADO ESTOS VALORES (%) */
+    /* Para que el recuadro de color sea más grande y tape los bordes negros */
+    top: 13%;       /* Bajamos un poco el borde superior (estaba en 18%) */
+    left: 0%;       /* Lo movemos más a la izquierda (estaba en 4%) */
+    width: 40%;     /* Lo hacemos más ancho (estaba en 33%) */
+    height: 70%;    /* Lo hacemos más alto (estaba en 60%) */
+    
+    /* El modo de mezcla sigue siendo clave */
+    mix-blend-mode: screen; 
+    
+    background-color: transparent; /* Empieza invisible */
+    pointer-events: none; /* No bloquea los clics */
+    transition: background-color 0.3s ease; /* Cambio suave */
+    
+    /* Opcional: un borde redondeado muy suave para que no se vea tan cuadrado en las esquinas */
+    border-radius: 15px; 
+}
+
+/* BOTONES INVISIBLES (Ajusta los left% según tu imagen real abajo) */
+.boton-invisible {
+    position: absolute;
+    bottom: 0;
+    width: 6.5%; /* Ancho aproximado de cada miniatura */
+    height: 15%; /* Alto aproximado de cada miniatura */
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0); /* Invisible, cámbialo a 0.3 para probar */
+    z-index: 10;
 }
