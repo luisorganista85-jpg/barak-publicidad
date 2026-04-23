@@ -114,23 +114,149 @@ p { color: var(--color-text-muted); max-width: 68ch; }
 .feature-item { display: grid; grid-template-columns: 42px 1fr; gap: .9rem; align-items: start; padding: 1rem; border-radius: 1rem; background: var(--color-surface-2); }
 .icon-chip { width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(135deg, rgba(255, 177, 60, .18), rgba(195, 26, 142, .18)); color: var(--color-primary); }
 
-.catalog-tabs { display: flex; flex-wrap: wrap; gap: .75rem; margin-bottom: var(--space-6); }
-.tab-btn { padding: .75rem 1rem; border-radius: var(--radius-full); border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-muted); font-weight: 800; }
-.tab-btn.active { color: white; background: linear-gradient(135deg, var(--color-primary), #ff8c1a); border-color: transparent; }
-.catalog-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.15rem; }
-.catalog-card { background: color-mix(in srgb, var(--color-surface) 92%, transparent); border: 1px solid var(--color-border); border-radius: 1.35rem; overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; transition: transform var(--transition-interactive), box-shadow var(--transition-interactive); }
-.catalog-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-.catalog-media { aspect-ratio: 4 / 3; background: linear-gradient(135deg, rgba(255,177,60,.18), rgba(94,30,203,.12), rgba(195,26,142,.16)); padding: 1rem; display: grid; place-items: center; }
-.catalog-illus { width: 100%; height: 100%; border-radius: 1rem; background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(255,255,255,.7)), radial-gradient(circle at 18% 20%, rgba(255,185,76,.4), transparent 24%), radial-gradient(circle at 78% 25%, rgba(203,47,160,.3), transparent 24%), linear-gradient(135deg, rgba(98,37,182,.2), rgba(255,152,25,.15)); display: grid; place-items: center; position: relative; overflow: hidden; }
-.catalog-illus::before, .catalog-illus::after { content: ''; position: absolute; border-radius: 18px; border: 2px solid rgba(94,30,203,.16); }
-.catalog-illus::before { width: 72%; height: 58%; transform: rotate(-8deg); }
-.catalog-illus::after { width: 58%; height: 42%; transform: rotate(8deg); }
-.catalog-icon { position: relative; z-index: 1; width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center; background: linear-gradient(135deg, var(--color-accent), var(--color-primary), var(--color-secondary)); color: white; box-shadow: var(--shadow-sm); }
-.catalog-body { padding: 1.15rem; display: grid; gap: .75rem; }
-.pill-row { display: flex; flex-wrap: wrap; gap: .55rem; }
-.pill { display: inline-flex; align-items: center; gap: .35rem; padding: .35rem .7rem; border-radius: var(--radius-full); background: var(--color-primary-highlight); color: var(--color-primary); font-size: var(--text-xs); font-weight: 800; }
-.quote-note { margin-top: auto; padding-top: .55rem; font-size: var(--text-sm); color: var(--color-text); font-weight: 700; }
+/* --- NAVEGACIÓN Y GRID DEL CATÁLOGO --- */
+.catalog-tabs { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: .75rem; 
+    margin-bottom: var(--space-6); 
+}
+
+.tab-btn { 
+    padding: .75rem 1rem; 
+    border-radius: var(--radius-full); 
+    border: 1px solid var(--color-border); 
+    background: var(--color-surface); 
+    color: var(--color-text-muted); 
+    font-weight: 800; 
+    cursor: pointer;
+    transition: var(--transition-interactive);
+}
+
+.tab-btn.active { 
+    color: white; 
+    background: linear-gradient(135deg, var(--color-primary), #ff8c1a); 
+    border-color: transparent; 
+}
+
+.catalog-grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, minmax(0,1fr)); 
+    gap: 1.15rem; 
+}
+
+/* --- TARJETA DE PRODUCTO --- */
+.catalog-card { 
+    background: color-mix(in srgb, var(--color-surface) 92%, transparent); 
+    border: 1px solid var(--color-border); 
+    border-radius: 1.35rem; 
+    overflow: hidden; 
+    box-shadow: var(--shadow-sm); 
+    display: flex; 
+    flex-direction: column; 
+    transition: transform var(--transition-interactive), box-shadow var(--transition-interactive); 
+}
+
+.catalog-card:hover { 
+    transform: translateY(-4px); 
+    box-shadow: var(--shadow-md); 
+}
+
+/* --- ÁREA DE IMAGEN --- */
+.catalog-media { 
+    aspect-ratio: 4 / 3; 
+    background: linear-gradient(135deg, rgba(255,177,60,.18), rgba(94,30,203,.12), rgba(195,26,142,.16)); 
+    padding: 1rem; 
+    display: grid; 
+    place-items: center; 
+    position: relative;
+}
+
+.catalog-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 1rem;
+}
+
+/* --- CUERPO Y TEXTOS --- */
+.catalog-body { 
+    padding: 1.15rem; 
+    display: flex; 
+    flex-direction: column; 
+    gap: .75rem; 
+    flex-grow: 1;
+}
+
+.pill-row { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: .55rem; 
+}
+
+.pill { 
+    display: inline-flex; 
+    align-items: center; 
+    gap: .35rem; 
+    padding: .35rem .7rem; 
+    border-radius: var(--radius-full); 
+    background: var(--color-primary-highlight); 
+    color: var(--color-primary); 
+    font-size: var(--text-xs); 
+    font-weight: 800; 
+}
+
 .price-label {
+    font-size: .82rem;
+    font-weight: 800;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-top: .2rem;
+}
+
+/* --- ESTILOS DEL COTIZADOR (BOTONES Y FORMULARIO) --- */
+.cotizador-box {
+    background: var(--color-surface-offset);
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: auto; /* Empuja el formulario al final */
+}
+
+.option-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border: 2px solid var(--color-divider);
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.option-btn span { color: var(--color-primary); }
+
+.option-btn.active {
+    border-color: var(--color-primary);
+    background: var(--color-primary-highlight);
+    color: var(--color-primary);
+}
+
+.btn-whatsapp-fixed {
+    background: #25D366;
+    color: white;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 800;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+} .price-label {
   font-size: .82rem;
   font-weight: 800;
   color: var(--color-text-muted);
@@ -473,4 +599,536 @@ footer { padding: 2rem 0 6rem; border-top: 1px solid var(--color-divider); }
     cursor: pointer;
     background: rgba(0, 0, 0, 0); /* Invisible, cámbialo a 0.3 para probar */
     z-index: 10;
+}/* ===== VIDEO SLIDESHOW BARAK ===== */
+.bv-wrap { width:100%; margin-top:2rem; max-width:800px; margin-left:auto; margin-right:auto; }
+.bv-screen { position:relative; width:100%; aspect-ratio:16/9; background:#000; border-radius:14px; overflow:hidden; cursor:pointer; }
+.bv-slide { position:absolute; inset:0; opacity:0; transition:opacity 1.2s ease; }
+.bv-slide.active { opacity:1; }
+.bv-slide img { width:100%; height:100%; object-fit:cover; }
+.bv-grad { position:absolute; inset:0; background:rgba(0,0,0,0.28); }
+.bv-caption { position:absolute; bottom:48px; left:0; right:0; padding:2rem 1.5rem 0.5rem; background:linear-gradient(transparent,rgba(0,0,0,0.65)); }
+.bv-caption h3 { color:#fff; font-size:1.1rem; font-weight:600; margin:0 0 4px; }
+.bv-caption p { color:rgba(255,255,255,0.78); font-size:.85rem; margin:0; }
+.bv-center { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .3s; pointer-events:none; z-index:20; }
+.bv-center.show { opacity:1; }
+.bv-bigbtn { width:68px; height:68px; border-radius:50%; background:rgba(255,255,255,0.2); border:2px solid rgba(255,255,255,0.5); display:flex; align-items:center; justify-content:center; }
+.bv-controls { display:flex; align-items:center; gap:10px; padding:8px 14px; position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.50); z-index:10; }
+.bv-pbtn { width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.4); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#fff; }
+.bv-pbtn:hover { background:rgba(255,255,255,0.35); }
+.bv-timeline { flex:1; height:3px; background:rgba(255,255,255,0.25); border-radius:2px; overflow:hidden; }
+.bv-fill { height:100%; width:0%; background:#fff; border-radius:2px; transition:width .12s linear; }
+.bv-time { font-size:12px; color:rgba(255,255,255,0.8); min-width:24px; text-align:right; }
+.bv-mute { width:28px; height:28px; background:transparent; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.8); flex-shrink:0; }
+.bv-label { font-size:12px; color:rgba(255,255,255,0.7); flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.bv-loop { font-size:11px; padding:2px 8px; border-radius:99px; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); color:rgba(255,255,255,0.8); }
+.bv-dots { display:flex; justify-content:center; gap:6px; margin-top:10px; }
+.bv-dot { width:7px; height:7px; border-radius:50%; background:#ccc; border:none; cursor:pointer; padding:0; transition:all .3s; }
+.bv-dot.on { background:#333; width:20px; border-radius:3px; }
+/* Contenedor de la tarjeta */
+.gallery-card {
+    position: relative;
+    overflow: hidden;
+}
+
+/* La capa de color */
+.capa-color-gorra {
+    position: absolute;
+    top: 18%;      /* Ajusta este si el color sale muy arriba o abajo */
+    left: 4%;      /* Ajusta este si se mueve a los lados */
+    width: 42%;    /* Ancho para cubrir las gorras principales */
+    height: 50%;   /* Alto para cubrir desde la visera */
+    mix-blend-mode: screen;
+    background-color: transparent;
+    pointer-events: none;
+    z-index: 5;
+    filter: blur(4px); /* Suaviza los bordes para que parezca tela */
+    transition: none;  /* ¡Importante! Para que no sea lento */
+}
+
+/* Los botones */
+.btn-gorra {
+    position: absolute;
+    bottom: 0;
+    width: 7.8%; 
+    height: 18%; 
+    cursor: pointer;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0); /* Pon 0.3 para ver donde están los cuadros */
+}/* Contenedor de la tarjeta (asegúrate de que tenga esto) */
+.gallery-card {
+    position: relative;
+    display: flex; /* Mantiene el texto a la derecha */
+}
+
+.photo-container {
+    position: relative;
+    width: 25%; /* Esto separa las chamarras de las letras */
+    overflow: hidden;
+}
+
+.gallery-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.capa-chamarra {
+    position: absolute;
+    left: 0;
+    width: 30%; /* Solo cubre el área de las chamarras, no las letras */
+    mix-blend-mode: multiply; /* Para que se vea la textura de la tela */
+    pointer-events: none;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+}
+
+/* Ajuste para la chamarra de ARRIBA */
+#capaSoft {
+    top: 0;
+    height: 48%;
+    /* Recorte opcional para ajustar más la silueta si es necesario */
+}
+
+/* Ajuste para la chamarra de ABAJO */
+#capaRelleno {
+    top: 50%;
+    height: 48%;
+}
+/* --- LIMPIEZA TOTAL MÓVIL BARAK (VERSION FINAL) --- */
+
+@media (max-width: 768px) {
+  
+  /* 1. OCULTAR DESCRIPCIÓN LARGA (Diseñamos una experiencia...) */
+  .hero-content p, 
+  .hero header p,
+  section.hero p {
+    display: none !important;
+  }
+
+  /* 2. OCULTAR BOTONES SUPERIORES (Cotizar y Conoce servicios) */
+  .hero-actions, 
+  .hero-btns,
+  .hero-actions .btn {
+    display: none !important;
+  }
+
+  /* 3. OCULTAR CUADROS DE BENEFICIOS Y TARJETA VISUAL (Lonas, Viniles, etc.) */
+  .hero-points, 
+  .hero-points *, 
+  .hero-card, 
+  .hero-visual, 
+  .mockup, 
+  .hide-mobile,
+  section#quienes-somos,
+  section.about {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    opacity: 0 !important;
+  }
+
+  /* 4. BOTÓN DE WHATSAPP FLOTANTE (PEQUEÑO) */
+  /* Reducimos el botón verde redondo para que no estorbe */
+  [class*="whatsapp"], 
+  .fixed-whatsapp,
+  .wa-float {
+    transform: scale(0.7) !important;
+    bottom: 10px !important;
+    right: 10px !important;
+  }
+
+  /* 5. PEGAR EL CATÁLOGO ARRIBA */
+  /* Eliminamos el espacio vacío para que el catálogo sea lo primero */
+  .hero {
+    min-height: auto !important;
+    padding-bottom: 0 !important;
+  }
+
+  #catalogo {
+    margin-top: -20px !important;
+    padding-top: 10px !important;
+  }
+}
+/* --- LIMPIEZA Y AJUSTE DEL REPRODUCTOR DE VIDEO BARAK --- */
+
+/* 1. Mover los textos (Playeras personalizadas...) a la parte superior */
+.bv-caption {
+  top: 10px !important;    /* Lo manda arriba */
+  bottom: auto !important; /* Quita la posición de abajo */
+  left: 15px !important;
+  right: 15px !important;
+  text-align: left !important;
+  padding: 0 !important;
+  background: none !important; /* Quita el fondo negro de las letras */
+  z-index: 25;
+}
+
+/* Reducimos el tamaño de las letras del video */
+.bv-caption h3 {
+  font-size: 14px !important; 
+  margin: 0 !important;
+  color: white !important;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.8); /* Para que se lea en fondos claros */
+}
+
+.bv-caption p {
+  font-size: 11px !important;
+  color: rgba(255,255,255,0.8) !important;
+}
+
+/* 2. ELIMINAR EL CONTRASTE NEGRO (Degradado) */
+.bv-grad {
+  display: none !important;
+}
+
+/* 3. ACHICAR Y BAJAR LA BARRA DE REPRODUCCIÓN */
+.bv-controls {
+  bottom: 0 !important; /* Bien pegada al borde inferior */
+  height: 20px !important; /* Super delgada */
+  background: rgba(0,0,0,0.3) !important; /* Más transparente */
+  padding: 0 10px !important;
+}
+
+/* Hacer los iconos (Play/Mute) miniatura */
+.bv-pbtn, .bv-mute {
+  width: 18px !important;
+  height: 18px !important;
+  border: none !important;
+}
+
+.bv-pbtn svg, .bv-mute svg {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+/* La línea de tiempo más fina */
+.bv-timeline {
+  height: 2px !important;
+}
+
+.bv-time {
+  font-size: 9px !important;
+}
+/* --- ESTILO ESTILIZADO Y DELGADO CARRUSEL BARAK --- */
+.category-carousel-wrapper {
+  width: 100vw;               /* Ocupa todo el ancho de la ventana */
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;         /* Truco para centrarlo ocupando todo el ancho */
+  margin-right: -50vw;
+  padding: 8px 0;             /* Mucho más delgado arriba y abajo */
+  background: #fff;
+  overflow: hidden;           /* Oculta lo que se sale */
+  border-bottom: 1px solid #eee;
+  z-index: 10;                /* Se asegura de estar sobre otros elementos */
+}
+
+.category-carousel {
+  display: flex;
+  gap: 15px;                  /* Espacio más pequeño entre bolitas */
+  width: max-content;         /* Ancho total de todos los items */
+  /* Animación más lenta para que sea elegante, ajústala si quieres */
+  animation: scroll-infinito 60s linear infinite; 
+}
+
+/* Duplicamos la animación para que sea continua */
+.category-carousel-wrapper:hover .category-carousel {
+  animation-play-state: paused; /* Se detiene al pasar el mouse */
+}
+
+@keyframes scroll-infinito {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } /* Ajuste para el bucle infinito */
+}
+
+.carousel-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  width: 70px;                /* Item más angosto */
+  flex-shrink: 0;             /* Evita que se aplasten */
+}
+
+.item-img-wrapper {
+  width: 50px;                /* Círculos más pequeños (era 70px) */
+  height: 50px;               /* Círculos más pequeños */
+  border-radius: 50%;
+  border: 1.5px solid #e91e63; /* Borde más fino */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 4px;         /* Menos espacio con el texto */
+  background: white;
+  transition: transform 0.2s ease; /* Pequeño efecto al pasar el mouse */
+}
+
+.carousel-item:hover .item-img-wrapper {
+  transform: scale(1.05);     /* Se agranda un poquito al hacer hover */
+}
+
+.item-img-wrapper img {
+  width: 80%;                 /* Imagen un poco más pequeña dentro del círculo */
+  height: 80%;
+  object-fit: contain;        /* Mantiene la proporción de la imagen */
+}
+
+.carousel-item span {
+  font-size: 10px;            /* Texto más pequeño y delicado */
+  font-weight: 500;
+  color: #555;                /* Color gris más suave */
+  text-align: center;
+  white-space: nowrap;        /* Evita que el texto se parta */
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;    /* Pone puntos suspensivos si el texto es muy largo */
+}
+
+/* Suavizar el salto al producto */
+html {
+  scroll-behavior: smooth;
+}
+/* Contenedor principal del formulario */
+.cotizador-box {
+    background: #fdfdfd;
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 15px;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+/* Estilo para los botones de Medida Fija (60x90 y Set de 3) */
+.btn-medida-fija {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border: 2px solid #eee; /* Borde gris claro por defecto */
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    color: #444;
+    transition: all 0.3s ease;
+}
+
+.btn-medida-fija span {
+    font-size: 14px;
+}
+
+.btn-medida-fija strong {
+    color: #e91e63; /* El precio resalta en rosa */
+}
+
+/* --- ESTADO SELECCIONADO (IMPORTANTE) --- */
+.btn-medida-fija.seleccionado {
+    border-color: #e91e63; /* Borde rosa fuerte */
+    background-color: #fff1f6; /* Fondo rosa muy clarito */
+    color: #e91e63;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(233, 30, 99, 0.2);
+}
+
+/* Contenedor del formulario */
+.cotizador-box {
+    background: #fdfdfd;
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 10px;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Botones de precio */
+.option-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border: 2px solid #eee; 
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    color: #444;
+    transition: all 0.2s ease;
+    margin-bottom: 5px;
+}
+
+.option-btn span {
+    color: #e91e63;
+    font-weight: 800;
+}
+
+/* Estado cuando el cliente selecciona una medida */
+.option-btn.active {
+    border-color: #e91e63;
+    background-color: #fff1f6;
+    color: #e91e63;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(233, 30, 99, 0.15);
+}
+
+/* Etiquetas y campos de texto */
+.cotizador-box label {
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: #999;
+    margin-bottom: -5px;
+}
+
+.cotizador-box input, 
+.cotizador-box select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    background: white;
+}
+
+.cotizador-box input:focus {
+    border-color: #e91e63;
+}
+
+/* Estilo para subir archivo */
+.input-file-custom {
+    padding: 8px 0;
+    font-size: 13px;
+    color: #666;
+}
+
+/* Botón de WhatsApp */
+.btn-whatsapp-fixed {
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.btn-whatsapp-fixed:hover {
+    background: #128c7e;
+    transform: scale(1.02);
+}
+/* Esto hace que el cuadro se ilumine al hacer clic */
+.manual-input:focus {
+    border-color: #ff4081;
+    outline: none;
+    background-color: #fffafb; /* Un fondo rosa muy bajito */
+}
+
+/* Esto asegura que el texto de "¿CUÁNTAS PIEZAS NECESITAS?" se vea bien */
+.price-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 800;
+    color: #666;
+    margin-top: 10px;
+}
+/* Resaltar medida seleccionada */
+.option-btn.selected {
+    border: 2px solid #e91e63 !important; /* Rosa BARAK */
+    background-color: #fff0f5 !important;
+    transform: scale(1.02);
+}
+.info-servicios {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #f9f9f9; /* Color claro de fondo */
+    border-radius: 8px;
+    padding: 10px 5px;
+    border: 1px solid #eee;
+}
+
+.tag-servicio {
+    display: flex;
+    flex-direction: column; /* Icono arriba, texto abajo */
+    align-items: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: #444;
+    text-align: center;
+}
+
+        /* Barra Gris Única - Estilo BARAK */
+.info-servicios-grid {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: #f2f2f2 !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 8px !important;
+    padding: 5px 10px !important;
+    gap: 20px !important;
+    width: 100% !important;
+    max-width: 380px !important;
+    margin: 10px auto !important;
+}
+
+/* Limpieza absoluta de los cuadros internos */
+.tag-servicio-box {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.tag-servicio-box p {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    color: #444 !important;
+    margin: 0 0 0 6px !important;
+    white-space: nowrap !important;
+}
+
+.btn-whatsapp-original {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;           /* Esto lo estira a las orillas */
+    box-sizing: border-box !important;
+    
+    /* ALTURA EXACTA: 8px es la medida de tus otros botones */
+    padding: 8px 0 !important; 
+    
+    background-color: #25d366 !important;
+    color: white !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    border: none !important;
+    margin: 10px 0 !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
+}
+
+.btn-whatsapp-original:hover {
+    background-color: #128c7e !important;
 }

@@ -35,16 +35,29 @@
     });
   });
 
-  const tabButtons = [...document.querySelectorAll('.tab-btn')];
+ const tabButtons = [...document.querySelectorAll('.tab-btn')];
   const cards = [...document.querySelectorAll('.catalog-card')];
 
   tabButtons.forEach(btn => btn.addEventListener('click', () => {
     tabButtons.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    
     const filter = btn.dataset.filter;
+
     cards.forEach(card => {
-      const show = filter === 'todos' || card.dataset.category === filter;
-      card.style.display = show ? 'flex' : 'none';
+      const category = card.dataset.category;
+      const show = filter === 'todos' || category === filter;
+      
+      if (show) {
+        card.style.display = 'flex'; 
+        card.style.opacity = '0';
+        setTimeout(() => {
+          card.style.opacity = '1';
+          card.style.transition = 'opacity 0.4s ease';
+        }, 10);
+      } else {
+        card.style.display = 'none';
+      }
     });
   }));
 
@@ -220,4 +233,810 @@ function cambiarColor(colorElegido) {
     else {
         capaCacheNode.style.backgroundColor = "transparent";
     }
+}
+document.addEventListener('DOMContentLoaded', function() {
+  const slides = document.querySelectorAll('#bvScreen .bv-slide');
+  const dotsEl = document.getElementById('bvDots');
+  const fill   = document.getElementById('bvFill');
+  const timeEl = document.getElementById('bvTime');
+  const icon   = document.getElementById('bvIcon');
+  const bigIcon= document.getElementById('bvBigIcon');
+  const center = document.getElementById('bvCenter');
+  const titleEl= document.getElementById('bvTitle');
+  const subEl  = document.getElementById('bvSub');
+  const audio  = document.getElementById('bvAudio');
+  
+  // Si no encuentra los elementos, no hace nada para no dar error
+  if (!slides.length || !audio) return;
+
+  const SPEED  = 5000;
+  let cur=0, playing=true, ticker=null, prog=null, elapsed=0, muted=true, cTO=null;
+
+  // Crear puntitos
+  slides.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='bv-dot'+(i===0?' on':'');
+    d.onclick=function(e){ e.stopPropagation(); goTo(i); };
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(n){
+    slides[cur].classList.remove('active');
+    if(dotsEl.children[cur]) dotsEl.children[cur].classList.remove('on');
+    cur=(n+slides.length)%slides.length;
+    slides[cur].classList.add('active');
+    if(dotsEl.children[cur]) dotsEl.children[cur].classList.add('on');
+    titleEl.textContent=slides[cur].dataset.title||'';
+    subEl.textContent=slides[cur].dataset.sub||'';
+    elapsed=0; fill.style.width='0%';
+  }
+
+  function startProg(){
+    clearInterval(prog);
+    prog=setInterval(()=>{
+      elapsed+=100;
+      fill.style.width=Math.min((elapsed/SPEED)*100,100)+'%';
+      timeEl.textContent=Math.max(Math.ceil((SPEED-elapsed)/1000),0)+'s';
+    },100);
+  }
+
+  function startTicker(){
+    clearInterval(ticker);
+    ticker=setInterval(()=>{ goTo(cur+1); startProg(); },SPEED);
+  }
+
+  window.bvTogglePlay=function(){
+    playing=!playing;
+    const pause='<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+    const play='<path d="M8 5v14l11-7z"/>';
+    icon.innerHTML = playing ? pause : play;
+    if(bigIcon) bigIcon.innerHTML = playing ? pause : play;
+    
+    if(playing){
+      startProg(); startTicker();
+      if(!muted) audio.play().catch(()=>{});
+    } else {
+      clearInterval(ticker); clearInterval(prog);
+      audio.pause();
+    }
+    if(center) {
+        center.classList.add('show');
+        clearTimeout(cTO);
+        cTO=setTimeout(()=>center.classList.remove('show'),1200);
+    }
+  };
+
+  window.bvToggleMute=function(){
+    muted=!muted;
+    audio.muted=muted;
+    if(!muted && playing) audio.play().catch(()=>{});
+    document.getElementById('bvMusicLabel').textContent=muted?'🔇 Sin sonido':'♪ Música de fondo';
+  };
+
+  // --- ARRANQUE FORZADO ---
+  audio.muted = true;
+  muted = true;
+  playing = true;
+  
+  // Esto inicia el carrusel
+  goTo(0);
+  startProg();
+  startTicker();
+  
+  // Intenta darle play al audio silenciado
+  audio.play().catch(()=>{});
+});
+// Variable para guardar la referencia y que sea más rápido
+let cacheCapaGorra = null;
+
+function cambiarColorGorra(nombreColor) {
+    // Si no tenemos la capa guardada, la buscamos
+    if (!cacheCapaGorra) {
+        cacheCapaGorra = document.getElementById("capaColorGorra");
+    }
+
+    if (!cacheCapaGorra) return;
+
+    // Diccionario de colores RGBA (Red, Green, Blue, Alpha)
+    const paletaGorra = {
+        'rojo': "rgba(230, 33, 23, 0.8)",
+        'rosa': "rgba(246, 183, 197, 0.7)",
+        'verde': "rgba(18, 140, 70, 0.8)",
+        'vino': "rgba(128, 24, 44, 0.9)",
+        'morado': "rgba(94, 23, 138, 0.8)",
+        'amarillo': "rgba(255, 220, 17, 0.9)",
+        'azulrey': "rgba(30, 92, 194, 0.8)",
+        'naranja': "rgba(255, 138, 17, 0.9)",
+        'azulmarino': "rgba(28, 60, 111, 0.7)",
+        'fucsia': "rgba(219, 45, 161, 0.8)",
+        'negro': "transparent" // Vuelve al color original
+    };
+
+    // Aplicar el color o transparente si no existe
+    cacheCapaGorra.style.backgroundColor = paletaGorra[nombreColor] || "transparent";
+}
+// Variable para guardar la referencia de las dos capas y que sea más rápido
+let cacheSoft = null;
+let cacheRelleno = null;
+function cambiarColorChamarra(color) {
+    const capa1 = document.getElementById('capaSoft');
+    const capa2 = document.getElementById('capaRelleno');
+
+    const colores = {
+        'negro': 'transparent',
+        'azulmarino': 'rgba(20, 30, 70, 0.7)',
+        'gris': 'rgba(120, 120, 120, 0.6)',
+        'rojo': 'rgba(200, 0, 0, 0.6)',
+        'guinda': 'rgba(100, 0, 20, 0.7)',
+        'azulreal': 'rgba(0, 50, 200, 0.6)'
+    };
+
+    const colorFinal = colores[color] || 'transparent';
+
+    capa1.style.backgroundColor = colorFinal;
+    capa2.style.backgroundColor = colorFinal;
+}
+
+   let seleccionActual = "";
+
+// 1. Esta función sirve para resaltar el botón en CUALQUIER tarjeta
+function setMedida(elemento, valor) {
+    // Quita el color rosa de todos los botones de la página
+    document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('active'));
+    
+    // Pone el color rosa solo al que tocaste
+    elemento.classList.add('active');
+    
+    // Guarda la medida y el precio
+    seleccionActual = valor;
+}
+
+// 2. Esta función ahora recibe el "tipo" (rect o cuad) para saber qué archivo enviar
+function enviarWhatsApp(tipo) {
+    // Busca el diseño y el archivo según la tarjeta donde hiciste clic
+    const servicio = document.getElementById('diseno-' + tipo).value;
+    const archivoInput = document.getElementById('file-' + tipo);
+    const tieneArchivo = archivoInput && archivoInput.files.length > 0;
+    
+    const medidaFinal = seleccionActual;
+
+    if (!medidaFinal) {
+        alert("Por favor selecciona una medida de la lista.");
+        return;
+    }
+
+    let mensajeArchivo = tieneArchivo 
+        ? "%0A%0A*Nota:* He seleccionado mi archivo para adjuntar. 📎" 
+        : "";
+    
+    // Identifica si es Rectangular o Cuadrado para el mensaje
+    const textoTipo = (tipo === 'rect') ? "Rectangular" : "Cuadrado";
+    
+    const mensaje = `Hola BARAK, me interesa un Cuadro Canvas ${textoTipo}:%0A- *Medida:* ${medidaFinal}%0A- *Servicio:* ${servicio}${mensajeArchivo}`;
+    
+    window.open(`https://wa.me/5632971001?text=${mensaje}`, '_blank');
+}
+let pedidoCajas = [];
+
+function setPromo(elemento, nombre, precio) {
+    let productoExistente = pedidoCajas.find(item => item.nombre === nombre);
+
+    if (productoExistente) {
+        productoExistente.cantidad += 1;
+    } else {
+        pedidoCajas.push({ nombre: nombre, precio: precio, cantidad: 1 });
+        elemento.classList.add('selected'); // Activa el borde rosa
+    }
+    actualizarResumen();
+}
+
+// Esta función permite quitar piezas con clic derecho sin botones extra
+function restarPromo(event, nombre) {
+    event.preventDefault(); 
+    let index = pedidoCajas.findIndex(item => item.nombre === nombre);
+
+    if (index > -1) {
+        pedidoCajas[index].cantidad -= 1;
+        
+        if (pedidoCajas[index].cantidad <= 0) {
+            pedidoCajas.splice(index, 1);
+            // Buscamos el botón para quitarle el borde rosa
+            const btn = document.querySelector(`button[onclick*="'${nombre}'"]`);
+            if(btn) btn.classList.remove('selected');
+        }
+    }
+    actualizarResumen();
+}
+
+function actualizarResumen() {
+    const totalPiezas = pedidoCajas.reduce((total, item) => total + item.cantidad, 0);
+    const resumen = document.getElementById('resumen-pedido');
+    
+    if (totalPiezas > 0) {
+        // Mensaje discreto en rosa que no estorba al diseño
+        resumen.innerHTML = `📦 Total de piezas: ${totalPiezas} <br> <small style="font-weight:400; opacity:0.7;">(Clic derecho para restar)</small>`;
+    } else {
+        resumen.innerHTML = "";
+    }
+}
+function enviarWhatsAppPromo(id) {
+    if (pedidoCajas.length === 0) {
+        alert("⚠️ Selecciona al menos una medida antes de cotizar.");
+        return;
+    }
+
+    let mensaje = "Hola BARAK, quiero cotizar las siguientes Cajas de Luz:%0A%0A";
+    pedidoCajas.forEach((item) => {
+        mensaje += `• ${item.nombre} x${item.cantidad} pieza(s)%0A`;
+    });
+    mensaje += `%0A*Adjunto los detalles para mi pedido.*`;
+
+    const numeroTel = "5632971001"; 
+    const url = `https://wa.me/${numeroTel}?text=${mensaje}`;
+
+    // 1. Intentamos abrir WhatsApp
+    const nuevaVentana = window.open(url, '_blank');
+
+    // 2. EL TRUCO PARA "REGRESAR"
+    // Si la pestaña se abrió, le pedimos al navegador que regrese el foco a nuestra web
+    if (nuevaVentana) {
+        setTimeout(() => {
+            window.focus(); // Esto intenta traer tu página al frente de nuevo
+        }, 1000); 
+    }
+
+    // 3. LIMPIEZA PARA SEGUIR NAVEGANDO
+    pedidoCajas = []; 
+    const resumen = document.getElementById('resumen-pedido');
+    if (resumen) resumen.innerHTML = "";
+    document.querySelectorAll('.option-btn.selected').forEach(btn => {
+        btn.classList.remove('selected');
+    });
+}
+// Variable separada para Roll up
+let pedidoRollup = [];
+
+function setPromoRollup(elemento, nombre, precio) {
+    let productoExistente = pedidoRollup.find(item => item.nombre === nombre);
+
+    if (productoExistente) {
+        // Sumar pieza
+        productoExistente.cantidad += 1;
+    } else {
+        // Agregar nuevo
+        pedidoRollup.push({ nombre: nombre, precio: precio, cantidad: 1 });
+        elemento.classList.add('selected'); // Activa el borde rosa
+    }
+    actualizarResumenRollup();
+}
+
+// Clic derecho para restar piezas
+function restarPromoRollup(event, nombre) {
+    event.preventDefault(); 
+    let index = pedidoRollup.findIndex(item => item.nombre === nombre);
+
+    if (index > -1) {
+        pedidoRollup[index].cantidad -= 1;
+        
+        if (pedidoRollup[index].cantidad <= 0) {
+            pedidoRollup.splice(index, 1);
+            // Quitar borde rosa
+            const btn = document.querySelector(`button[onclick*="'${nombre}'"]`);
+            if(btn) btn.classList.remove('selected');
+        }
+    }
+    actualizarResumenRollup();
+}
+
+function actualizarResumenRollup() {
+    const totalPiezas = pedidoRollup.reduce((total, item) => total + item.cantidad, 0);
+    // IMPORTANTE: ID diferente para el mensaje rosa de Roll up
+    const resumen = document.getElementById('resumen-pedido-rollup');
+    
+    if (resumen) {
+        if (totalPiezas > 0) {
+            resumen.innerHTML = `📦 Total de piezas: ${totalPiezas} <br> <small style="font-weight:400; opacity:0.7;">(Clic derecho para restar)</small>`;
+        } else {
+            resumen.innerHTML = "";
+        }
+    }
+}
+
+// Función de WhatsApp para Roll up
+function enviarWhatsAppRollup(id) {
+    if (pedidoRollup.length === 0) {
+        alert("⚠️ Selecciona al menos una medida antes de cotizar.");
+        return;
+    }
+
+    let mensaje = "Hola BARAK, quiero cotizar los siguientes Roll ups exhibidores:%0A%0A";
+    let granTotal = 0;
+
+    pedidoRollup.forEach((item) => {
+        let subtotal = item.precio * item.cantidad;
+        granTotal += subtotal;
+        mensaje += `• ${item.nombre} x${item.cantidad} pza(s) - $${subtotal} MXN%0A`;
+    });
+
+    mensaje += `%0A*TOTAL ESTIMADO: $${granTotal} MXN*%0A%0A*Adjunto los detalles para mi pedido.* ✨`;
+
+    const numeroTel = "5632971001"; 
+    window.open(`https://wa.me/${numeroTel}?text=${mensaje}`, '_blank');
+
+    // Limpieza automática para BARAK (Opción de limpiar variables)
+    pedidoRollup = []; 
+    actualizarResumenRollup();
+    document.querySelectorAll('#prod-rollup .option-btn.selected').forEach(btn => {
+        btn.classList.remove('selected');
+    });
+}
+let pedidoStand = [];
+
+function setPromoStand(elemento, nombre, precio) {
+    let productoExistente = pedidoStand.find(item => item.nombre === nombre);
+    if (productoExistente) {
+        productoExistente.cantidad += 1;
+    } else {
+        pedidoStand.push({ nombre, precio, cantidad: 1 });
+        elemento.classList.add('selected');
+    }
+    actualizarResumenStand();
+}
+
+function restarPromoStand(event, nombre) {
+    event.preventDefault(); 
+    let index = pedidoStand.findIndex(item => item.nombre === nombre);
+    if (index > -1) {
+        pedidoStand[index].cantidad -= 1;
+        if (pedidoStand[index].cantidad <= 0) {
+            pedidoStand.splice(index, 1);
+            const btn = document.querySelector(`button[onclick*="'${nombre}'"]`);
+            if(btn) btn.classList.remove('selected');
+        }
+    }
+    actualizarResumenStand();
+}
+
+function actualizarResumenStand() {
+    const total = pedidoStand.reduce((t, i) => t + i.cantidad, 0);
+    const resumen = document.getElementById('resumen-pedido-stand');
+    if (resumen) {
+        resumen.innerHTML = total > 0 ? `📦 Total de piezas: ${total} <br> <small style="font-weight:400; opacity:0.7;">(Clic derecho para restar)</small>` : "";
+    }
+}
+
+function enviarWhatsAppStand(id) {
+    if (pedidoStand.length === 0) {
+        alert("⚠️ Selecciona un tipo de Stand primero.");
+        return;
+    }
+
+    let mensaje = "Hola BARAK, quiero cotizar estos Stands de exhibición:%0A%0A";
+    pedidoStand.forEach(i => mensaje += `• ${i.nombre} x${i.cantidad} pza(s)%0A`);
+    mensaje += `%0A*Adjunto los detalles para mi pedido.* ✨`;
+
+    window.open(`https://wa.me/5632971001?text=${mensaje}`, '_blank');
+
+    // Limpiamos todo para que el cliente siga navegando en BARAK
+    pedidoStand = [];
+    actualizarResumenStand();
+    document.querySelectorAll('#prod-stand .option-btn.selected').forEach(b => b.classList.remove('selected'));
+}
+let pedidoMarco = [];
+
+function setPromoMarco(elemento, nombre, precio) {
+    let productoExistente = pedidoMarco.find(item => item.nombre === nombre);
+    if (productoExistente) {
+        productoExistente.cantidad += 1;
+    } else {
+        pedidoMarco.push({ nombre, precio, cantidad: 1 });
+        elemento.classList.add('selected');
+    }
+    actualizarResumenMarco();
+}
+
+function restarPromoMarco(event, nombre) {
+    event.preventDefault(); 
+    let index = pedidoMarco.findIndex(item => item.nombre === nombre);
+    if (index > -1) {
+        pedidoMarco[index].cantidad -= 1;
+        if (pedidoMarco[index].cantidad <= 0) {
+            pedidoMarco.splice(index, 1);
+            const btn = document.querySelector(`button[onclick*="'${nombre}'"]`);
+            if(btn) btn.classList.remove('selected');
+        }
+    }
+    actualizarResumenMarco();
+}
+
+function actualizarResumenMarco() {
+    const total = pedidoMarco.reduce((t, i) => t + i.cantidad, 0);
+    const resumen = document.getElementById('resumen-pedido-marco');
+    if (resumen) {
+        resumen.innerHTML = total > 0 ? `📦 Total de piezas: ${total} <br> <small style="font-weight:400; opacity:0.7;">(Clic derecho para restar)</small>` : "";
+    }
+}
+
+function enviarWhatsAppMarco(id) {
+    if (pedidoMarco.length === 0) {
+        alert("⚠️ Selecciona una medida de Marco primero.");
+        return;
+    }
+
+    let mensaje = "Hola BARAK, quiero cotizar los siguientes Marcos de Luz:%0A%0A";
+    pedidoMarco.forEach(i => mensaje += `• ${i.nombre} x${i.cantidad} pza(s)%0A`);
+    mensaje += `%0A*Adjunto los detalles para mi pedido.* ✨`;
+
+    window.open(`https://wa.me/5632971001?text=${mensaje}`, '_blank');
+
+    // Resetear para seguir navegando
+    pedidoMarco = [];
+    actualizarResumenMarco();
+    document.querySelectorAll('#prod-marcoluz .option-btn.selected').forEach(b => b.classList.remove('selected'));
+}
+let pedidoGiratoria = [];
+
+function setPromoGiratoria(elemento, nombre, precio) {
+    let productoExistente = pedidoGiratoria.find(item => item.nombre === nombre);
+    if (productoExistente) {
+        productoExistente.cantidad += 1;
+    } else {
+        pedidoGiratoria.push({ nombre, precio, cantidad: 1 });
+        elemento.classList.add('selected');
+    }
+    actualizarResumenGiratoria();
+}
+
+function restarPromoGiratoria(event, nombre) {
+    event.preventDefault(); 
+    let index = pedidoGiratoria.findIndex(item => item.nombre === nombre);
+    if (index > -1) {
+        pedidoGiratoria[index].cantidad -= 1;
+        if (pedidoGiratoria[index].cantidad <= 0) {
+            pedidoGiratoria.splice(index, 1);
+            const btn = document.querySelector(`button[onclick*="'${nombre}'"]`);
+            if(btn) btn.classList.remove('selected');
+        }
+    }
+    actualizarResumenGiratoria();
+}
+
+function actualizarResumenGiratoria() {
+    const total = pedidoGiratoria.reduce((t, i) => t + i.cantidad, 0);
+    const resumen = document.getElementById('resumen-pedido-giratoria');
+    if (resumen) {
+        resumen.innerHTML = total > 0 ? `📦 Total de piezas: ${total} <br> <small style="font-weight:400; opacity:0.7;">(Clic derecho para restar)</small>` : "";
+    }
+}
+
+function enviarWhatsAppGiratoria(id) {
+    if (pedidoGiratoria.length === 0) {
+        alert("⚠️ Selecciona una medida primero.");
+        return;
+    }
+
+    let mensaje = "Hola BARAK, quiero cotizar la Caja de luz giratoria:%0A%0A";
+    pedidoGiratoria.forEach(i => mensaje += `• ${i.nombre} x${i.cantidad} pza(s)%0A`);
+    mensaje += `%0A*Adjunto los detalles para mi pedido.* ✨`;
+
+    window.open(`https://wa.me/5632971001?text=${mensaje}`, '_blank');
+
+    // Limpieza automática para seguir navegando
+    pedidoGiratoria = [];
+    actualizarResumenGiratoria();
+    document.querySelectorAll('#prod-giratoria .option-btn.selected').forEach(b => b.classList.remove('selected'));
+}
+let pedidoPoster = [];
+
+// Nombre unificado para que el HTML lo encuentre
+function setPoster(elemento, nombre, precio) {
+    let productoExistente = pedidoPoster.find(item => item.nombre === nombre);
+    if (productoExistente) {
+        productoExistente.cantidad += 1;
+    } else {
+        pedidoPoster.push({ nombre, precio, cantidad: 1 });
+        elemento.classList.add('selected');
+    }
+    actualizarResumenPoster();
+}
+
+function restarPoster(event, nombre) {
+    event.preventDefault(); 
+    let index = pedidoPoster.findIndex(item => item.nombre === nombre);
+    if (index > -1) {
+        pedidoPoster[index].cantidad -= 1;
+        if (pedidoPoster[index].cantidad <= 0) {
+            pedidoPoster.splice(index, 1);
+            // Busca cualquier botón que tenga el nombre del producto para quitar el borde rosa
+            const btn = document.querySelector(`button[onclick*="${nombre}"]`);
+            if(btn) btn.classList.remove('selected');
+        }
+    }
+    actualizarResumenPoster();
+}
+
+function actualizarResumenPoster() {
+    const total = pedidoPoster.reduce((t, i) => t + i.cantidad, 0);
+    const resumen = document.getElementById('resumen-pedido-poster');
+    
+    if (resumen) {
+        if (total > 0) {
+            resumen.style.display = "block";
+            // Estilos aplicados directamente para asegurar que se vea pequeño y centrado
+            resumen.innerHTML = `
+                <div style="text-align: center; margin-top: 10px;">
+                    <span style="font-size: 10px; font-weight: 800; color: #e91e63;">
+                        📦 Total de piezas: ${total}
+                    </span>
+                    <br>
+                    <span style="font-size: 8px; font-weight: 400; color: #e91e63; opacity: 0.7;">
+                        (Clic derecho para restar)
+                    </span>
+                </div>
+            `;
+        } else {
+            resumen.style.display = "none";
+        }
+    }
+}
+
+function enviarWhatsAppPoster() {
+    if (pedidoPoster.length === 0) {
+        alert("⚠️ Selecciona una medida primero.");
+        return;
+    }
+
+    let mensaje = "Hola BARAK, quiero cotizar el siguiente Display poster stand:%0A%0A";
+    pedidoPoster.forEach(i => mensaje += `• ${i.nombre} x${i.cantidad} pza(s)%0A`);
+    mensaje += `%0A*Adjunto los detalles para mi pedido.* ✨`;
+
+    window.open(`https://wa.me/5632971001?text=${mensaje}`, '_blank');
+
+    // Limpieza total
+    pedidoPoster = [];
+    actualizarResumenPoster();
+    document.querySelectorAll('.selected').forEach(b => b.classList.remove('selected'));
+}
+let pedidoCanvas = {};
+
+function setCanvas(elemento, medida, precio) {
+    if (!pedidoCanvas[medida]) {
+        pedidoCanvas[medida] = { cantidad: 0, precio: precio };
+    }
+    pedidoCanvas[medida].cantidad++;
+    
+    // Activa visualmente el botón
+    elemento.classList.add('selected');
+    elemento.blur(); // Limpia bordes de enfoque del navegador
+    actualizarResumenCanvas();
+}
+
+function restarCanvas(event, medida, elemento) {
+    event.preventDefault(); // Bloquea el menú del clic derecho
+    if (pedidoCanvas[medida] && pedidoCanvas[medida].cantidad > 0) {
+        pedidoCanvas[medida].cantidad--;
+        
+        // Si llega a 0 piezas, quitamos el color rosa del botón
+        if (pedidoCanvas[medida].cantidad === 0) {
+            elemento.classList.remove('selected');
+        }
+    }
+    elemento.blur();
+    actualizarResumenCanvas();
+}
+
+function actualizarResumenCanvas() {
+    const resumenDiv = document.getElementById('resumen-pedido-canvas');
+    let totalPiezas = 0;
+    let totalPrecio = 0;
+
+    for (let m in pedidoCanvas) {
+        if (pedidoCanvas[m].cantidad > 0) {
+            totalPiezas += pedidoCanvas[m].cantidad;
+            totalPrecio += (pedidoCanvas[m].cantidad * pedidoCanvas[m].precio);
+        }
+    }
+
+    if (totalPiezas > 0) {
+        resumenDiv.innerHTML = `📦 Total de piezas: ${totalPiezas}<br><span style="font-size:9px; font-weight:400;">(Clic derecho para restar)</span>`;
+    } else {
+        resumenDiv.innerHTML = "";
+    }
+}
+function enviarWhatsAppCanvas() {
+    // Sustituye por tu número de WhatsApp de BARAK
+    const telefono = "5632971001"; 
+    let mensaje = "¡Hola! Me interesan los siguientes Cuadros Canvas:\n\n";
+    let tieneProductos = false;
+    let totalPiezasGlobal = 0;
+
+    // Recorremos el pedido para listar cada medida y sumar el total
+    for (let medida in pedidoCanvas) {
+        if (pedidoCanvas[medida].cantidad > 0) {
+            mensaje += `- ${medida}: ${pedidoCanvas[medida].cantidad} pieza(s)\n`;
+            totalPiezasGlobal += pedidoCanvas[medida].cantidad;
+            tieneProductos = true;
+        }
+    }
+
+    if (!tieneProductos) {
+        alert("Por favor, selecciona al menos una medida antes de cotizar.");
+        return;
+    }
+
+    // Agregamos el total de piezas y el cierre igual a tus otras tarjetas
+    mensaje += `\n📦 Total de piezas: ${totalPiezasGlobal}`;
+    mensaje += "\n\n¿Me podrían dar más información?";
+
+    const url = `https://wa.me/${5632971001}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+}
+let pedidoCuadrado = {};
+
+function setCanvasCuadrado(elemento, medida, precio) {
+    if (!pedidoCuadrado[medida]) {
+        pedidoCuadrado[medida] = { cantidad: 0, precio: precio };
+    }
+    pedidoCuadrado[medida].cantidad++;
+    
+    elemento.classList.add('selected'); // Activa el color rosa
+    elemento.blur(); // Quita el borde de foco del navegador
+    actualizarResumenCuadrado();
+}
+
+function restarCanvasCuadrado(event, medida, elemento) {
+    event.preventDefault(); // Bloquea el menú derecho
+    if (pedidoCuadrado[medida] && pedidoCuadrado[medida].cantidad > 0) {
+        pedidoCuadrado[medida].cantidad--;
+        
+        if (pedidoCuadrado[medida].cantidad === 0) {
+            elemento.classList.remove('selected'); // Quita el color al llegar a 0
+        }
+    }
+    elemento.blur();
+    actualizarResumenCuadrado();
+}
+
+function actualizarResumenCuadrado() {
+    const resumenDiv = document.getElementById('resumen-canvas-cuadrado');
+    let totalPiezas = 0;
+
+    for (let m in pedidoCuadrado) {
+        totalPiezas += pedidoCuadrado[m].cantidad;
+    }
+
+    if (totalPiezas > 0) {
+        resumenDiv.innerHTML = `📦 Total de piezas: ${totalPiezas}<br><span style="font-size:9px; font-weight:400;">(Clic derecho para restar)</span>`;
+    } else {
+        resumenDiv.innerHTML = "";
+    }
+}
+
+function enviarWhatsAppCuadrado() {
+    const telefono = "5632971001"; 
+    let mensaje = "¡Hola! Me interesan los siguientes Cuadros Canvas Cuadrados:\n\n";
+    let tieneProductos = false;
+    let totalPiezas = 0;
+
+    for (let m in pedidoCuadrado) {
+        if (pedidoCuadrado[m].cantidad > 0) {
+            mensaje += `- ${m}: ${pedidoCuadrado[m].cantidad} pieza(s)\n`;
+            totalPiezas += pedidoCuadrado[m].cantidad;
+            tieneProductos = true;
+        }
+    }
+
+    if (!tieneProductos) {
+        alert("Por favor, selecciona al menos una medida.");
+        return;
+    }
+
+    mensaje += `\n📦 Total de piezas: ${totalPiezas}\n\n¿Me podrían dar más información?`;
+    window.open(`https://wa.me/${5632971001}?text=${encodeURIComponent(mensaje)}`, '_blank');
+}
+// --- SECCIÓN DE GORRAS BARAK ---
+let pedidoGorra = { cantidad: 0, precio: 100 };
+
+function setGorra(elemento, nombre, precio) {
+    pedidoGorra.cantidad++;
+    
+    // Activa el color rosa
+    elemento.classList.add('selected'); 
+    
+    // Limpia el borde de selección del navegador
+    elemento.blur(); 
+    actualizarResumenGorra();
+}
+
+function restarGorra(event, nombre, elemento) {
+    event.preventDefault(); // Bloquea el menú del clic derecho
+    
+    if (pedidoGorra.cantidad > 0) {
+        pedidoGorra.cantidad--;
+        
+        // Si llega a 0, quita el color rosa
+        if (pedidoGorra.cantidad === 0) {
+            elemento.classList.remove('selected');
+        }
+    }
+    
+    elemento.blur();
+    actualizarResumenGorra();
+}
+
+function actualizarResumenGorra() {
+    const resumenDiv = document.getElementById('resumen-gorras');
+    if (pedidoGorra.cantidad > 0) {
+        resumenDiv.innerHTML = `📦 Total de piezas: ${pedidoGorra.cantidad}<br><span style="font-size:9px; font-weight:400;">(Clic derecho para restar)</span>`;
+    } else {
+        resumenDiv.innerHTML = "";
+    }
+}
+
+function enviarWhatsAppGorra() {
+    const telefono = "5632971001"; 
+    if (pedidoGorra.cantidad === 0) {
+        alert("Por favor, selecciona al menos una gorra.");
+        return;
+    }
+
+    let mensaje = "¡Hola! Me interesa cotizar gorras personalizadas:\n\n";
+    mensaje += `- Producto: Gorra con bordado chico\n`;
+    mensaje += `- Cantidad: ${pedidoGorra.cantidad} pieza(s)\n`;
+    mensaje += `\n📦 Total de piezas: ${pedidoGorra.cantidad}`;
+    
+    // MENSAJE CORREGIDO: El cliente ahora debe escribir el color
+    mensaje += "\n\nEl color que elegí es: [ESCRIBE AQUÍ EL COLOR]\n";
+    mensaje += "¿Me podrían cotizar con el logo que les voy a enviar?";
+
+    const url = `https://wa.me/${5632971001}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+}
+let pedidoTaza = { cantidad: 0, precio: 55 };
+
+function setTaza(elemento, nombre, precio) {
+    pedidoTaza.cantidad++;
+    elemento.classList.add('selected'); 
+    elemento.blur(); 
+    actualizarResumenTaza();
+}
+
+function restarTaza(event, nombre, elemento) {
+    event.preventDefault();
+    if (pedidoTaza.cantidad > 0) {
+        pedidoTaza.cantidad--;
+        if (pedidoTaza.cantidad === 0) {
+            elemento.classList.remove('selected');
+        }
+    }
+    elemento.blur();
+    actualizarResumenTaza();
+}
+
+function actualizarResumenTaza() {
+    const resumenDiv = document.getElementById('resumen-tazas');
+    if (pedidoTaza.cantidad > 0) {
+        resumenDiv.innerHTML = `📦 Total: ${pedidoTaza.cantidad} piezas`;
+    } else {
+        resumenDiv.innerHTML = "";
+    }
+}
+
+function enviarWhatsAppTaza() {
+    const telefono = "5632971001"; 
+    if (pedidoTaza.cantidad === 0) {
+        alert("Por favor, selecciona al menos una taza.");
+        return;
+    }
+
+    let mensaje = "¡Hola! Me interesa cotizar tazas blancas personalizadas:\n\n";
+    mensaje += `- Cantidad: ${pedidoTaza.cantidad} pieza(s)\n`;
+    mensaje += `- Precio unitario: $55 MXN\n`;
+    mensaje += `\n📦 Total de piezas: ${pedidoTaza.cantidad}`;
+    
+    // Espacio para que el cliente defina el diseño
+    mensaje += "\n\nEl diseño que quiero es: [ESCRIBE AQUÍ SI ES FOTO O LOGO]\n";
+    mensaje += "¿Me podrían dar el tiempo de entrega?";
+
+    window.open(`https://wa.me/${5632971001}?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
