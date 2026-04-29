@@ -739,6 +739,7 @@ footer { padding: 2rem 0 6rem; border-top: 1px solid var(--color-divider); }
     right: 10px !important;
   }
 
+  /* 5. PEGAR EL CATÁLOGO ARRIBA */
   /* Eliminamos el espacio vacío para que el catálogo sea lo primero */
   .hero {
     min-height: auto !important;
