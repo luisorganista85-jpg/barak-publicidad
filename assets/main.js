@@ -939,27 +939,19 @@ let pedidoGorra = { cantidad: 0, precio: 100 };
 
 function setGorra(elemento, nombre, precio) {
     pedidoGorra.cantidad++;
-    
-    // Activa el color rosa
     elemento.classList.add('selected'); 
-    
-    // Limpia el borde de selección del navegador
     elemento.blur(); 
     actualizarResumenGorra();
 }
 
 function restarGorra(event, nombre, elemento) {
-    event.preventDefault(); // Bloquea el menú del clic derecho
-    
+    event.preventDefault();
     if (pedidoGorra.cantidad > 0) {
         pedidoGorra.cantidad--;
-        
-        // Si llega a 0, quita el color rosa
         if (pedidoGorra.cantidad === 0) {
             elemento.classList.remove('selected');
         }
     }
-    
     elemento.blur();
     actualizarResumenGorra();
 }
@@ -974,7 +966,6 @@ function actualizarResumenGorra() {
 }
 
 function enviarWhatsAppGorra() {
-    const telefono = "5632971001"; 
     if (pedidoGorra.cantidad === 0) {
         alert("Por favor, selecciona al menos una gorra.");
         return;
@@ -984,13 +975,35 @@ function enviarWhatsAppGorra() {
     mensaje += `- Producto: Gorra con bordado chico\n`;
     mensaje += `- Cantidad: ${pedidoGorra.cantidad} pieza(s)\n`;
     mensaje += `\n📦 Total de piezas: ${pedidoGorra.cantidad}`;
-    
-    // MENSAJE CORREGIDO: El cliente ahora debe escribir el color
-    mensaje += "\n\nEl color que elegí es: [ESCRIBE AQUÍ EL COLOR]\n";
+    mensaje += "\n\nEl color que elegí es: [ESCRIBE EL COLOR]\n";
     mensaje += "¿Me podrían cotizar con el logo que les voy a enviar?";
 
-    const url = `https://wa.me/${5632971001}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, '_blank');
+    window.open(`https://wa.me/5632971001?text=${encodeURIComponent(mensaje)}`, '_blank');
+    resetearTodoBarak(); // Limpia al terminar
+// FUNCIÓN QUE BORRA TODO EL RASTRO ROSA
+function resetearTodoBarak() {
+    pedidoGorra.cantidad = 0;
+    pedidoTaza.cantidad = 0;
+
+    if(document.getElementById('resumen-gorras')) document.getElementById('resumen-gorras').innerHTML = "";
+    if(document.getElementById('resumen-tazas')) document.getElementById('resumen-tazas').innerHTML = "";
+
+    document.querySelectorAll('.option-btn').forEach(btn => {
+        btn.classList.remove('selected');
+        btn.blur();
+    });
+}
+
+// ESTO DETECTA CUANDO EL CLIENTE REGRESA DE WHATSAPP
+window.addEventListener('pageshow', function(event) {
+    resetearTodoBarak();
+});
+
+// ESTO DETECTA SI EL CLIENTE SIMPLEMENTE VUELVE A HACER CLIC EN TU PÁGINA
+window.onfocus = function() {
+    resetearTodoBarak();
+};
+    
 }
 let pedidoTaza = { cantidad: 0, precio: 55 };
 
@@ -1024,6 +1037,7 @@ function actualizarResumenTaza() {
 
 function enviarWhatsAppTaza() {
     const telefono = "5632971001"; 
+    
     if (pedidoTaza.cantidad === 0) {
         alert("Por favor, selecciona al menos una taza.");
         return;
@@ -1031,12 +1045,340 @@ function enviarWhatsAppTaza() {
 
     let mensaje = "¡Hola! Me interesa cotizar tazas blancas personalizadas:\n\n";
     mensaje += `- Cantidad: ${pedidoTaza.cantidad} pieza(s)\n`;
-    mensaje += `- Precio unitario: $55 MXN\n`;
     mensaje += `\n📦 Total de piezas: ${pedidoTaza.cantidad}`;
-    
-    // Espacio para que el cliente defina el diseño
-    mensaje += "\n\nEl diseño que quiero es: [ESCRIBE AQUÍ SI ES FOTO O LOGO]\n";
-    mensaje += "¿Me podrían dar el tiempo de entrega?";
+    mensaje += "\n\nEl diseño que quiero es: [ESCRIBE AQUÍ SI ES FOTO O LOGO]";
 
-    window.open(`https://wa.me/${5632971001}?text=${encodeURIComponent(mensaje)}`, '_blank');
+    // Abrimos WhatsApp (corregido el formato del número)
+    window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
+
+    // Llamamos a la limpieza maestra de inmediato
+    resetearTodoBarak();
+}
+function resetearTodoBarak() {
+    // 1. Reiniciar las variables de conteo
+    if (typeof pedidoGorra !== 'undefined') pedidoGorra.cantidad = 0;
+    if (typeof pedidoTaza !== 'undefined') pedidoTaza.cantidad = 0;
+
+    // 2. Limpiar los textos de "Total de piezas" (los rosas)
+    const idResumenes = ['resumen-gorras', 'resumen-tazas'];
+    idResumenes.forEach(id => {
+        const cajaTexto = document.getElementById(id);
+        if (cajaTexto) cajaTexto.innerHTML = "";
+    });
+
+    // 3. Quitar el color rosa de todos los botones seleccionados
+    document.querySelectorAll('.option-btn').forEach(boton => {
+        boton.classList.remove('selected');
+        boton.blur(); // Quita el borde de selección del navegador
+    });
+}
+// 1. Variable
+let pedidoStickers = { cantidad: 0, precio: 350 };
+
+// 2. Función para sumar
+function setStickers(elemento, nombre, precio) {
+    pedidoStickers.cantidad++;
+    elemento.classList.add('selected'); 
+    actualizarResumenStickers();
+}
+
+// 3. Función para restar (clic derecho)
+function restarStickers(event, nombre, elemento) {
+    event.preventDefault();
+    if (pedidoStickers.cantidad > 0) {
+        pedidoStickers.cantidad--;
+        if (pedidoStickers.cantidad === 0) {
+            elemento.classList.remove('selected');
+        }
+    }
+    actualizarResumenStickers();
+}
+
+function actualizarResumenStickers() {
+    const resumenDiv = document.getElementById('resumen-stickers');
+    if (pedidoStickers.cantidad > 0) {
+        resumenDiv.innerHTML = `
+            <div style="text-align: center; color: #ff4d8d; font-weight: bold; font-size: 14px;">
+                📦 Total de piezas: ${pedidoStickers.cantidad}
+                <br><span style="font-size: 10px; font-weight: normal;">(Clic derecho para restar)</span>
+            </div>`;
+    } else {
+        resumenDiv.innerHTML = "";
+    }
+}
+function enviarWhatsAppStickers() {
+    if (pedidoStickers.cantidad === 0) {
+        alert("Por favor, selecciona al menos una planilla.");
+        return;
+    }
+
+    // Mensaje completo con diseño y logo incluido
+    let mensaje = "¡Hola! Me interesa cotizar planillas de stickers:\n\n";
+    mensaje += `✅ Producto: Planilla 150x140cm\n`;
+    mensaje += `📦 Cantidad: ${pedidoStickers.cantidad} planilla(s)\n\n`;
+    mensaje += `🎨 El diseño que quiero es: [Escribe aquí si es foto o logo]\n`;
+    mensaje += `📩 Ya cuento con mi archivo de logo listo para enviar.`;
+
+    window.open(`https://wa.me/5632971001?text=${encodeURIComponent(mensaje)}`, '_blank');
+    
+    // Limpia la selección para que no se quede rosa al regresar
+    resetearTodoBarak(); 
+}
+// 1. Variable para el pedido (Igual que stickers)
+let pedidoLona = { cantidad: 0, precio: 85 };
+
+// 2. Función para sumar M2
+function setLona(elemento, nombre, precio) {
+    pedidoLona.cantidad++;
+    elemento.classList.add('selected'); 
+    actualizarResumenLona();
+}
+
+// 3. Función para restar M2 (clic derecho)
+function restarLona(event, nombre, elemento) {
+    event.preventDefault();
+    if (pedidoLona.cantidad > 0) {
+        pedidoLona.cantidad--;
+        if (pedidoLona.cantidad === 0) {
+            elemento.classList.remove('selected');
+        }
+    }
+    actualizarResumenLona();
+}
+
+// 4. Actualizar el texto rosa de resumen
+function actualizarResumenLona() {
+    const resumenDiv = document.getElementById('resumen-lona');
+    if (pedidoLona.cantidad > 0) {
+        resumenDiv.innerHTML = `
+            <div style="text-align: center; color: #ff4d8d; font-weight: bold; font-size: 14px;">
+                📦 Total de M2: ${pedidoLona.cantidad}
+                <br><span style="font-size: 10px; font-weight: normal;">(Clic derecho para restar)</span>
+            </div>`;
+    } else {
+        resumenDiv.innerHTML = "";
+    }
+}
+
+// 5. Enviar a tu WhatsApp de BARAK
+function enviarWhatsAppLona() {
+    if (pedidoLona.cantidad === 0) {
+        alert("Por favor, selecciona al menos 1 metro cuadrado.");
+        return;
+    }
+
+    let mensaje = "¡Hola BARAK! Me interesa cotizar lona gran formato:\n\n";
+    mensaje += `✅ Producto: Lona Impresa x M2\n`;
+    mensaje += `📏 Cantidad: ${pedidoLona.cantidad} metro(s) cuadrado(s)\n`;
+    mensaje += `💰 Total estimado: $${pedidoLona.cantidad * 85} MXN\n\n`;
+    mensaje += `🎨 El diseño que quiero es: [Escribe aquí si es foto o logo]\n`;
+    mensaje += `📩 Envío mi archivo por este medio.`;
+
+    window.open(`https://wa.me/5630145944?text=${encodeURIComponent(mensaje)}`, '_blank');
+}
+// 1. Variable para el pedido
+let pedidoVinil = { cantidad: 0, precio: 95 };
+
+// 2. Sumar M2 (Clic izquierdo)
+function setVinil(elemento, nombre, precio) {
+    pedidoVinil.cantidad++;
+    elemento.classList.add('selected'); // Activa el borde rosa
+    actualizarResumenVinil();
+}
+
+// 3. Restar M2 (Clic derecho)
+function restarVinil(event, nombre, elemento) {
+    event.preventDefault();
+    if (pedidoVinil.cantidad > 0) {
+        pedidoVinil.cantidad--;
+        if (pedidoVinil.cantidad === 0) {
+            elemento.classList.remove('selected');
+        }
+    }
+    actualizarResumenVinil();
+}
+
+// 4. Actualizar contador en pantalla
+function actualizarResumenVinil() {
+    const resumenDiv = document.getElementById('resumen-vinil');
+    if (pedidoVinil.cantidad > 0) {
+        resumenDiv.innerHTML = `
+            <div style="text-align: center; color: #ff4d8d; font-weight: bold; font-size: 14px;">
+                📦 Total de M2: ${pedidoVinil.cantidad}
+                <br><span style="font-size: 10px; font-weight: normal;">(Clic derecho para restar)</span>
+            </div>`;
+    } else {
+        resumenDiv.innerHTML = "";
+    }
+}
+
+// 5. WhatsApp de BARAK
+function enviarWhatsAppVinil() {
+    if (pedidoVinil.cantidad === 0) {
+        alert("Por favor, selecciona los metros cuadrados de vinil.");
+        return;
+    }
+
+    let mensaje = "¡Hola BARAK! Me interesa cotizar vinil adhesivo:\n\n";
+    mensaje += `✅ Producto: Vinil Adhesivo x M2\n`;
+    mensaje += `📏 Cantidad: ${pedidoVinil.cantidad} metro(s) cuadrado(s)\n`;
+    mensaje += `💰 Total estimado: $${pedidoVinil.cantidad * 95} MXN\n\n`;
+    mensaje += `🎨 El diseño que quiero es: [Escribir aquí]\n`;
+    mensaje += `📩 Envío mi archivo para revisión.`;
+
+    window.open(`https://wa.me/5630145944?text=${encodeURIComponent(mensaje)}`, '_blank');
+}
+// 1. Variable para el pedido
+let pedidoCorteVinil = { cantidad: 0, precio: 95 };
+
+// 2. Sumar M2 (Clic normal)
+function setCorteVinil(elemento, nombre, precio) {
+    pedidoCorteVinil.cantidad++;
+    elemento.classList.add('selected'); // Activa el estilo rosa de BARAK
+    actualizarResumenCorteVinil();
+}
+
+// 3. Restar M2 (Clic derecho)
+function restarCorteVinil(event, nombre, elemento) {
+    event.preventDefault();
+    if (pedidoCorteVinil.cantidad > 0) {
+        pedidoCorteVinil.cantidad--;
+        if (pedidoCorteVinil.cantidad === 0) {
+            elemento.classList.remove('selected');
+        }
+    }
+    actualizarResumenCorteVinil();
+}
+
+// 4. Actualizar el contador rosa
+function actualizarResumenCorteVinil() {
+    const resumenDiv = document.getElementById('resumen-corte-vinil');
+    if (pedidoCorteVinil.cantidad > 0) {
+        resumenDiv.innerHTML = `
+            <div style="text-align: center; color: #ff4d8d; font-weight: bold; font-size: 14px;">
+                📦 Total de M2: ${pedidoCorteVinil.cantidad}
+                <br><span style="font-size: 10px; font-weight: normal;">(Clic derecho para restar)</span>
+            </div>`;
+    } else {
+        resumenDiv.innerHTML = "";
+    }
+}
+
+// 5. WhatsApp de BARAK (Cálculo automático)
+function enviarWhatsAppCorteVinil() {
+    if (pedidoCorteVinil.cantidad === 0) {
+        alert("Por favor, selecciona los metros cuadrados para el corte de vinil.");
+        return;
+    }
+
+    let mensaje = "¡Hola BARAK! Me interesa cotizar corte de vinil:\n\n";
+    mensaje += `✅ Producto: Corte de Vinil (Plotter)\n`;
+    mensaje += `📏 Cantidad: ${pedidoCorteVinil.cantidad} metro(s) cuadrado(s)\n`;
+    mensaje += `💰 Total estimado: $${pedidoCorteVinil.cantidad * 95} MXN\n\n`;
+    mensaje += `🎨 El logo/letras que quiero son: [Escribir aquí]\n`;
+    mensaje += `📩 Envío mi archivo vectorizado para cotizar.`;
+
+    window.open(`https://wa.me/5630145944?text=${encodeURIComponent(mensaje)}`, '_blank');
+}
+// 1. Variable para el pedido
+let pedidoXBanner = { cantidad: 0, precio: 600 };
+
+// 2. Sumar piezas (Clic normal)
+function setXBanner(elemento, nombre, precio) {
+    pedidoXBanner.cantidad++;
+    elemento.classList.add('selected'); // Activa el borde rosa
+    actualizarResumenXBanner();
+}
+
+// 3. Restar piezas (Clic derecho)
+function restarXBanner(event, nombre, elemento) {
+    event.preventDefault();
+    if (pedidoXBanner.cantidad > 0) {
+        pedidoXBanner.cantidad--;
+        if (pedidoXBanner.cantidad === 0) {
+            elemento.classList.remove('selected');
+        }
+    }
+    actualizarResumenXBanner();
+}
+
+// 4. Actualizar el contador en pantalla
+function actualizarResumenXBanner() {
+    const resumenDiv = document.getElementById('resumen-xbanner');
+    if (pedidoXBanner.cantidad > 0) {
+        resumenDiv.innerHTML = `
+            <div style="text-align: center; color: #ff4d8d; font-weight: bold; font-size: 14px;">
+                📦 Estructuras seleccionadas: ${pedidoXBanner.cantidad}
+                <br><span style="font-size: 10px; font-weight: normal;">(Clic derecho para restar)</span>
+            </div>`;
+    } else {
+        resumenDiv.innerHTML = "";
+    }
+}
+
+// 5. WhatsApp de BARAK
+function enviarWhatsAppXBanner() {
+    if (pedidoXBanner.cantidad === 0) {
+        alert("Por favor, selecciona al menos una estructura de X-Banner.");
+        return;
+    }
+
+    let mensaje = "¡Hola BARAK! Me interesa la estructura de X-Banner:\n\n";
+    mensaje += `✅ Producto: X-Banner con base de agua\n`;
+    mensaje += `📦 Cantidad: ${pedidoXBanner.cantidad} pieza(s)\n`;
+    mensaje += `💰 Total estimado: $${pedidoXBanner.cantidad * 600} MXN\n\n`;
+    mensaje += `💬 ¿Me podrían confirmar disponibilidad y tiempo de entrega?`;
+
+    window.open(`https://wa.me/5630145944?text=${encodeURIComponent(mensaje)}`, '_blank');
+}
+// 1. Variable para el pedido
+let pedidoBannerX = { cantidad: 0, precio: 350 };
+
+// 2. Sumar piezas (Clic normal)
+function setBannerX(elemento, nombre, precio) {
+    pedidoBannerX.cantidad++;
+    elemento.classList.add('selected'); // Activa el borde rosa del CSS
+    actualizarResumenBannerX();
+}
+
+// 3. Restar piezas (Clic derecho)
+function restarBannerX(event, nombre, elemento) {
+    event.preventDefault(); // Bloquea el menú del navegador
+    if (pedidoBannerX.cantidad > 0) {
+        pedidoBannerX.cantidad--;
+        if (pedidoBannerX.cantidad === 0) {
+            elemento.classList.remove('selected');
+        }
+    }
+    actualizarResumenBannerX();
+}
+
+// 4. Actualizar el resumen visual
+function actualizarResumenBannerX() {
+    const resumenDiv = document.getElementById('resumen-bannerx');
+    if (pedidoBannerX.cantidad > 0) {
+        resumenDiv.innerHTML = `
+            <div style="text-align: center; color: #ff4d8d; font-weight: bold; font-size: 14px;">
+                📦 Estructuras seleccionadas: ${pedidoBannerX.cantidad}
+                <br><span style="font-size: 10px; font-weight: normal;">(Clic derecho para restar)</span>
+            </div>`;
+    } else {
+        resumenDiv.innerHTML = "";
+    }
+}
+
+// 5. WhatsApp automático para BARAK
+function enviarWhatsAppBannerX() {
+    if (pedidoBannerX.cantidad === 0) {
+        alert("Por favor, selecciona cuántos Banner X necesitas.");
+        return;
+    }
+
+    let mensaje = "¡Hola BARAK! Me interesa la estructura económica de Banner X:\n\n";
+    mensaje += `✅ Producto: Banner X (Económico)\n`;
+    mensaje += `📦 Cantidad: ${pedidoBannerX.cantidad} pieza(s)\n`;
+    mensaje += `💰 Total estimado: $${pedidoBannerX.cantidad * 350} MXN\n\n`;
+    mensaje += `💬 ¿Tienen entrega inmediata? Quedo atento.`;
+
+    window.open(`https://wa.me/5630145944?text=${encodeURIComponent(mensaje)}`, '_blank');
 }

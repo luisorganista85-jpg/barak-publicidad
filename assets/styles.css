@@ -604,7 +604,7 @@ footer { padding: 2rem 0 6rem; border-top: 1px solid var(--color-divider); }
 .bv-screen { position:relative; width:100%; aspect-ratio:16/9; background:#000; border-radius:14px; overflow:hidden; cursor:pointer; }
 .bv-slide { position:absolute; inset:0; opacity:0; transition:opacity 1.2s ease; }
 .bv-slide.active { opacity:1; }
-.bv-slide img { width:100%; height:100%; object-fit:cover; }
+.bv-slide img { width:100%; height:100%; object-fit:contain; background:#000; }
 .bv-grad { position:absolute; inset:0; background:rgba(0,0,0,0.28); }
 .bv-caption { position:absolute; bottom:48px; left:0; right:0; padding:2rem 1.5rem 0.5rem; background:linear-gradient(transparent,rgba(0,0,0,0.65)); }
 .bv-caption h3 { color:#fff; font-size:1.1rem; font-weight:600; margin:0 0 4px; }
@@ -739,7 +739,6 @@ footer { padding: 2rem 0 6rem; border-top: 1px solid var(--color-divider); }
     right: 10px !important;
   }
 
-  /* 5. PEGAR EL CATÁLOGO ARRIBA */
   /* Eliminamos el espacio vacío para que el catálogo sea lo primero */
   .hero {
     min-height: auto !important;
@@ -1131,4 +1130,53 @@ html {
 
 .btn-whatsapp-original:hover {
     background-color: #128c7e !important;
+}
+.product-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.btn-whatsapp {
+    background-color: #25d366; /* Verde WhatsApp */
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 15px; /* Redondeado */
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+/* Esto controla el texto del botón de preguntas frecuentes */
+.faq-head span {
+    /* "currentColor" hace que use el color de texto del tema (blanco en oscuro, negro en claro) */
+    color: currentColor; 
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+/* Para asegurar que resalte en el modo oscuro */
+[data-theme="dark"] .faq-head span {
+    color: #ffffff;
+}
+
+/* Para asegurar que resalte en el modo claro */
+[data-theme="light"] .faq-head span {
+    color: #1a1a1a;
+}
+
+/* Estilo extra para el botón para que no se vea "vacio" */
+.faq-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05); /* Un fondo muy suave */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    cursor: pointer;
 }

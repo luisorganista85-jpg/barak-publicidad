@@ -276,7 +276,7 @@
 
         <div class="catalog-grid">
           <article class="catalog-card" id="prod-stands" data-category="eventos" data-reveal>
-            <div class="catalog-media catalog-media-real">
+            <div class="catalog-media ">
               <img
                 src="./img/stand.png"
                 alt="Stand aluminio y stand PVC"
@@ -326,7 +326,7 @@
 </article>
 
           <article class="catalog-card" id="prod-rollup" data-category="promocionales" data-reveal>
-            <div class="catalog-media catalog-media-real">
+            <div class="catalog-media ">
               <img
                 src="./img/roll-up.png"
                 alt="Roll up publicitario"
@@ -383,7 +383,7 @@
     </div>
 </article>
       <article class="catalog-card" id="prod-cajaluz" data-category="promocionales" data-reveal>
-    <div class="catalog-media catalog-media-real">
+    <div class="catalog-media">
         <img
             src="./img/caja-luz-redonda.png"
             alt="Caja de luz redonda"
@@ -443,7 +443,7 @@ presencia comercial.   Precio publicado por pieza.</p>
     </div>
 </article>
          <article class="catalog-card" id="prod-marcoluz" data-category="promocionales" data-reveal>
-            <div class="catalog-media catalog-media-real">
+            <div class="catalog-media">
               <img
                 src="./img/marco-luz.png"
                 alt="Marco de luz"
@@ -499,54 +499,83 @@ presencia comercial.   Precio publicado por pieza.</p>
     </div>
 </article>
 
-          <article class="catalog-card" id="prod-xbanner" data-category="promocionales" data-reveal>
-            <div class="catalog-media catalog-media-real">
-              <img
-                src="./img/x-banner-base-agua.jpg"
-                alt="X-Banner con base de agua"
-                class="catalog-image"
-                loading="lazy"
-                width="1200"
-                height="900"
-              />
-            </div>
-            <div class="catalog-body">
-              <div class="pill-row">
-                <span class="pill">promocionales</span>
-                <span class="pill">Precio público</span>
-              </div>
-              <h3>X-Banner con base de agua</h3>
-              <p>Exhibidor ligero y funcional para promociones, campañas y comunicación visual de negocio.</p>
-              <div class="price-single">$600 MXN</div>
-              <div class="quote-note">Pregunta por impresión, estructura o armado completo.</div>
-            </div>
-          </article>
+          <article class="catalog-card" id="prod-xbanner" data-category="promocionales">
+    <div class="catalog-media">
+        <img src="./img/x-banner-base-agua.jpg" alt="X-Banner con base de agua" class="catalog-image" loading="lazy">
+    </div>
 
-       <article class="catalog-card" id="prod-bannerx" data-category="promocionales" data-reveal>
-            <div class="catalog-media catalog-media-real">
-              <img
-                src="./img/banner.png"
-                alt="Banner X"
-                class="catalog-image"
-                loading="lazy"
-                width="1200"
-                height="900"
-              />
-            </div>
-            <div class="catalog-body">
-              <div class="pill-row">
-                <span class="pill">promocionales</span>
-                <span class="pill">Precio público</span>
-              </div>
-              <h3>Banner X</h3>
-              <p>Formato económico y práctico para promociones temporales y mensajes visuales rápidos.</p>
-              <div class="price-single">$350 MXN</div>
-              <div class="quote-note">Ideal para puntos de venta y exhibición ligera.</div>
-            </div>
-          </article>
+    <div class="catalog-body">
+        <div class="pill-row">
+            <span class="pill">Promocionales</span>
+            <span class="pill">Precio público</span>
+        </div>
+        
+        <h3>X-Banner con base de agua</h3>
+        <p>Exhibidor ligero y funcional para promociones, campañas y comunicación visual de negocio.</p>
+        
+        <ul class="product-features" style="list-style: none; padding: 0; margin: 15px 0; font-size: 13px;">
+            <li>✅ Estructura ligera y resistente</li>
+            <li>✅ Base rellenable con agua o arena</li>
+            <li>✅ Fácil de transportar y armar</li>
+        </ul>
+
+        <div class="price-selection-group">
+            <button type="button" class="option-btn" 
+                    onclick="setXBanner(this, 'X-Banner Base Agua', 600)" 
+                    oncontextmenu="restarXBanner(event, 'X-Banner Base Agua', this)">
+                Estructura X-Banner <span>$600 MXN</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="cotizador-box">
+        <div id="resumen-xbanner" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+
+        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppXBanner()" style="margin-top: 10px;">
+            Cotizar por WhatsApp
+        </button>
+    </div>
+</article>
+      <article class="catalog-card" id="prod-bannerx" data-category="promocionales">
+    <div class="catalog-media">
+        <img src="./img/banner.png" alt="Banner X" class="catalog-image" loading="lazy">
+    </div>
+
+    <div class="catalog-body">
+        <div class="pill-row">
+            <span class="pill">Promocionales</span>
+            <span class="pill">Precio público</span>
+        </div>
+        
+        <h3>Banner X (Económico)</h3>
+        <p>Formato económico y práctico para promociones temporales y mensajes visuales rápidos.</p>
+        
+        <ul class="product-features" style="list-style: none; padding: 0; margin: 15px 0; font-size: 13px;">
+            <li>✅ Estructura ligera en fibra de carbono/vidrio</li>
+            <li>✅ Ideal para interiores y puntos de venta</li>
+            <li>✅ Desarmable y muy fácil de transportar</li>
+        </ul>
+
+        <div class="price-selection-group">
+            <button type="button" class="option-btn" 
+                    onclick="setBannerX(this, 'Banner X Económico', 350)" 
+                    oncontextmenu="restarBannerX(event, 'Banner X Económico', this)">
+                Estructura Banner X <span>$350 MXN</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="cotizador-box">
+        <div id="resumen-bannerx" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+
+        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppBannerX()" style="margin-top: 10px;">
+            Cotizar por WhatsApp
+        </button>
+    </div>
+</article>
 
          <article class="catalog-card" id="prod-cajagiratoria" data-category="promocionales" data-reveal>
-            <div class="catalog-media catalog-media-real">
+            <div class="catalog-media ">
               <img
                 src="./img/caja-luz-giratoria.png"
                 alt="Caja de luz giratoria"
@@ -592,7 +621,7 @@ presencia comercial.   Precio publicado por pieza.</p>
     </div>
 </article>
           <article class="catalog-card" id="prod-poster" data-category="promocionales" data-reveal>
-            <div class="catalog-media catalog-media-real">
+            <div class="catalog-media ">
               <img
                 src="./img/display-poster-stand.jpg"
                 alt="Display poster stand"
@@ -746,7 +775,7 @@ presencia comercial.   Precio publicado por pieza.</p>
 </article>
 
           <article class="catalog-card" id="prod-gorras" data-category="promocionales" data-reveal>
-            <div class="catalog-media catalog-media-real">
+            <div class="catalog-media ">
               <img
                 src="./img/gorras.jpg"
                 alt="Gorra para sublimar"
@@ -788,7 +817,7 @@ presencia comercial.   Precio publicado por pieza.</p>
 </article>
 
           <article class="catalog-card" id="prod-tazas" data-category="promocionales" data-reveal>
-            <div class="catalog-media catalog-media-real">
+            <div class="catalog-media ">
               <img
                 src="./img/taza-blanca.jpeg"
                 alt="Taza blanca AAA"
@@ -834,39 +863,164 @@ presencia comercial.   Precio publicado por pieza.</p>
         </button>
     </div>
 </article>
-          </article>
-<article class="catalog-card" id="prod-lona" data-category="impresion">
-            <div class="catalog-media catalog-media-real">
-              <img src="./img/impresion1.jpg" alt="Lona Gran Formato" class="catalog-image" loading="lazy">
-            </div>
-            <div class="catalog-body">
-              <div class="pill-row"><span class="pill">Impresión</span></div>
-              <h3>Lona Gran Formato</h3>
-              <p>Alta resolución para exteriores.</p>
-            </div>
-          </article>
+     <article class="catalog-card" id="prod-lona" data-category="impresion">
+    <div class="catalog-media">
+        <img src="./img/impresion1.jpg" alt="Lona Gran Format" class="catalog-image" loading="lazy">
+    </div>
 
-         <article class="catalog-card" id="Vinil Adhesivo" data-category="impresion">
-            <div class="catalog-media catalog-media-real">
-              <img src="./img/impresion2.jpg" alt="Vinil Adhesivo" class="catalog-image" loading="lazy">
-            </div>
-            <div class="catalog-body">
-              <div class="pill-row"><span class="pill">Impresión</span></div>
-              <h3>Vinil Adhesivo</h3>
-              <p>Calidad fotográfica duradera.</p>
-            </div>
-          </article>
+    <div class="catalog-body">
+        <div class="pill-row">
+            <span class="pill">Impresión</span>
+            <span class="pill">Desde</span>
+        </div>
+        <h3>Lona Gran Formato</h3>
+        <p>Alta resolución para exteriores. Ideal para publicidad duradera.</p>
+        
+        <ul class="product-features" style="list-style: none; padding: 0; margin: 15px 0; font-size: 13px;">
+            <li>✅ Resistente a la intemperie</li>
+            <li>✅ Ojillos metálicos incluidos</li>
+            <li>✅ Impresión nítida a full color</li>
+        </ul>
 
-        <article class="catalog-card" id="Corte de Vinil" data-category="impresion">
-            <div class="catalog-media catalog-media-real">
-              <img src="./img/impresion5.jpg" alt="Corte de Vinil" class="catalog-image" loading="lazy">
-            </div>
-            <div class="catalog-body">
-              <div class="pill-row"><span class="pill">Impresión</span></div>
-              <h3>Corte de Vinil</h3>
-              <p>Acabados precisos para tu marca.</p>
-            </div>
-          </article>
+        <div class="price-selection-group">
+            <button type="button" class="option-btn" 
+                    onclick="setLona(this, 'Lona Impresa x M2', 85)" 
+                    oncontextmenu="restarLona(event, 'Lona Impresa x M2', this)">
+                Lona Impresa x M2 <span>$85 MXN</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="cotizador-box">
+        <div id="resumen-lona" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+
+        <div class="info-servicios">
+            <span class="tag-servicio">🎨 Diseño incluido</span>
+            <span class="tag-servicio">📁 Envía tu archivo</span>
+        </div>
+
+        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppLona()">
+            Cotizar por WhatsApp
+        </button>
+    </div>
+</article>
+        <article class="catalog-card" id="prod-vinil" data-category="impresion">
+    <div class="catalog-media">
+        <img src="./img/impresion2.jpg" alt="Vinil Adhesivo" class="catalog-image" loading="lazy">
+    </div>
+
+    <div class="catalog-body">
+        <div class="pill-row">
+            <span class="pill">Impresión</span>
+            <span class="pill">Desde</span>
+        </div>
+        <h3>Vinil Adhesivo</h3>
+        <p>Vinil de alta adherencia. Perfecto para decoración de cristales, paredes y señalización profesional.</p>
+        
+        <ul class="product-features" style="list-style: none; padding: 0; margin: 15px 0; font-size: 13px;">
+            <li>✅ Resistente al agua y sol</li>
+            <li>✅ Acabado mate o brillante</li>
+            <li>✅ Corte a medida incluido</li>
+        </ul>
+
+        <div class="price-selection-group">
+            <button type="button" class="option-btn" 
+                    onclick="setVinil(this, 'Vinil Adhesivo x M2', 95)" 
+                    oncontextmenu="restarVinil(event, 'Vinil Adhesivo x M2', this)">
+                Vinil Adhesivo x M2 <span>$95 MXN</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="cotizador-box">
+        <div id="resumen-vinil" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+
+        <div class="info-servicios">
+            <span class="tag-servicio">🎨 Diseño incluido</span>
+            <span class="tag-servicio">📁 Envía tu archivo</span>
+        </div>
+
+        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppVinil()">
+            Cotizar por WhatsApp
+        </button>
+    </div>
+</article>
+       <article class="catalog-card" id="prod-corte-vinil" data-category="impresion">
+    <div class="catalog-media">
+        <img src="./img/impresion5.jpg" alt="Corte de Vinil" class="catalog-image" loading="lazy">
+    </div>
+
+    <div class="catalog-body">
+        <div class="pill-row">
+            <span class="pill">Publicidad</span>
+            <span class="pill">Desde</span>
+        </div>
+        <h3>Corte de Vinil</h3>
+        <p>Vinil de color sólido recortado con plotter. Ideal para nombres, logotipos en paredes, vehículos o señalética.</p>
+        
+        <ul class="product-features" style="list-style: none; padding: 0; margin: 15px 0; font-size: 13px;">
+            <li>✅ Variedad de colores básicos</li>
+            <li>✅ Resistente a la intemperie</li>
+            <li>✅ Depilado y con transfer incluido</li>
+        </ul>
+
+        <div class="price-selection-group">
+            <button type="button" class="option-btn" 
+                    onclick="setCorteVinil(this, 'Corte de Vinil x M2', 95)" 
+                    oncontextmenu="restarCorteVinil(event, 'Corte de Vinil x M2', this)">
+                Corte de Vinil x M2 <span>$95 MXN</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="cotizador-box">
+        <div id="resumen-corte-vinil" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+
+        <div class="info-servicios">
+            <span class="tag-servicio">🎨 Vectorización básica</span>
+            <span class="tag-servicio">📁 Envía tu trazo</span>
+        </div>
+
+        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppCorteVinil()">
+            Cotizar por WhatsApp
+        </button>
+    </div>
+</article>
+  <article class="catalog-card" data-category="stickers" id="planilla-stickers">
+    <div class="catalog-media">
+        <img src="./img/stickers.jpg" alt="Planilla de Stickers" class="catalog-image">
+    </div>
+
+    <div class="catalog-body">
+        <div class="pill-row">
+            <span class="pill">Impresión</span>
+            <span class="pill">Desde</span>
+        </div>
+        <h3>Planilla de Stickers</h3>
+        <p>Calidad premium. Planilla de 150 x 140 cm ideal para etiquetas y decoración profesional.</p>
+        
+        <div class="price-selection-group">
+            <button type="button" class="option-btn" 
+                onclick="setStickers(this, 'Planilla 150*140CM', 350)" 
+                oncontextmenu="restarStickers(event, 'Planilla 150*140CM', this)">
+                Planilla 150*140CM <span>$350 MXN</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="cotizador-box">
+        <div id="resumen-stickers" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+
+        <div class="info-servicios">
+            <span class="tag-servicio">🎨 Diseño incluido</span>
+            <span class="tag-servicio">📦 Envía tu logo</span>
+        </div>
+
+        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppStickers()">
+            Cotizar por WhatsApp
+        </button>
+    </div>
+</article>
         </div> </div> </section> <div id="apartado-canvas" style="display: block !important; padding: 60px 0; background-color: var(--color-surface-offset); position: relative; z-index: 10;">
       <div class="container">
         <div class="section-head" style="text-align: left; margin-bottom: 40px;">
@@ -1088,11 +1242,12 @@ presencia comercial.   Precio publicado por pieza.</p>
             </div>
           </div>
 
-          <div class="faq-box" id="faq-box">
-            <button class="faq-head" type="button" aria-expanded="false">
-              <span>Preguntas frecuentes rápidas</span>
-              <span>+</span>
-            </button>
+      <div class="faq-box" id="faq-box">
+  <button class="faq-head" type="button" aria-expanded="false">
+    <span>Preguntas frecuentes rápidas</span>
+    <span>+</span>
+  </button>
+
             <div class="faq-body">
               <p><strong>¿Cómo pedir una cotización?</strong> Entra al botón de WhatsApp y envía el mensaje precargado.</p>
               <p style="margin-top: .75rem;"><strong>¿Los precios están publicados?</strong> La página deja el espacio para cotización personalizada cuando el producto depende de medidas, material o cantidad.</p>
