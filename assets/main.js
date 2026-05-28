@@ -465,33 +465,43 @@ function enviarWhatsAppPromo(id) {
         return;
     }
 
+    // 🔥 GUARDAR EN BASE DE DATOS
+    pedidoCajas.forEach(i => {
+        fetch('guardar_cotizacion.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `producto=${encodeURIComponent(i.nombre)}&precio=${i.precio}&cantidad=${i.cantidad}`
+        });
+    });
+
     let mensaje = "Hola BARAK, quiero cotizar las siguientes Cajas de Luz:%0A%0A";
+
     pedidoCajas.forEach((item) => {
         mensaje += `• ${item.nombre} x${item.cantidad} pieza(s)%0A`;
     });
-    mensaje += `%0A*Adjunto los detalles para mi pedido.*`;
+
+    mensaje += `%0A*Adjunto los detalles para mi pedido.* ✨`;
 
     const numeroTel = "5632971001"; 
     const url = `https://wa.me/${numeroTel}?text=${mensaje}`;
 
-    // 1. Intentamos abrir WhatsApp
+    // 📲 Abrir WhatsApp
     const nuevaVentana = window.open(url, '_blank');
 
-    // 2. EL TRUCO PARA "REGRESAR"
-    // Si la pestaña se abrió, le pedimos al navegador que regrese el foco a nuestra web
+    // 🔄 Regresar foco a tu web (truco UX)
     if (nuevaVentana) {
         setTimeout(() => {
-            window.focus(); // Esto intenta traer tu página al frente de nuevo
-        }, 1000); 
+            window.focus();
+        }, 1000);
     }
 
-    // 3. LIMPIEZA PARA SEGUIR NAVEGANDO
     pedidoCajas = []; 
+
     const resumen = document.getElementById('resumen-pedido');
     if (resumen) resumen.innerHTML = "";
-    document.querySelectorAll('.option-btn.selected').forEach(btn => {
-        btn.classList.remove('selected');
-    });
+
+    document.querySelectorAll('.option-btn.selected')
+    .forEach(btn => btn.classList.remove('selected'));
 }
 // Variable separada para Roll up
 let pedidoRollup = [];
@@ -541,13 +551,21 @@ function actualizarResumenRollup() {
         }
     }
 }
-
 // Función de WhatsApp para Roll up
 function enviarWhatsAppRollup(id) {
     if (pedidoRollup.length === 0) {
         alert("⚠️ Selecciona al menos una medida antes de cotizar.");
         return;
     }
+
+    // Guardar en base de datos
+    pedidoRollup.forEach(i => {
+        fetch('guardar_cotizacion.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `producto=${encodeURIComponent(i.nombre)}&precio=${i.precio}&cantidad=${i.cantidad}`
+        });
+    });
 
     let mensaje = "Hola BARAK, quiero cotizar los siguientes Roll ups exhibidores:%0A%0A";
     let granTotal = 0;
@@ -563,12 +581,12 @@ function enviarWhatsAppRollup(id) {
     const numeroTel = "5632971001"; 
     window.open(`https://wa.me/${numeroTel}?text=${mensaje}`, '_blank');
 
-    // Limpieza automática para BARAK (Opción de limpiar variables)
+    // 🔄 Limpiar después de enviar
     pedidoRollup = []; 
     actualizarResumenRollup();
-    document.querySelectorAll('#prod-rollup .option-btn.selected').forEach(btn => {
-        btn.classList.remove('selected');
-    });
+
+    document.querySelectorAll('#prod-rollup .option-btn.selected')
+    .forEach(btn => btn.classList.remove('selected'));
 }
 let pedidoStand = [];
 
@@ -610,6 +628,13 @@ function enviarWhatsAppStand(id) {
         alert("⚠️ Selecciona un tipo de Stand primero.");
         return;
     }
+    pedidoStand.forEach(i => {
+        fetch('guardar_cotizacion.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `producto=${i.nombre}&precio=${i.precio}&cantidad=${i.cantidad}`
+        });
+    });
 
     let mensaje = "Hola BARAK, quiero cotizar estos Stands de exhibición:%0A%0A";
     pedidoStand.forEach(i => mensaje += `• ${i.nombre} x${i.cantidad} pza(s)%0A`);
@@ -662,6 +687,13 @@ function enviarWhatsAppMarco(id) {
         alert("⚠️ Selecciona una medida de Marco primero.");
         return;
     }
+   pedidoMarco.forEach(i => {
+        fetch('guardar_cotizacion.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `producto=${i.nombre}&precio=${i.precio}&cantidad=${i.cantidad}`
+        });
+    });
 
     let mensaje = "Hola BARAK, quiero cotizar los siguientes Marcos de Luz:%0A%0A";
     pedidoMarco.forEach(i => mensaje += `• ${i.nombre} x${i.cantidad} pza(s)%0A`);
@@ -714,6 +746,14 @@ function enviarWhatsAppGiratoria(id) {
         alert("⚠️ Selecciona una medida primero.");
         return;
     }
+      pedidoGiratoria.forEach(i => {
+        fetch('guardar_cotizacion.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `producto=${i.nombre}&precio=${i.precio}&cantidad=${i.cantidad}`
+        });
+    });
+
 
     let mensaje = "Hola BARAK, quiero cotizar la Caja de luz giratoria:%0A%0A";
     pedidoGiratoria.forEach(i => mensaje += `• ${i.nombre} x${i.cantidad} pza(s)%0A`);
@@ -786,6 +826,16 @@ function enviarWhatsAppPoster() {
         return;
     }
 
+
+    // Guardar en base de datos
+    pedidoPoster.forEach(i => {
+        fetch('guardar_cotizacion.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `producto=${i.nombre}&precio=${i.precio}&cantidad=${i.cantidad}`
+        });
+    });
+
     let mensaje = "Hola BARAK, quiero cotizar el siguiente Display poster stand:%0A%0A";
     pedidoPoster.forEach(i => mensaje += `• ${i.nombre} x${i.cantidad} pza(s)%0A`);
     mensaje += `%0A*Adjunto los detalles para mi pedido.* ✨`;
@@ -804,19 +854,15 @@ function setCanvas(elemento, medida, precio) {
         pedidoCanvas[medida] = { cantidad: 0, precio: precio };
     }
     pedidoCanvas[medida].cantidad++;
-    
-    // Activa visualmente el botón
     elemento.classList.add('selected');
-    elemento.blur(); // Limpia bordes de enfoque del navegador
+    elemento.blur();
     actualizarResumenCanvas();
 }
 
 function restarCanvas(event, medida, elemento) {
-    event.preventDefault(); // Bloquea el menú del clic derecho
+    event.preventDefault();
     if (pedidoCanvas[medida] && pedidoCanvas[medida].cantidad > 0) {
         pedidoCanvas[medida].cantidad--;
-        
-        // Si llega a 0 piezas, quitamos el color rosa del botón
         if (pedidoCanvas[medida].cantidad === 0) {
             elemento.classList.remove('selected');
         }
@@ -843,19 +889,24 @@ function actualizarResumenCanvas() {
         resumenDiv.innerHTML = "";
     }
 }
+
 function enviarWhatsAppCanvas() {
-    // Sustituye por tu número de WhatsApp de BARAK
     const telefono = "5632971001"; 
-    let mensaje = "¡Hola! Me interesan los siguientes Cuadros Canvas:\n\n";
+    let mensaje = "¡Hola! Me interesan los siguientes Cuadros Canvas Rectangulares:\n\n";
     let tieneProductos = false;
     let totalPiezasGlobal = 0;
 
-    // Recorremos el pedido para listar cada medida y sumar el total
     for (let medida in pedidoCanvas) {
         if (pedidoCanvas[medida].cantidad > 0) {
             mensaje += `- ${medida}: ${pedidoCanvas[medida].cantidad} pieza(s)\n`;
             totalPiezasGlobal += pedidoCanvas[medida].cantidad;
             tieneProductos = true;
+
+            fetch('guardar_cotizacion.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `producto=${encodeURIComponent(medida)}&precio=${pedidoCanvas[medida].precio}&cantidad=${pedidoCanvas[medida].cantidad}`
+            });
         }
     }
 
@@ -864,12 +915,10 @@ function enviarWhatsAppCanvas() {
         return;
     }
 
-    // Agregamos el total de piezas y el cierre igual a tus otras tarjetas
     mensaje += `\n📦 Total de piezas: ${totalPiezasGlobal}`;
     mensaje += "\n\n¿Me podrían dar más información?";
 
-    const url = `https://wa.me/${5632971001}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, '_blank');
+    window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 let pedidoCuadrado = {};
 
@@ -878,19 +927,17 @@ function setCanvasCuadrado(elemento, medida, precio) {
         pedidoCuadrado[medida] = { cantidad: 0, precio: precio };
     }
     pedidoCuadrado[medida].cantidad++;
-    
-    elemento.classList.add('selected'); // Activa el color rosa
-    elemento.blur(); // Quita el borde de foco del navegador
+    elemento.classList.add('selected');
+    elemento.blur();
     actualizarResumenCuadrado();
 }
 
 function restarCanvasCuadrado(event, medida, elemento) {
-    event.preventDefault(); // Bloquea el menú derecho
+    event.preventDefault();
     if (pedidoCuadrado[medida] && pedidoCuadrado[medida].cantidad > 0) {
         pedidoCuadrado[medida].cantidad--;
-        
         if (pedidoCuadrado[medida].cantidad === 0) {
-            elemento.classList.remove('selected'); // Quita el color al llegar a 0
+            elemento.classList.remove('selected');
         }
     }
     elemento.blur();
@@ -923,6 +970,12 @@ function enviarWhatsAppCuadrado() {
             mensaje += `- ${m}: ${pedidoCuadrado[m].cantidad} pieza(s)\n`;
             totalPiezas += pedidoCuadrado[m].cantidad;
             tieneProductos = true;
+
+            fetch('guardar_cotizacion.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `producto=${encodeURIComponent(m)}&precio=${pedidoCuadrado[m].precio}&cantidad=${pedidoCuadrado[m].cantidad}`
+            });
         }
     }
 
@@ -932,7 +985,7 @@ function enviarWhatsAppCuadrado() {
     }
 
     mensaje += `\n📦 Total de piezas: ${totalPiezas}\n\n¿Me podrían dar más información?`;
-    window.open(`https://wa.me/${5632971001}?text=${encodeURIComponent(mensaje)}`, '_blank');
+    window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 // --- SECCIÓN DE GORRAS BARAK ---
 let pedidoGorra = { cantidad: 0, precio: 100 };
@@ -971,6 +1024,13 @@ function enviarWhatsAppGorra() {
         return;
     }
 
+    // Guardar en base de datos
+    fetch('guardar_cotizacion.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `producto=Gorra personalizada&precio=100&cantidad=${pedidoGorra.cantidad}`
+    });
+
     let mensaje = "¡Hola! Me interesa cotizar gorras personalizadas:\n\n";
     mensaje += `- Producto: Gorra con bordado chico\n`;
     mensaje += `- Cantidad: ${pedidoGorra.cantidad} pieza(s)\n`;
@@ -979,7 +1039,8 @@ function enviarWhatsAppGorra() {
     mensaje += "¿Me podrían cotizar con el logo que les voy a enviar?";
 
     window.open(`https://wa.me/5632971001?text=${encodeURIComponent(mensaje)}`, '_blank');
-    resetearTodoBarak(); // Limpia al terminar
+    resetearTodoBarak();
+}
 // FUNCIÓN QUE BORRA TODO EL RASTRO ROSA
 function resetearTodoBarak() {
     pedidoGorra.cantidad = 0;
@@ -1004,7 +1065,7 @@ window.onfocus = function() {
     resetearTodoBarak();
 };
     
-}
+
 let pedidoTaza = { cantidad: 0, precio: 55 };
 
 function setTaza(elemento, nombre, precio) {
@@ -1043,12 +1104,19 @@ function enviarWhatsAppTaza() {
         return;
     }
 
+    // Guardar en base de datos
+    fetch('guardar_cotizacion.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `producto=Taza Blanca&precio=55&cantidad=${pedidoTaza.cantidad}`
+    });
+
     let mensaje = "¡Hola! Me interesa cotizar tazas blancas personalizadas:\n\n";
     mensaje += `- Cantidad: ${pedidoTaza.cantidad} pieza(s)\n`;
     mensaje += `\n📦 Total de piezas: ${pedidoTaza.cantidad}`;
     mensaje += "\n\nEl diseño que quiero es: [ESCRIBE AQUÍ SI ES FOTO O LOGO]";
 
-    // Abrimos WhatsApp (corregido el formato del número)
+    // Abrimos WhatsApp
     window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
 
     // Llamamos a la limpieza maestra de inmediato
@@ -1112,6 +1180,13 @@ function enviarWhatsAppStickers() {
         return;
     }
 
+    // Guardar en base de datos
+    fetch('guardar_cotizacion.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `producto=Planilla 150*140CM&precio=350&cantidad=${pedidoStickers.cantidad}`
+    });
+
     // Mensaje completo con diseño y logo incluido
     let mensaje = "¡Hola! Me interesa cotizar planillas de stickers:\n\n";
     mensaje += `✅ Producto: Planilla 150x140cm\n`;
@@ -1167,6 +1242,13 @@ function enviarWhatsAppLona() {
         return;
     }
 
+    // Guardar en base de datos
+    fetch('guardar_cotizacion.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `producto=Lona Impresa x M2&precio=85&cantidad=${pedidoLona.cantidad}`
+    });
+
     let mensaje = "¡Hola BARAK! Me interesa cotizar lona gran formato:\n\n";
     mensaje += `✅ Producto: Lona Impresa x M2\n`;
     mensaje += `📏 Cantidad: ${pedidoLona.cantidad} metro(s) cuadrado(s)\n`;
@@ -1174,7 +1256,7 @@ function enviarWhatsAppLona() {
     mensaje += `🎨 El diseño que quiero es: [Escribe aquí si es foto o logo]\n`;
     mensaje += `📩 Envío mi archivo por este medio.`;
 
-    window.open(`https://wa.me/5630145944?text=${encodeURIComponent(mensaje)}`, '_blank');
+    window.open(`https://wa.me/5632971001?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 // 1. Variable para el pedido
 let pedidoVinil = { cantidad: 0, precio: 95 };
@@ -1212,12 +1294,18 @@ function actualizarResumenVinil() {
     }
 }
 
-// 5. WhatsApp de BARAK
 function enviarWhatsAppVinil() {
     if (pedidoVinil.cantidad === 0) {
         alert("Por favor, selecciona los metros cuadrados de vinil.");
         return;
     }
+
+    // Guardar en base de datos
+    fetch('guardar_cotizacion.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `producto=Vinil Adhesivo x M2&precio=95&cantidad=${pedidoVinil.cantidad}`
+    });
 
     let mensaje = "¡Hola BARAK! Me interesa cotizar vinil adhesivo:\n\n";
     mensaje += `✅ Producto: Vinil Adhesivo x M2\n`;
@@ -1226,7 +1314,7 @@ function enviarWhatsAppVinil() {
     mensaje += `🎨 El diseño que quiero es: [Escribir aquí]\n`;
     mensaje += `📩 Envío mi archivo para revisión.`;
 
-    window.open(`https://wa.me/5630145944?text=${encodeURIComponent(mensaje)}`, '_blank');
+    window.open(`https://wa.me/5632971001?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 // 1. Variable para el pedido
 let pedidoCorteVinil = { cantidad: 0, precio: 95 };
@@ -1264,12 +1352,18 @@ function actualizarResumenCorteVinil() {
     }
 }
 
-// 5. WhatsApp de BARAK (Cálculo automático)
 function enviarWhatsAppCorteVinil() {
     if (pedidoCorteVinil.cantidad === 0) {
         alert("Por favor, selecciona los metros cuadrados para el corte de vinil.");
         return;
     }
+
+    // Guardar en base de datos
+    fetch('guardar_cotizacion.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `producto=Corte de Vinil x M2&precio=95&cantidad=${pedidoCorteVinil.cantidad}`
+    });
 
     let mensaje = "¡Hola BARAK! Me interesa cotizar corte de vinil:\n\n";
     mensaje += `✅ Producto: Corte de Vinil (Plotter)\n`;
@@ -1278,8 +1372,9 @@ function enviarWhatsAppCorteVinil() {
     mensaje += `🎨 El logo/letras que quiero son: [Escribir aquí]\n`;
     mensaje += `📩 Envío mi archivo vectorizado para cotizar.`;
 
-    window.open(`https://wa.me/5630145944?text=${encodeURIComponent(mensaje)}`, '_blank');
+    window.open(`https://wa.me/5632971001?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
+
 // 1. Variable para el pedido
 let pedidoXBanner = { cantidad: 0, precio: 600 };
 
@@ -1316,12 +1411,18 @@ function actualizarResumenXBanner() {
     }
 }
 
-// 5. WhatsApp de BARAK
 function enviarWhatsAppXBanner() {
     if (pedidoXBanner.cantidad === 0) {
         alert("Por favor, selecciona al menos una estructura de X-Banner.");
         return;
     }
+
+    // Guardar en base de datos
+    fetch('guardar_cotizacion.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `producto=X-Banner Base Agua&precio=600&cantidad=${pedidoXBanner.cantidad}`
+    });
 
     let mensaje = "¡Hola BARAK! Me interesa la estructura de X-Banner:\n\n";
     mensaje += `✅ Producto: X-Banner con base de agua\n`;
@@ -1329,7 +1430,7 @@ function enviarWhatsAppXBanner() {
     mensaje += `💰 Total estimado: $${pedidoXBanner.cantidad * 600} MXN\n\n`;
     mensaje += `💬 ¿Me podrían confirmar disponibilidad y tiempo de entrega?`;
 
-    window.open(`https://wa.me/5630145944?text=${encodeURIComponent(mensaje)}`, '_blank');
+    window.open(`https://wa.me/5632971001?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 // 1. Variable para el pedido
 let pedidoBannerX = { cantidad: 0, precio: 350 };
@@ -1367,12 +1468,18 @@ function actualizarResumenBannerX() {
     }
 }
 
-// 5. WhatsApp automático para BARAK
 function enviarWhatsAppBannerX() {
     if (pedidoBannerX.cantidad === 0) {
         alert("Por favor, selecciona cuántos Banner X necesitas.");
         return;
     }
+
+    // NUEVO: Guardar en base de datos
+    fetch('guardar_cotizacion.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `producto=Banner X Economico&precio=350&cantidad=${pedidoBannerX.cantidad}`
+    });
 
     let mensaje = "¡Hola BARAK! Me interesa la estructura económica de Banner X:\n\n";
     mensaje += `✅ Producto: Banner X (Económico)\n`;
@@ -1380,5 +1487,5 @@ function enviarWhatsAppBannerX() {
     mensaje += `💰 Total estimado: $${pedidoBannerX.cantidad * 350} MXN\n\n`;
     mensaje += `💬 ¿Tienen entrega inmediata? Quedo atento.`;
 
-    window.open(`https://wa.me/5630145944?text=${encodeURIComponent(mensaje)}`, '_blank');
+    window.open(`https://wa.me/5632971001?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
