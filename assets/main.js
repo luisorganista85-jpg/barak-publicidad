@@ -414,7 +414,7 @@ function enviarWhatsApp(tipo) {
     
     const mensaje = `Hola BARAK, me interesa un Cuadro Canvas ${textoTipo}:%0A- *Medida:* ${medidaFinal}%0A- *Servicio:* ${servicio}${mensajeArchivo}`;
     
-    window.open(`https://wa.me/5632971001?text=${mensaje}`, '_blank');
+   window.open(`https://wa.me/${TELEFONO_BARAK}?text=${mensaje}`, '_blank');
 }
 let pedidoCajas = [];
 
@@ -482,7 +482,7 @@ function enviarWhatsAppPromo(id) {
 
     mensaje += `%0A*Adjunto los detalles para mi pedido.* ✨`;
 
-    const numeroTel = "5632971001"; 
+    const numeroTel = TELEFONO_BARAK;
     const url = `https://wa.me/${numeroTel}?text=${mensaje}`;
 
     // 📲 Abrir WhatsApp
@@ -578,7 +578,7 @@ function enviarWhatsAppRollup(id) {
 
     mensaje += `%0A*TOTAL ESTIMADO: $${granTotal} MXN*%0A%0A*Adjunto los detalles para mi pedido.* ✨`;
 
-    const numeroTel = "5632971001"; 
+    const numeroTel = TELEFONO_BARAK;
     window.open(`https://wa.me/${numeroTel}?text=${mensaje}`, '_blank');
 
     // 🔄 Limpiar después de enviar
@@ -640,7 +640,7 @@ function enviarWhatsAppStand(id) {
     pedidoStand.forEach(i => mensaje += `• ${i.nombre} x${i.cantidad} pza(s)%0A`);
     mensaje += `%0A*Adjunto los detalles para mi pedido.* ✨`;
 
-    window.open(`https://wa.me/5632971001?text=${mensaje}`, '_blank');
+    window.open(`https://wa.me/${TELEFONO_BARAK}?text=${mensaje}`, '_blank');
 
     // Limpiamos todo para que el cliente siga navegando en BARAK
     pedidoStand = [];
@@ -698,8 +698,7 @@ function enviarWhatsAppMarco(id) {
     let mensaje = "Hola BARAK, quiero cotizar los siguientes Marcos de Luz:%0A%0A";
     pedidoMarco.forEach(i => mensaje += `• ${i.nombre} x${i.cantidad} pza(s)%0A`);
     mensaje += `%0A*Adjunto los detalles para mi pedido.* ✨`;
-
-    window.open(`https://wa.me/5632971001?text=${mensaje}`, '_blank');
+window.open(`https://wa.me/${TELEFONO_BARAK}?text=${mensaje}`, '_blank');
 
     // Resetear para seguir navegando
     pedidoMarco = [];
@@ -759,7 +758,7 @@ function enviarWhatsAppGiratoria(id) {
     pedidoGiratoria.forEach(i => mensaje += `• ${i.nombre} x${i.cantidad} pza(s)%0A`);
     mensaje += `%0A*Adjunto los detalles para mi pedido.* ✨`;
 
-    window.open(`https://wa.me/5632971001?text=${mensaje}`, '_blank');
+    window.open(`https://wa.me/${TELEFONO_BARAK}?text=${mensaje}`, '_blank');
 
     // Limpieza automática para seguir navegando
     pedidoGiratoria = [];
@@ -840,8 +839,7 @@ function enviarWhatsAppPoster() {
     pedidoPoster.forEach(i => mensaje += `• ${i.nombre} x${i.cantidad} pza(s)%0A`);
     mensaje += `%0A*Adjunto los detalles para mi pedido.* ✨`;
 
-    window.open(`https://wa.me/5632971001?text=${mensaje}`, '_blank');
-
+    window.open(`https://wa.me/${TELEFONO_BARAK}?text=${mensaje}`, '_blank');
     // Limpieza total
     pedidoPoster = [];
     actualizarResumenPoster();
@@ -891,7 +889,7 @@ function actualizarResumenCanvas() {
 }
 
 function enviarWhatsAppCanvas() {
-    const telefono = "5632971001"; 
+    const telefono = TELEFONO_BARAK;
     let mensaje = "¡Hola! Me interesan los siguientes Cuadros Canvas Rectangulares:\n\n";
     let tieneProductos = false;
     let totalPiezasGlobal = 0;
@@ -960,7 +958,7 @@ function actualizarResumenCuadrado() {
 }
 
 function enviarWhatsAppCuadrado() {
-    const telefono = "5632971001"; 
+    const telefono = TELEFONO_BARAK;
     let mensaje = "¡Hola! Me interesan los siguientes Cuadros Canvas Cuadrados:\n\n";
     let tieneProductos = false;
     let totalPiezas = 0;
@@ -1038,7 +1036,7 @@ function enviarWhatsAppGorra() {
     mensaje += "\n\nEl color que elegí es: [ESCRIBE EL COLOR]\n";
     mensaje += "¿Me podrían cotizar con el logo que les voy a enviar?";
 
-    window.open(`https://wa.me/5632971001?text=${encodeURIComponent(mensaje)}`, '_blank');
+    window.open(`https://wa.me/${TELEFONO_BARAK}?text=${encodeURIComponent(mensaje)}`, '_blank');
     resetearTodoBarak();
 }
 // FUNCIÓN QUE BORRA TODO EL RASTRO ROSA
@@ -1097,8 +1095,7 @@ function actualizarResumenTaza() {
 }
 
 function enviarWhatsAppTaza() {
-    const telefono = "5632971001"; 
-    
+    const telefono = TELEFONO_BARAK;
     if (pedidoTaza.cantidad === 0) {
         alert("Por favor, selecciona al menos una taza.");
         return;
@@ -1117,7 +1114,7 @@ function enviarWhatsAppTaza() {
     mensaje += "\n\nEl diseño que quiero es: [ESCRIBE AQUÍ SI ES FOTO O LOGO]";
 
     // Abrimos WhatsApp
-    window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
+    window.open(`https://wa.me/${TELEFONO_BARAK}?text=${encodeURIComponent(mensaje)}`, '_blank');
 
     // Llamamos a la limpieza maestra de inmediato
     resetearTodoBarak();
@@ -1194,7 +1191,7 @@ function enviarWhatsAppStickers() {
     mensaje += `🎨 El diseño que quiero es: [Escribe aquí si es foto o logo]\n`;
     mensaje += `📩 Ya cuento con mi archivo de logo listo para enviar.`;
 
-    window.open(`https://wa.me/5632971001?text=${encodeURIComponent(mensaje)}`, '_blank');
+    window.open(`https://wa.me/${TELEFONO_BARAK}?text=${encodeURIComponent(mensaje)}`, '_blank');
     
     // Limpia la selección para que no se quede rosa al regresar
     resetearTodoBarak(); 
@@ -1256,7 +1253,7 @@ function enviarWhatsAppLona() {
     mensaje += `🎨 El diseño que quiero es: [Escribe aquí si es foto o logo]\n`;
     mensaje += `📩 Envío mi archivo por este medio.`;
 
-    window.open(`https://wa.me/5632971001?text=${encodeURIComponent(mensaje)}`, '_blank');
+    window.open(`https://wa.me/${TELEFONO_BARAK}?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 // 1. Variable para el pedido
 let pedidoVinil = { cantidad: 0, precio: 95 };
@@ -1314,7 +1311,7 @@ function enviarWhatsAppVinil() {
     mensaje += `🎨 El diseño que quiero es: [Escribir aquí]\n`;
     mensaje += `📩 Envío mi archivo para revisión.`;
 
-    window.open(`https://wa.me/5632971001?text=${encodeURIComponent(mensaje)}`, '_blank');
+    window.open(`https://wa.me/${TELEFONO_BARAK}?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 // 1. Variable para el pedido
 let pedidoCorteVinil = { cantidad: 0, precio: 95 };
@@ -1372,7 +1369,7 @@ function enviarWhatsAppCorteVinil() {
     mensaje += `🎨 El logo/letras que quiero son: [Escribir aquí]\n`;
     mensaje += `📩 Envío mi archivo vectorizado para cotizar.`;
 
-    window.open(`https://wa.me/5632971001?text=${encodeURIComponent(mensaje)}`, '_blank');
+    window.open(`https://wa.me/${TELEFONO_BARAK}?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 
 // 1. Variable para el pedido
@@ -1430,7 +1427,7 @@ function enviarWhatsAppXBanner() {
     mensaje += `💰 Total estimado: $${pedidoXBanner.cantidad * 600} MXN\n\n`;
     mensaje += `💬 ¿Me podrían confirmar disponibilidad y tiempo de entrega?`;
 
-    window.open(`https://wa.me/5632971001?text=${encodeURIComponent(mensaje)}`, '_blank');
+    window.open(`https://wa.me/${TELEFONO_BARAK}?text=${mensaje}`, '_blank');
 }
 // 1. Variable para el pedido
 let pedidoBannerX = { cantidad: 0, precio: 350 };
@@ -1487,5 +1484,5 @@ function enviarWhatsAppBannerX() {
     mensaje += `💰 Total estimado: $${pedidoBannerX.cantidad * 350} MXN\n\n`;
     mensaje += `💬 ¿Tienen entrega inmediata? Quedo atento.`;
 
-    window.open(`https://wa.me/5632971001?text=${encodeURIComponent(mensaje)}`, '_blank');
+   window.open(`https://wa.me/${TELEFONO_BARAK}?text=${mensaje}`, '_blank');
 }

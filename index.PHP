@@ -1,4 +1,20 @@
+<?php
 
+include("config/conexion.php");
+
+$resultadoConfig = mysqli_query(
+    $conexion,
+    "SELECT * FROM configuracion WHERE id='1'"
+);
+
+$config = mysqli_fetch_array($resultadoConfig);
+
+$whatsapp = $config['whatsapp'];
+$facebook = $config['facebook'];
+$correo   = $config['correo'];
+$horario  = $config['horario'];
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -35,7 +51,7 @@
         <div class="nav-links" id="main-menu">
           <a href="#quienes-somos">Nosotros</a>
           <a href="#catalogo">Catálogo</a>
-        <a href="#apartado-canvas">Canvas</a>
+          <a href="#apartado-canvas">Canvas</a>
           <a href="#referencias">Referencias</a>
           <a href="#galeria">Galería</a>
           <a href="#contacto">Contacto</a>
@@ -48,67 +64,54 @@
   </header>
   <div class="category-carousel-wrapper" data-reveal>
   <div class="category-carousel">
-    
     <a href="#prod-stands" class="carousel-item">
       <div class="item-img-wrapper"><img src="./img/stand.png" alt="Stands"></div>
       <span>Stands</span>
     </a>
-
     <a href="#prod-rollup" class="carousel-item">
       <div class="item-img-wrapper"><img src="./img/roll-up.png" alt="Roll ups"></div>
       <span>Roll ups</span>
     </a>
-
     <a href="#prod-cajaluz" class="carousel-item">
       <div class="item-img-wrapper"><img src="./img/caja-luz-redonda.png" alt="Cajas de luz"></div>
       <span>Cajas Luz</span>
     </a>
-
     <a href="#prod-cajagiratoria" class="carousel-item">
       <div class="item-img-wrapper"><img src="./img/caja-luz-giratoria.png" alt="Caja Giratoria"></div>
       <span>Luz Giratoria</span>
     </a>
-
     <a href="#prod-marcoluz" class="carousel-item">
       <div class="item-img-wrapper"><img src="./img/marco-luz.png" alt="Marco de luz"></div>
       <span>Marco Luz</span>
     </a>
-
     <a href="#prod-xbanner" class="carousel-item">
       <div class="item-img-wrapper"><img src="./img/x-banner-base-agua.jpg" alt="X-Banner"></div>
       <span>X-Banner</span>
     </a>
-
     <a href="#prod-bannerx" class="carousel-item">
       <div class="item-img-wrapper"><img src="./img/banner.png" alt="Banners"></div>
       <span>Banner X</span>
     </a>
-
     <a href="#prod-poster" class="carousel-item">
       <div class="item-img-wrapper"><img src="./img/display-poster-stand.jpg" alt="Poster Stand"></div>
       <span>Poster Stand</span>
     </a>
-
     <a href="#prod-tazas" class="carousel-item">
       <div class="item-img-wrapper"><img src="./img/taza-blanca.jpeg" alt="Tazas"></div>
       <span>Tazas</span>
     </a>
-
     <a href="#prod-gorras" class="carousel-item">
       <div class="item-img-wrapper"><img src="./img/gorras.jpg" alt="Gorras"></div>
       <span>Gorras</span>
     </a>
-
     <a href="#apartado-canvas" class="carousel-item">
       <div class="item-img-wrapper"><img src="./img/cuadros-estrellados.jpg" alt="Canvas"></div>
       <span>Canvas</span>
     </a>
-
     <a href="#prod-lona" class="carousel-item">
       <div class="item-img-wrapper"><img src="./img/impresion1.jpg" alt="Impresión"></div>
       <span>Impresión</span>
     </a>
-
   </div>
 </div>
 <main id="contenido">
@@ -118,12 +121,12 @@
         <span class="eyebrow">Impulsa tu marca</span>
         <h1>Publicidad e impresión para que tu negocio se vea profesional desde el primer vistazo.</h1>
         <p>Diseñamos una experiencia clara y visual para presentar soluciones de impresión, materiales promocionales y recursos publicitarios que ayuden a comunicar mejor tu marca y facilitar la cotización inmediata.</p>
-        
         <div class="hero-actions">
-          <a class="btn btn-primary wa-link" href="https://wa.me/5632971001?text=Hola..." target="_blank">Cotizar por WhatsApp</a>
+          <!-- ✅ NÚMERO DINÁMICO -->
+          <a class="btn btn-primary wa-link" href="https://wa.me/<?php echo $whatsapp; ?>?text=Hola..." target="_blank">Cotizar por WhatsApp</a>
           <a class="btn btn-secondary" href="#catalogo">Conoce nuestros servicios</a>
         </div>
-          <div class="hero-points hide-mobile">
+        <div class="hero-points hide-mobile">
           <div>
             <strong>Catálogo claro</strong>
             <p>Servicios organizados por categorías para recorrerlos rápido.</p>
@@ -160,7 +163,6 @@
           <span class="eyebrow">Nuestro trabajo</span>
           <h2>Conoce todos nuestros productos.</h2>
         </div>
-
         <div class="bv-screen" id="bvScreen" onclick="bvTogglePlay()">
           <div class="bv-slide active" data-title="Playeras personalizadas" data-sub="Sublimación · Uniformes · Eventos">
             <img src="./img/playera.jpg" alt="Playeras" loading="lazy">
@@ -194,12 +196,10 @@
             <img src="./img/productos.png" alt="Productos" loading="lazy">
             <div class="bv-grad"></div>
           </div>
-
           <div class="bv-caption">
             <h3 id="bvTitle">Playeras personalizadas</h3>
             <p id="bvSub">Sublimación · Uniformes · Eventos</p>
           </div>
-
           <div class="bv-controls">
             <button class="bv-pbtn" id="bvPBtn" onclick="bvTogglePlay()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" id="bvIcon"><path d="M8 5v14l11-7z"/></svg></button>
             <div class="bv-timeline"><div class="bv-fill" id="bvFill"></div></div>
@@ -212,13 +212,14 @@
               </svg>
             </button>
           </div>
-
           <audio id="bvAudio" loop muted playsinline>
             <source src="./assets/musica.mp3" type="audio/mpeg">
           </audio>
         </div>
         <div class="bv-dots" id="bvDots"></div>
-      </div> </div> </section>
+      </div>
+    </div>
+  </section>
 </main>
 
     <section class="section" id="quienes-somos">
@@ -229,7 +230,6 @@
           <p style="margin-top: 1rem;">Barak Publicidad & Marketing se presenta como una propuesta orientada a impulsar la imagen de negocios, marcas y eventos con materiales publicitarios e impresos de forma clara, práctica y visual.</p>
           <p style="margin-top: .9rem;">El enfoque de esta landing está pensado para mostrar catálogo, generar confianza y llevar al visitante a una conversación inmediata por WhatsApp con una cotización personalizada.</p>
         </div>
-
         <div class="panel" data-reveal>
           <h3>Qué comunica esta página</h3>
           <div class="feature-list">
@@ -261,957 +261,442 @@
         <div class="section-head" data-reveal>
           <span class="eyebrow">Catálogo</span>
           <h2>Productos y soluciones visuales con precios públicos de referencia.</h2>
-          <p>
-            Explora opciones de exhibición, promocionales e impresión para negocio, eventos y marca.
-            Si necesitas personalización, mayoreo o medidas especiales, contáctanos por WhatsApp.
-          </p>
+          <p>Explora opciones de exhibición, promocionales e impresión para negocio, eventos y marca. Si necesitas personalización, mayoreo o medidas especiales, contáctanos por WhatsApp.</p>
         </div>
-
         <div class="catalog-tabs" data-reveal>
           <button class="tab-btn active" data-filter="todos">Todos</button>
           <button class="tab-btn" data-filter="impresion">Impresión</button>
           <button class="tab-btn" data-filter="promocionales">Promocionales</button>
           <button class="tab-btn" data-filter="cuadros">Cuadros</button>
-          
         </div>
 
         <div class="catalog-grid">
           <article class="catalog-card" id="prod-stands" data-category="eventos" data-reveal>
-            <div class="catalog-media ">
-              <img
-                src="./img/stand.png"
-                alt="Stand aluminio y stand PVC"
-                class="catalog-image"
-                loading="lazy"
-                width="1200"
-                height="900"
-              />
-            </div>
+            <div class="catalog-media"><img src="./img/stand.png" alt="Stand aluminio y stand PVC" class="catalog-image" loading="lazy" width="1200" height="900"/></div>
             <div class="catalog-body">
-              <div class="pill-row">
-                <span class="pill">promocionales</span>
-                <span class="pill">Precio público</span>
-              </div>
+              <div class="pill-row"><span class="pill">promocionales</span><span class="pill">Precio público</span></div>
               <h3>Stand aluminio / PVC</h3>
               <p>Soluciones para exhibición, activaciones, exposiciones y presencia visual profesional para negocio o evento.</p>
-               <p class="leyenda-pieza">* Precio por estructura e impresión básica.</p>
+              <p class="leyenda-pieza">* Precio por estructura e impresión básica.</p>
               <div class="price-selection-group">
-            <button type="button" class="option-btn" 
-                onclick="setPromoStand(this, 'Stand Aluminio', 1750)" 
-                oncontextmenu="restarPromoStand(event, 'Stand Aluminio')">
-                Stand aluminio <span>$1,750 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setPromoStand(this, 'Stand PVC', 1700)" 
-                oncontextmenu="restarPromoStand(event, 'Stand PVC')">
-                Stand PVC <span>$1,700 MXN</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="cotizador-box">
-        <div id="resumen-pedido-stand" style="text-align: center; font-size: 11px; font-weight: 800; color: var(--color-primary); margin: 10px 0;">
-        </div>
-
-        <div class="info-servicios">
-            <span class="tag-servicio">🎨 Diseño personalizado</span>
-            <span class="tag-servicio">📲 Envía tu logo</span>
-              <span class="tag-servicio">📏 consulta tus medias
-              </span>
-        </div>
-
-        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppStand('stand')">
-            Cotizar por WhatsApp
-        </button>
-    </div>
-</article>
+                <button type="button" class="option-btn" onclick="setPromoStand(this, 'Stand Aluminio', 1750)" oncontextmenu="restarPromoStand(event, 'Stand Aluminio')">Stand aluminio <span>$1,750 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setPromoStand(this, 'Stand PVC', 1700)" oncontextmenu="restarPromoStand(event, 'Stand PVC')">Stand PVC <span>$1,700 MXN</span></button>
+              </div>
+            </div>
+            <div class="cotizador-box">
+              <div id="resumen-pedido-stand" style="text-align: center; font-size: 11px; font-weight: 800; color: var(--color-primary); margin: 10px 0;"></div>
+              <div class="info-servicios">
+                <span class="tag-servicio">🎨 Diseño personalizado</span>
+                <span class="tag-servicio">📲 Envía tu logo</span>
+                <span class="tag-servicio">📏 consulta tus medidas</span>
+              </div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppStand('stand')">Cotizar por WhatsApp</button>
+            </div>
+          </article>
 
           <article class="catalog-card" id="prod-rollup" data-category="promocionales" data-reveal>
-            <div class="catalog-media ">
-              <img
-                src="./img/roll-up.png"
-                alt="Roll up publicitario"
-                class="catalog-image"
-                loading="lazy"
-                width="1200"
-                height="900"
-              />
-            </div>
+            <div class="catalog-media"><img src="./img/roll-up.png" alt="Roll up publicitario" class="catalog-image" loading="lazy" width="1200" height="900"/></div>
             <div class="catalog-body">
-              <div class="pill-row">
-                <span class="pill">promocionales</span>
-                <span class="pill">Desde</span>
-              </div>
+              <div class="pill-row"><span class="pill">promocionales</span><span class="pill">Desde</span></div>
               <h3>Roll up</h3>
               <p>Exhibidor portátil ideal para promociones, puntos de venta, ferias y presentaciones comerciales.</p>
-               <p class="leyenda-pieza">* Precio publicado por estructura e impresión.</p>
+              <p class="leyenda-pieza">* Precio publicado por estructura e impresión.</p>
               <div class="price-selection-group">
-            <button type="button" class="option-btn" 
-                onclick="setPromoRollup(this, 'Roll up 80x200', 1100)" 
-                oncontextmenu="restarPromoRollup(event, 'Roll up 80x200')">
-                80x200 <span>$1,100 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setPromoRollup(this, 'Roll up 85x200', 1200)" 
-                oncontextmenu="restarPromoRollup(event, 'Roll up 85x200')">
-                85x200 <span>$1,200 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setPromoRollup(this, 'Roll up Doble 85x200', 1900)" 
-                oncontextmenu="restarPromoRollup(event, 'Roll up Doble 85x200')">
-                Doble 85x200 <span>$1,900 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setPromoRollup(this, 'Roll up Doble 120x200', 2100)" 
-                oncontextmenu="restarPromoRollup(event, 'Roll up Doble 120x200')">
-                Doble 120x200 <span>$2,100 MXN</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="cotizador-box">
-        <div id="resumen-pedido-rollup" style="text-align: center; font-size: 11px; font-weight: 800; color: var(--color-primary); margin: 10px 0;">
-        </div>
-
-        <div class="info-servicios">
-            <span class="tag-servicio">🎨 Diseño personalizado</span>
-            <span class="tag-servicio">📲 Envía tu logo</span>
-        </div>
-
-        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppRollup('rollup')">
-            Cotizar por WhatsApp
-        </button>
-    </div>
-</article>
-      <article class="catalog-card" id="prod-cajaluz" data-category="promocionales" data-reveal>
-    <div class="catalog-media">
-        <img
-            src="./img/caja-luz-redonda.png"
-            alt="Caja de luz redonda"
-            class="catalog-image"
-            loading="lazy"
-        />
-    </div> 
-    
-    <div class="catalog-body">
-        <div class="pill-row">
-            <span class="pill">promocionales</span>
-            <span class="pill">Desde</span>
-        </div>
-        <h3>Caja de luz redonda</h3>
-        <p class="leyenda-pieza">*Formato visual iluminado para
-destacar promociones, identidad y
-presencia comercial.   Precio publicado por pieza.</p>
-        
-        <div class="price-selection-group">
-    <button type="button" class="option-btn" 
-        onclick="setPromo(this, 'Caja Luz 50cm', 1100)" 
-        oncontextmenu="restarPromo(event, 'Caja Luz 50cm')">
-        50 cm <span>$1,100 MXN</span>
-    </button>
-
-    <button type="button" class="option-btn" 
-        onclick="setPromo(this, 'Caja Luz 60cm', 1300)" 
-        oncontextmenu="restarPromo(event, 'Caja Luz 60cm')">
-        60 cm <span>$1,300 MXN</span>
-    </button>
-
-    <button type="button" class="option-btn" 
-        onclick="setPromo(this, 'Caja Luz 80cm', 1800)" 
-        oncontextmenu="restarPromo(event, 'Caja Luz 80cm')">
-        80 cm <span>$1,800 MXN</span>
-    </button>
-
-    <button type="button" class="option-btn" 
-        onclick="setPromo(this, 'Caja Luz 100cm', 2600)" 
-        oncontextmenu="restarPromo(event, 'Caja Luz 100cm')">
-        100 cm <span>$2,600 MXN</span>
-    </button>
-</div>
-    </div>
-
-    <div class="cotizador-box">
-       <div id="resumen-pedido" style="text-align: center; font-size: 11px; font-weight: 800; color: var(--color-primary); margin: 10px 0;">
-    </div>
-        <div class="info-servicios">
-            <span class="tag-servicio">🎨 Diseño personalizado</span>
-            <span class="tag-servicio">📲 Envía tu logo</span>
-        </div>
-
-        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppPromo('cajaluz')">
-            Cotizar por WhatsApp
-        </button>
-    </div>
-</article>
-         <article class="catalog-card" id="prod-marcoluz" data-category="promocionales" data-reveal>
-            <div class="catalog-media">
-              <img
-                src="./img/marco-luz.png"
-                alt="Marco de luz"
-                class="catalog-image"
-                loading="lazy"
-                width="1200"
-                height="900"
-              />
-            </div>
-            <div class="catalog-body">
-              <div class="pill-row">
-                <span class="pill">promocionales</span>
-                <span class="pill">Desde</span>
+                <button type="button" class="option-btn" onclick="setPromoRollup(this, 'Roll up 80x200', 1100)" oncontextmenu="restarPromoRollup(event, 'Roll up 80x200')">80x200 <span>$1,100 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setPromoRollup(this, 'Roll up 85x200', 1200)" oncontextmenu="restarPromoRollup(event, 'Roll up 85x200')">85x200 <span>$1,200 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setPromoRollup(this, 'Roll up Doble 85x200', 1900)" oncontextmenu="restarPromoRollup(event, 'Roll up Doble 85x200')">Doble 85x200 <span>$1,900 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setPromoRollup(this, 'Roll up Doble 120x200', 2100)" oncontextmenu="restarPromoRollup(event, 'Roll up Doble 120x200')">Doble 120x200 <span>$2,100 MXN</span></button>
               </div>
+            </div>
+            <div class="cotizador-box">
+              <div id="resumen-pedido-rollup" style="text-align: center; font-size: 11px; font-weight: 800; color: var(--color-primary); margin: 10px 0;"></div>
+              <div class="info-servicios"><span class="tag-servicio">🎨 Diseño personalizado</span><span class="tag-servicio">📲 Envía tu logo</span></div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppRollup('rollup')">Cotizar por WhatsApp</button>
+            </div>
+          </article>
+
+          <article class="catalog-card" id="prod-cajaluz" data-category="promocionales" data-reveal>
+            <div class="catalog-media"><img src="./img/caja-luz-redonda.png" alt="Caja de luz redonda" class="catalog-image" loading="lazy"/></div>
+            <div class="catalog-body">
+              <div class="pill-row"><span class="pill">promocionales</span><span class="pill">Desde</span></div>
+              <h3>Caja de luz redonda</h3>
+              <p class="leyenda-pieza">*Formato visual iluminado para destacar promociones, identidad y presencia comercial. Precio publicado por pieza.</p>
+              <div class="price-selection-group">
+                <button type="button" class="option-btn" onclick="setPromo(this, 'Caja Luz 50cm', 1100)" oncontextmenu="restarPromo(event, 'Caja Luz 50cm')">50 cm <span>$1,100 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setPromo(this, 'Caja Luz 60cm', 1300)" oncontextmenu="restarPromo(event, 'Caja Luz 60cm')">60 cm <span>$1,300 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setPromo(this, 'Caja Luz 80cm', 1800)" oncontextmenu="restarPromo(event, 'Caja Luz 80cm')">80 cm <span>$1,800 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setPromo(this, 'Caja Luz 100cm', 2600)" oncontextmenu="restarPromo(event, 'Caja Luz 100cm')">100 cm <span>$2,600 MXN</span></button>
+              </div>
+            </div>
+            <div class="cotizador-box">
+              <div id="resumen-pedido" style="text-align: center; font-size: 11px; font-weight: 800; color: var(--color-primary); margin: 10px 0;"></div>
+              <div class="info-servicios"><span class="tag-servicio">🎨 Diseño personalizado</span><span class="tag-servicio">📲 Envía tu logo</span></div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppPromo('cajaluz')">Cotizar por WhatsApp</button>
+            </div>
+          </article>
+
+          <article class="catalog-card" id="prod-marcoluz" data-category="promocionales" data-reveal>
+            <div class="catalog-media"><img src="./img/marco-luz.png" alt="Marco de luz" class="catalog-image" loading="lazy" width="1200" height="900"/></div>
+            <div class="catalog-body">
+              <div class="pill-row"><span class="pill">promocionales</span><span class="pill">Desde</span></div>
               <h3>Marco de luz</h3>
               <p>Solución iluminada para comunicar promociones o presencia de marca con mayor impacto visual.</p>
-             <div class="price-selection-group">
-            <button type="button" class="option-btn" 
-                onclick="setPromoMarco(this, 'Marco Luz 40x60', 1200)" 
-                oncontextmenu="restarPromoMarco(event, 'Marco Luz 40x60')">
-                40x60 <span>$1,200 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setPromoMarco(this, 'Marco Luz 50x70', 1350)" 
-                oncontextmenu="restarPromoMarco(event, 'Marco Luz 50x70')">
-                50x70 <span>$1,350 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setPromoMarco(this, 'Marco Luz 60x90', 1700)" 
-                oncontextmenu="restarPromoMarco(event, 'Marco Luz 60x90')">
-                60x90 <span>$1,700 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setPromoMarco(this, 'Marco Luz 70x120', 2400)" 
-                oncontextmenu="restarPromoMarco(event, 'Marco Luz 70x120')">
-                70x120 <span>$2,400 MXN</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="cotizador-box">
-        <div id="resumen-pedido-marco" style="text-align: center; font-size: 11px; font-weight: 800; color: var(--color-primary); margin: 10px 0;">
-        </div>
-
-        <div class="info-servicios">
-            <span class="tag-servicio">🎨 Diseño personalizado</span>
-            <span class="tag-servicio">📲 Envía tu logo</span>
-        </div>
-
-        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppMarco('marcoluz')">
-            Cotizar por WhatsApp
-        </button>
-    </div>
-</article>
+              <div class="price-selection-group">
+                <button type="button" class="option-btn" onclick="setPromoMarco(this, 'Marco Luz 40x60', 1200)" oncontextmenu="restarPromoMarco(event, 'Marco Luz 40x60')">40x60 <span>$1,200 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setPromoMarco(this, 'Marco Luz 50x70', 1350)" oncontextmenu="restarPromoMarco(event, 'Marco Luz 50x70')">50x70 <span>$1,350 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setPromoMarco(this, 'Marco Luz 60x90', 1700)" oncontextmenu="restarPromoMarco(event, 'Marco Luz 60x90')">60x90 <span>$1,700 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setPromoMarco(this, 'Marco Luz 70x120', 2400)" oncontextmenu="restarPromoMarco(event, 'Marco Luz 70x120')">70x120 <span>$2,400 MXN</span></button>
+              </div>
+            </div>
+            <div class="cotizador-box">
+              <div id="resumen-pedido-marco" style="text-align: center; font-size: 11px; font-weight: 800; color: var(--color-primary); margin: 10px 0;"></div>
+              <div class="info-servicios"><span class="tag-servicio">🎨 Diseño personalizado</span><span class="tag-servicio">📲 Envía tu logo</span></div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppMarco('marcoluz')">Cotizar por WhatsApp</button>
+            </div>
+          </article>
 
           <article class="catalog-card" id="prod-xbanner" data-category="promocionales">
-    <div class="catalog-media">
-        <img src="./img/x-banner-base-agua.jpg" alt="X-Banner con base de agua" class="catalog-image" loading="lazy">
-    </div>
-
-    <div class="catalog-body">
-        <div class="pill-row">
-            <span class="pill">Promocionales</span>
-            <span class="pill">Precio público</span>
-        </div>
-        
-        <h3>X-Banner con base de agua</h3>
-        <p>Exhibidor ligero y funcional para promociones, campañas y comunicación visual de negocio.</p>
-        
-        <ul class="product-features" style="list-style: none; padding: 0; margin: 15px 0; font-size: 13px;">
-            <li>✅ Estructura ligera y resistente</li>
-            <li>✅ Base rellenable con agua o arena</li>
-            <li>✅ Fácil de transportar y armar</li>
-        </ul>
-
-        <div class="price-selection-group">
-            <button type="button" class="option-btn" 
-                    onclick="setXBanner(this, 'X-Banner Base Agua', 600)" 
-                    oncontextmenu="restarXBanner(event, 'X-Banner Base Agua', this)">
-                Estructura X-Banner <span>$600 MXN</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="cotizador-box">
-        <div id="resumen-xbanner" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
-
-        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppXBanner()" style="margin-top: 10px;">
-            Cotizar por WhatsApp
-        </button>
-    </div>
-</article>
-      <article class="catalog-card" id="prod-bannerx" data-category="promocionales">
-    <div class="catalog-media">
-        <img src="./img/banner.png" alt="Banner X" class="catalog-image" loading="lazy">
-    </div>
-
-    <div class="catalog-body">
-        <div class="pill-row">
-            <span class="pill">Promocionales</span>
-            <span class="pill">Precio público</span>
-        </div>
-        
-        <h3>Banner X </h3>
-        <p>Formato económico y práctico para promociones temporales y mensajes visuales rápidos.</p>
-        
-        <ul class="product-features" style="list-style: none; padding: 0; margin: 15px 0; font-size: 13px;">
-            <li>✅ Estructura ligera en fibra de carbono/vidrio</li>
-            <li>✅ Ideal para interiores y puntos de venta</li>
-            <li>✅ Desarmable y muy fácil de transportar</li>
-        </ul>
-
-        <div class="price-selection-group">
-            <button type="button" class="option-btn" 
-                    onclick="setBannerX(this, 'Banner X Económico', 350)" 
-                    oncontextmenu="restarBannerX(event, 'Banner X Económico', this)">
-                Estructura Banner X <span>$350 MXN</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="cotizador-box">
-        <div id="resumen-bannerx" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
-
-        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppBannerX()" style="margin-top: 10px;">
-            Cotizar por WhatsApp
-        </button>
-    </div>
-</article>
-
-         <article class="catalog-card" id="prod-cajagiratoria" data-category="promocionales" data-reveal>
-            <div class="catalog-media ">
-              <img
-                src="./img/caja-luz-giratoria.png"
-                alt="Caja de luz giratoria"
-                class="catalog-image"
-                loading="lazy"
-                width="1200"
-                height="900"
-              />
-            </div>
+            <div class="catalog-media"><img src="./img/x-banner-base-agua.jpg" alt="X-Banner con base de agua" class="catalog-image" loading="lazy"></div>
             <div class="catalog-body">
-              <div class="pill-row">
-                <span class="pill">promocionales</span>
-                <span class="pill">Desde</span>
+              <div class="pill-row"><span class="pill">Promocionales</span><span class="pill">Precio público</span></div>
+              <h3>X-Banner con base de agua</h3>
+              <p>Exhibidor ligero y funcional para promociones, campañas y comunicación visual de negocio.</p>
+              <ul class="product-features" style="list-style: none; padding: 0; margin: 15px 0; font-size: 13px;">
+                <li>✅ Estructura ligera y resistente</li>
+                <li>✅ Base rellenable con agua o arena</li>
+                <li>✅ Fácil de transportar y armar</li>
+              </ul>
+              <div class="price-selection-group">
+                <button type="button" class="option-btn" onclick="setXBanner(this, 'X-Banner Base Agua', 600)" oncontextmenu="restarXBanner(event, 'X-Banner Base Agua', this)">Estructura X-Banner <span>$600 MXN</span></button>
               </div>
+            </div>
+            <div class="cotizador-box">
+              <div id="resumen-xbanner" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+              <div class="info-servicios"><span class="tag-servicio">🎨 Diseño personalizado</span><span class="tag-servicio">📲 Envía tu logo</span></div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppXBanner()" style="margin-top: 10px;">Cotizar por WhatsApp</button>
+            </div>
+          </article>
+
+          <article class="catalog-card" id="prod-bannerx" data-category="promocionales">
+            <div class="catalog-media"><img src="./img/banner.png" alt="Banner X" class="catalog-image" loading="lazy"></div>
+            <div class="catalog-body">
+              <div class="pill-row"><span class="pill">Promocionales</span><span class="pill">Precio público</span></div>
+              <h3>Banner X</h3>
+              <p>Formato económico y práctico para promociones temporales y mensajes visuales rápidos.</p>
+              <ul class="product-features" style="list-style: none; padding: 0; margin: 15px 0; font-size: 13px;">
+                <li>✅ Estructura ligera en fibra de carbono/vidrio</li>
+                <li>✅ Ideal para interiores y puntos de venta</li>
+                <li>✅ Desarmable y muy fácil de transportar</li>
+              </ul>
+              <div class="price-selection-group">
+                <button type="button" class="option-btn" onclick="setBannerX(this, 'Banner X Económico', 350)" oncontextmenu="restarBannerX(event, 'Banner X Económico', this)">Estructura Banner X <span>$350 MXN</span></button>
+              </div>
+            </div>
+            <div class="cotizador-box">
+              <div id="resumen-bannerx" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+              <div class="info-servicios"><span class="tag-servicio">🎨 Diseño personalizado</span><span class="tag-servicio">📲 Envía tu logo</span></div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppBannerX()" style="margin-top: 10px;">Cotizar por WhatsApp</button>
+            </div>
+          </article>
+
+          <article class="catalog-card" id="prod-cajagiratoria" data-category="promocionales" data-reveal>
+            <div class="catalog-media"><img src="./img/caja-luz-giratoria.png" alt="Caja de luz giratoria" class="catalog-image" loading="lazy" width="1200" height="900"/></div>
+            <div class="catalog-body">
+              <div class="pill-row"><span class="pill">promocionales</span><span class="pill">Desde</span></div>
               <h3>Caja de luz giratoria</h3>
               <p>Formato llamativo para negocios y promociones que buscan destacar con alto impacto visual.</p>
               <div class="price-selection-group">
-            <button type="button" class="option-btn" 
-                onclick="setPromoGiratoria(this, 'Giratoria 40cm', 2800)" 
-                oncontextmenu="restarPromoGiratoria(event, 'Giratoria 40cm')">
-                40 cm <span>$2,800 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setPromoGiratoria(this, 'Giratoria 60cm', 3000)" 
-                oncontextmenu="restarPromoGiratoria(event, 'Giratoria 60cm')">
-                60 cm <span>$3,000 MXN</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="cotizador-box">
-        <div id="resumen-pedido-giratoria" style="text-align: center; font-size: 11px; font-weight: 800; color: var(--color-primary); margin: 10px 0;">
-        </div>
-
-        <div class="info-servicios">
-            <span class="tag-servicio">🎨 Diseño personalizado</span>
-            <span class="tag-servicio">📲 Envía tu logo</span>
-        </div>
-
-        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppGiratoria('giratoria')">
-            Cotizar por WhatsApp
-        </button>
-    </div>
-</article>
-          <article class="catalog-card" id="prod-poster" data-category="promocionales" data-reveal>
-            <div class="catalog-media ">
-              <img
-                src="./img/display-poster-stand.jpg"
-                alt="Display poster stand"
-                class="catalog-image"
-                loading="lazy"
-                width="1200"
-                height="900"
-              />
-            </div>
-            <div class="catalog-body">
-              <div class="pill-row">
-                <span class="pill">promocionales</span>
-                <span class="pill">Desde</span>
+                <button type="button" class="option-btn" onclick="setPromoGiratoria(this, 'Giratoria 40cm', 2800)" oncontextmenu="restarPromoGiratoria(event, 'Giratoria 40cm')">40 cm <span>$2,800 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setPromoGiratoria(this, 'Giratoria 60cm', 3000)" oncontextmenu="restarPromoGiratoria(event, 'Giratoria 60cm')">60 cm <span>$3,000 MXN</span></button>
               </div>
+            </div>
+            <div class="cotizador-box">
+              <div id="resumen-pedido-giratoria" style="text-align: center; font-size: 11px; font-weight: 800; color: var(--color-primary); margin: 10px 0;"></div>
+              <div class="info-servicios"><span class="tag-servicio">🎨 Diseño personalizado</span><span class="tag-servicio">📲 Envía tu logo</span></div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppGiratoria('giratoria')">Cotizar por WhatsApp</button>
+            </div>
+          </article>
+
+          <article class="catalog-card" id="prod-poster" data-category="promocionales" data-reveal>
+            <div class="catalog-media"><img src="./img/display-poster-stand.jpg" alt="Display poster stand" class="catalog-image" loading="lazy" width="1200" height="900"/></div>
+            <div class="catalog-body">
+              <div class="pill-row"><span class="pill">promocionales</span><span class="pill">Desde</span></div>
               <h3>Display poster stand</h3>
               <p>Solución práctica para exhibir mensajes, promociones y comunicación gráfica de negocio.</p>
               <div class="price-selection-group">
-            <button type="button" class="option-btn" 
-                onclick="setPoster(this, 'Poster 60x90', 1000)" 
-                oncontextmenu="restarPoster(event, 'Poster 60x90')">
-                60x90 <span>$1,000 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setPoster(this, 'Poster 80x120', 1200)" 
-                oncontextmenu="restarPoster(event, 'Poster 80x120')">
-                80x120 <span>$1,200 MXN</span>
-            </button>
-        </div>
-    </div>
+                <button type="button" class="option-btn" onclick="setPoster(this, 'Poster 60x90', 1000)" oncontextmenu="restarPoster(event, 'Poster 60x90')">60x90 <span>$1,000 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setPoster(this, 'Poster 80x120', 1200)" oncontextmenu="restarPoster(event, 'Poster 80x120')">80x120 <span>$1,200 MXN</span></button>
+              </div>
+            </div>
+            <div class="cotizador-box">
+              <div id="resumen-pedido-poster" style="text-align: center; font-size: 11px; font-weight: 800; color: var(--color-primary); margin: 10px 0;"></div>
+              <div class="info-servicios"><span class="tag-servicio">🎨 Diseño personalizado</span><span class="tag-servicio">📲 Envía tu logo</span></div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppPoster()">Cotizar por WhatsApp</button>
+            </div>
+          </article>
 
-  <div class="cotizador-box">
-    <div id="resumen-pedido-poster" style="text-align: center; font-size: 11px; font-weight: 800; color: var(--color-primary); margin: 10px 0;">
-    </div>
+          <article class="catalog-card" data-category="cuadros" id="canvas-rectangulares">
+            <div class="catalog-media"><img src="./img/cuadros-estrellados.jpg" alt="Cuadros Canvas Rectangulares" class="catalog-image"></div>
+            <div class="catalog-body">
+              <div class="pill-row"><span class="pill">cuadros</span><span class="pill">Desde</span></div>
+              <h3>Cuadros Canvas Rectangulares</h3>
+              <p>Lienzo de alta calidad montado sobre bastidor de madera de pino.</p>
+              <div class="price-selection-group">
+                <button type="button" class="option-btn" onclick="setCanvas(this, 'Rect: 15x20 cm', 150)" oncontextmenu="restarCanvas(event, 'Rect: 15x20 cm', this)">15x20 cm <span>$150 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setCanvas(this, 'Rect: 40x30 cm', 350)" oncontextmenu="restarCanvas(event, 'Rect: 40x30 cm', this)">40x30 cm <span>$350 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setCanvas(this, 'Rect: 60x50 cm', 550)" oncontextmenu="restarCanvas(event, 'Rect: 60x50 cm', this)">60x50 cm <span>$550 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setCanvas(this, 'Rect: 80x60 cm', 950)" oncontextmenu="restarCanvas(event, 'Rect: 80x60 cm', this)">80x60 cm <span>$950 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setCanvas(this, 'Rect: 100x80 cm', 1400)" oncontextmenu="restarCanvas(event, 'Rect: 100x80 cm', this)">100x80 cm <span>$1,400 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setCanvas(this, 'Rect: 160x120 cm', 1800)" oncontextmenu="restarCanvas(event, 'Rect: 160x120 cm', this)">160x120 cm <span>$1,800 MXN</span></button>
+              </div>
+            </div>
+            <div class="cotizador-box">
+              <div id="resumen-pedido-canvas" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+              <div class="info-servicios"><span class="tag-servicio">📸 Restauración de imágenes</span><span class="tag-servicio">🎨 Diseño personalizado</span></div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppCanvas()">Cotizar por WhatsApp</button>
+            </div>
+          </article>
 
-    <div class="info-servicios">
-        <span class="tag-servicio">🎨 Diseño personalizado</span>
-        <span class="tag-servicio">📲 Envía tu logo</span>
-    </div>
-
-    <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppPoster()">
-        Cotizar por WhatsApp
-    </button>
-</div>
-</article>
-
- <article class="catalog-card" data-category="cuadros" id="canvas-rectangulares">
-    <div class="catalog-media">
-        <img src="./img/cuadros-estrellados.jpg" alt="Cuadros Canvas Rectangulares" class="catalog-image">
-    </div>
-
-    <div class="catalog-body">
-        <div class="pill-row">
-            <span class="pill">cuadros</span>
-            <span class="pill">Desde</span>
-        </div>
-        <h3>Cuadros Canvas Rectangulares</h3>
-        <p>Lienzo de alta calidad montado sobre bastidor de madera de pino.</p>
-        
-        <div class="price-selection-group">
-            <button type="button" class="option-btn" 
-                onclick="setCanvas(this, 'Rect: 15x20 cm', 150)" 
-                oncontextmenu="restarCanvas(event, 'Rect: 15x20 cm', this)">
-                15x20 cm <span>$150 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setCanvas(this, 'Rect: 40x30 cm', 350)" 
-                oncontextmenu="restarCanvas(event, 'Rect: 40x30 cm', this)">
-                40x30 cm <span>$350 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setCanvas(this, 'Rect: 60x50 cm', 550)" 
-                oncontextmenu="restarCanvas(event, 'Rect: 60x50 cm', this)">
-                60x50 cm <span>$550 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setCanvas(this, 'Rect: 80x60 cm', 950)" 
-                oncontextmenu="restarCanvas(event, 'Rect: 80x60 cm', this)">
-                80x60 cm <span>$950 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setCanvas(this, 'Rect: 100x80 cm', 1400)" 
-                oncontextmenu="restarCanvas(event, 'Rect: 100x80 cm', this)">
-                100x80 cm <span>$1,400 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setCanvas(this, 'Rect: 160x120 cm', 1800)" 
-                oncontextmenu="restarCanvas(event, 'Rect: 160x120 cm', this)">
-                160x120 cm <span>$1,800 MXN</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="cotizador-box">
-        <div id="resumen-pedido-canvas" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
-
-        <div class="info-servicios">
-            <span class="tag-servicio">📸 Restauración de imágenes</span>
-            <span class="tag-servicio">🎨 Diseño personalizado</span>
-        </div>
-
-        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppCanvas()">
-            Cotizar por WhatsApp
-        </button>
-    </div>
-</article>
-
-<article class="catalog-card" data-category="cuadros" id="canvas-cuadrados">
-    <div class="catalog-media">
-        <img src="./img/canvas-cuadrados.jpg" alt="Cuadros Canvas Cuadrados" class="catalog-image">
-    </div>
-
-    <div class="catalog-body">
-        <div class="pill-row">
-            <span class="pill">cuadros</span>
-            <span class="pill">Desde</span>
-        </div>
-        <h3>Cuadros Canvas Cuadrados</h3>
-        <p>Lienzo de alta calidad montado sobre bastidor de madera de pino.</p>
-        
-        <div class="price-selection-group">
-            <button type="button" class="option-btn" 
-                onclick="setCanvasCuadrado(this, 'Cuad: 50x50 cm', 550)" 
-                oncontextmenu="restarCanvasCuadrado(event, 'Cuad: 50x50 cm', this)">
-                50x50 cm <span>$550 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setCanvasCuadrado(this, 'Cuad: 95x95 cm', 950)" 
-                oncontextmenu="restarCanvasCuadrado(event, 'Cuad: 95x95 cm', this)">
-                95x95 cm <span>$950 MXN</span>
-            </button>
-            <button type="button" class="option-btn" 
-                onclick="setCanvasCuadrado(this, 'Cuad: 120x120 cm', 1800)" 
-                oncontextmenu="restarCanvasCuadrado(event, 'Cuad: 120x120 cm', this)">
-                120x120 cm <span>$1,800 MXN</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="cotizador-box">
-        <div id="resumen-canvas-cuadrado" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
-
-        <div class="info-servicios">
-            <span class="tag-servicio">📸 Restauración de imágenes</span>
-            <span class="tag-servicio">🎨 Diseño personalizado</span>
-        </div>
-
-        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppCuadrado()">
-            Cotizar por WhatsApp
-        </button>
-    </div>
-</article>
+          <article class="catalog-card" data-category="cuadros" id="canvas-cuadrados">
+            <div class="catalog-media"><img src="./img/canvas-cuadrados.jpg" alt="Cuadros Canvas Cuadrados" class="catalog-image"></div>
+            <div class="catalog-body">
+              <div class="pill-row"><span class="pill">cuadros</span><span class="pill">Desde</span></div>
+              <h3>Cuadros Canvas Cuadrados</h3>
+              <p>Lienzo de alta calidad montado sobre bastidor de madera de pino.</p>
+              <div class="price-selection-group">
+                <button type="button" class="option-btn" onclick="setCanvasCuadrado(this, 'Cuad: 50x50 cm', 550)" oncontextmenu="restarCanvasCuadrado(event, 'Cuad: 50x50 cm', this)">50x50 cm <span>$550 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setCanvasCuadrado(this, 'Cuad: 95x95 cm', 950)" oncontextmenu="restarCanvasCuadrado(event, 'Cuad: 95x95 cm', this)">95x95 cm <span>$950 MXN</span></button>
+                <button type="button" class="option-btn" onclick="setCanvasCuadrado(this, 'Cuad: 120x120 cm', 1800)" oncontextmenu="restarCanvasCuadrado(event, 'Cuad: 120x120 cm', this)">120x120 cm <span>$1,800 MXN</span></button>
+              </div>
+            </div>
+            <div class="cotizador-box">
+              <div id="resumen-canvas-cuadrado" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+              <div class="info-servicios"><span class="tag-servicio">📸 Restauración de imágenes</span><span class="tag-servicio">🎨 Diseño personalizado</span></div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppCuadrado()">Cotizar por WhatsApp</button>
+            </div>
+          </article>
 
           <article class="catalog-card" id="prod-gorras" data-category="promocionales" data-reveal>
-            <div class="catalog-media ">
-              <img
-                src="./img/gorras.jpg"
-                alt="Gorra para sublimar"
-                class="catalog-image"
-                loading="lazy"
-                width="1280"
-                height="800"
-              />
+            <div class="catalog-media"><img src="./img/gorras.jpg" alt="Gorra para sublimar" class="catalog-image" loading="lazy" width="1280" height="800"/></div>
+            <div class="catalog-body">
+              <div class="pill-row"><span class="pill">Promocionales</span><span class="pill">Precio público</span></div>
+              <h3>Gorra para Sublimar / Bordar</h3>
+              <p>Gorra 100% poliéster. Elige tu color favorito del catálogo visual.</p>
+              <div class="price-selection-group">
+                <button type="button" class="option-btn" onclick="setGorra(this, 'Gorra personalizada', 100)" oncontextmenu="restarGorra(event, 'Gorra personalizada', this)">Gorra + Bordado Chico <span>$100 MXN</span></button>
+              </div>
             </div>
-           <div class="catalog-body">
-        <div class="pill-row">
-            <span class="pill">Promocionales</span>
-            <span class="pill">Precio público</span>
-        </div>
-        <h3>Gorra para Sublimar / Bordar</h3>
-        <p>Gorra 100% poliéster. Elige tu color favorito del catálogo visual.</p>
-        
-      <div class="price-selection-group">
-    <button type="button" class="option-btn" 
-        onclick="setGorra(this, 'Gorra personalizada', 100)" 
-        oncontextmenu="restarGorra(event, 'Gorra personalizada', this)">
-        Gorra + Bordado Chico <span>$100 MXN</span>
-    </button>
-</div>
-    </div>
-
-    <div class="cotizador-box">
-        <div id="resumen-gorras" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
-
-        <div class="info-servicios">
-            <span class="tag-servicio">🧵 Envía tu logo</span>
-            <span class="tag-servicio">🎨 Diseño personalizado</span>
-        </div>
-
-        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppGorra()">
-            Cotizar por WhatsApp
-        </button>
-    </div>
-</article>
+            <div class="cotizador-box">
+              <div id="resumen-gorras" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+              <div class="info-servicios"><span class="tag-servicio">🧵 Envía tu logo</span><span class="tag-servicio">🎨 Diseño personalizado</span></div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppGorra()">Cotizar por WhatsApp</button>
+            </div>
+          </article>
 
           <article class="catalog-card" id="prod-tazas" data-category="promocionales" data-reveal>
-            <div class="catalog-media ">
-              <img
-                src="./img/taza-blanca.jpeg"
-                alt="Taza blanca AAA"
-                class="catalog-image"
-                loading="lazy"
-                width="1280"
-                height="800"
-              />
+            <div class="catalog-media"><img src="./img/taza-blanca.jpeg" alt="Taza blanca AAA" class="catalog-image" loading="lazy" width="1280" height="800"/></div>
+            <div class="catalog-body">
+              <div class="pill-row"><span class="pill">Promocionales</span><span class="pill">Precio público</span></div>
+              <h3>Taza Cerámica Blanca</h3>
+              <p>11 oz. Calidad premium AAA con acabado brillante, ideal para fotos y logotipos a todo color.</p>
+              <ul style="font-size: 11px; color: #666; margin: 10px 0; padding-left: 15px; list-style-type: none;">
+                <li>✅ Resistente a microondas</li>
+                <li>✅ Cerámica de alta durabilidad</li>
+                <li>✅ Impresión nítida y brillante</li>
+              </ul>
+              <div class="price-selection-group">
+                <button type="button" class="option-btn" onclick="setTaza(this, 'Taza Blanca', 55)" oncontextmenu="restarTaza(event, 'Taza Blanca', this)">Taza Personalizada <span>$55 MXN</span></button>
+              </div>
             </div>
-           <div class="catalog-body">
-        <div class="pill-row">
-            <span class="pill">Promocionales</span>
-            <span class="pill">Precio público</span>
+            <div class="cotizador-box">
+              <div id="resumen-tazas" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+              <div class="info-servicios"><span class="tag-servicio">🎨 Diseño personalizado</span><span class="tag-servicio">📸 Envía tu foto</span></div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppTaza()">Cotizar por WhatsApp</button>
+            </div>
+          </article>
+
+          <article class="catalog-card" id="prod-lona" data-category="impresion">
+            <div class="catalog-media"><img src="./img/impresion1.jpg" alt="Lona Gran Formato" class="catalog-image" loading="lazy"></div>
+            <div class="catalog-body">
+              <div class="pill-row"><span class="pill">Impresión</span><span class="pill">Desde</span></div>
+              <h3>Lona Gran Formato</h3>
+              <p>Alta resolución para exteriores. Ideal para publicidad duradera.</p>
+              <ul class="product-features" style="list-style: none; padding: 0; margin: 15px 0; font-size: 13px;">
+                <li>✅ Resistente a la intemperie</li>
+                <li>✅ Ojillos metálicos incluidos</li>
+                <li>✅ Impresión nítida a full color</li>
+              </ul>
+              <div class="price-selection-group">
+                <button type="button" class="option-btn" onclick="setLona(this, 'Lona Impresa x M2', 85)" oncontextmenu="restarLona(event, 'Lona Impresa x M2', this)">Lona Impresa x M2 <span>$85 MXN</span></button>
+              </div>
+            </div>
+            <div class="cotizador-box">
+              <div id="resumen-lona" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+              <div class="info-servicios"><span class="tag-servicio">🎨 Diseño incluido</span><span class="tag-servicio">📁 Envía tu archivo</span></div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppLona()">Cotizar por WhatsApp</button>
+            </div>
+          </article>
+
+          <article class="catalog-card" id="prod-vinil" data-category="impresion">
+            <div class="catalog-media"><img src="./img/impresion2.jpg" alt="Vinil Adhesivo" class="catalog-image" loading="lazy"></div>
+            <div class="catalog-body">
+              <div class="pill-row"><span class="pill">Impresión</span><span class="pill">Desde</span></div>
+              <h3>Vinil Adhesivo</h3>
+              <p>Vinil de alta adherencia. Perfecto para decoración de cristales, paredes y señalización profesional.</p>
+              <ul class="product-features" style="list-style: none; padding: 0; margin: 15px 0; font-size: 13px;">
+                <li>✅ Resistente al agua y sol</li>
+                <li>✅ Acabado mate o brillante</li>
+                <li>✅ Corte a medida incluido</li>
+              </ul>
+              <div class="price-selection-group">
+                <button type="button" class="option-btn" onclick="setVinil(this, 'Vinil Adhesivo x M2', 95)" oncontextmenu="restarVinil(event, 'Vinil Adhesivo x M2', this)">Vinil Adhesivo x M2 <span>$95 MXN</span></button>
+              </div>
+            </div>
+            <div class="cotizador-box">
+              <div id="resumen-vinil" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+              <div class="info-servicios"><span class="tag-servicio">🎨 Diseño incluido</span><span class="tag-servicio">📁 Envía tu archivo</span></div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppVinil()">Cotizar por WhatsApp</button>
+            </div>
+          </article>
+
+          <article class="catalog-card" id="prod-corte-vinil" data-category="impresion">
+            <div class="catalog-media"><img src="./img/impresion5.jpg" alt="Corte de Vinil" class="catalog-image" loading="lazy"></div>
+            <div class="catalog-body">
+              <div class="pill-row"><span class="pill">Publicidad</span><span class="pill">Desde</span></div>
+              <h3>Corte de Vinil</h3>
+              <p>Vinil de color sólido recortado con plotter. Ideal para nombres, logotipos en paredes, vehículos o señalética.</p>
+              <ul class="product-features" style="list-style: none; padding: 0; margin: 15px 0; font-size: 13px;">
+                <li>✅ Variedad de colores básicos</li>
+                <li>✅ Resistente a la intemperie</li>
+                <li>✅ Depilado y con transfer incluido</li>
+              </ul>
+              <div class="price-selection-group">
+                <button type="button" class="option-btn" onclick="setCorteVinil(this, 'Corte de Vinil x M2', 95)" oncontextmenu="restarCorteVinil(event, 'Corte de Vinil x M2', this)">Corte de Vinil x M2 <span>$95 MXN</span></button>
+              </div>
+            </div>
+            <div class="cotizador-box">
+              <div id="resumen-corte-vinil" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+              <div class="info-servicios"><span class="tag-servicio">🎨 Vectorización básica</span><span class="tag-servicio">📁 Envía tu trazo</span></div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppCorteVinil()">Cotizar por WhatsApp</button>
+            </div>
+          </article>
+
+          <article class="catalog-card" data-category="stickers" id="planilla-stickers">
+            <div class="catalog-media"><img src="./img/stickers.jpg" alt="Planilla de Stickers" class="catalog-image"></div>
+            <div class="catalog-body">
+              <div class="pill-row"><span class="pill">Impresión</span><span class="pill">Desde</span></div>
+              <h3>Planilla de Stickers</h3>
+              <p>Calidad premium. Planilla de 150 x 140 cm ideal para etiquetas y decoración profesional.</p>
+              <div class="price-selection-group">
+                <button type="button" class="option-btn" onclick="setStickers(this, 'Planilla 150*140CM', 350)" oncontextmenu="restarStickers(event, 'Planilla 150*140CM', this)">Planilla 150*140CM <span>$350 MXN</span></button>
+              </div>
+            </div>
+            <div class="cotizador-box">
+              <div id="resumen-stickers" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
+              <div class="info-servicios"><span class="tag-servicio">🎨 Diseño incluido</span><span class="tag-servicio">📦 Envía tu logo</span></div>
+              <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppStickers()">Cotizar por WhatsApp</button>
+            </div>
+          </article>
+
         </div>
-        <h3>Taza Cerámica Blanca</h3>
-        <p>11 oz. Calidad premium AAA con acabado brillante, ideal para fotos y logotipos a todo color.</p>
-        
-        <ul style="font-size: 11px; color: #666; margin: 10px 0; padding-left: 15px; list-style-type: none;">
-            <li>✅ Resistente a microondas</li>
-            <li>✅ Cerámica de alta durabilidad</li>
-            <li>✅ Impresión nítida y brillante</li>
-        </ul>
+      </div>
+    </section>
 
-        <div class="price-selection-group">
-            <button type="button" class="option-btn" 
-                onclick="setTaza(this, 'Taza Blanca', 55)" 
-                oncontextmenu="restarTaza(event, 'Taza Blanca', this)">
-                Taza Personalizada <span>$55 MXN</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="cotizador-box">
-        <div id="resumen-tazas" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
-
-        <div class="info-servicios">
-            <span class="tag-servicio">🎨 Diseño personalizado</span>
-            <span class="tag-servicio">📸 Envía tu foto</span>
-        </div>
-
-        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppTaza()">
-            Cotizar por WhatsApp
-        </button>
-    </div>
-</article>
-     <article class="catalog-card" id="prod-lona" data-category="impresion">
-    <div class="catalog-media">
-        <img src="./img/impresion1.jpg" alt="Lona Gran Format" class="catalog-image" loading="lazy">
-    </div>
-
-    <div class="catalog-body">
-        <div class="pill-row">
-            <span class="pill">Impresión</span>
-            <span class="pill">Desde</span>
-        </div>
-        <h3>Lona Gran Formato</h3>
-        <p>Alta resolución para exteriores. Ideal para publicidad duradera.</p>
-        
-        <ul class="product-features" style="list-style: none; padding: 0; margin: 15px 0; font-size: 13px;">
-            <li>✅ Resistente a la intemperie</li>
-            <li>✅ Ojillos metálicos incluidos</li>
-            <li>✅ Impresión nítida a full color</li>
-        </ul>
-
-        <div class="price-selection-group">
-            <button type="button" class="option-btn" 
-                    onclick="setLona(this, 'Lona Impresa x M2', 85)" 
-                    oncontextmenu="restarLona(event, 'Lona Impresa x M2', this)">
-                Lona Impresa x M2 <span>$85 MXN</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="cotizador-box">
-        <div id="resumen-lona" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
-
-        <div class="info-servicios">
-            <span class="tag-servicio">🎨 Diseño incluido</span>
-            <span class="tag-servicio">📁 Envía tu archivo</span>
-        </div>
-
-        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppLona()">
-            Cotizar por WhatsApp
-        </button>
-    </div>
-</article>
-        <article class="catalog-card" id="prod-vinil" data-category="impresion">
-    <div class="catalog-media">
-        <img src="./img/impresion2.jpg" alt="Vinil Adhesivo" class="catalog-image" loading="lazy">
-    </div>
-
-    <div class="catalog-body">
-        <div class="pill-row">
-            <span class="pill">Impresión</span>
-            <span class="pill">Desde</span>
-        </div>
-        <h3>Vinil Adhesivo</h3>
-        <p>Vinil de alta adherencia. Perfecto para decoración de cristales, paredes y señalización profesional.</p>
-        
-        <ul class="product-features" style="list-style: none; padding: 0; margin: 15px 0; font-size: 13px;">
-            <li>✅ Resistente al agua y sol</li>
-            <li>✅ Acabado mate o brillante</li>
-            <li>✅ Corte a medida incluido</li>
-        </ul>
-
-        <div class="price-selection-group">
-            <button type="button" class="option-btn" 
-                    onclick="setVinil(this, 'Vinil Adhesivo x M2', 95)" 
-                    oncontextmenu="restarVinil(event, 'Vinil Adhesivo x M2', this)">
-                Vinil Adhesivo x M2 <span>$95 MXN</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="cotizador-box">
-        <div id="resumen-vinil" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
-
-        <div class="info-servicios">
-            <span class="tag-servicio">🎨 Diseño incluido</span>
-            <span class="tag-servicio">📁 Envía tu archivo</span>
-        </div>
-
-        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppVinil()">
-            Cotizar por WhatsApp
-        </button>
-    </div>
-</article>
-       <article class="catalog-card" id="prod-corte-vinil" data-category="impresion">
-    <div class="catalog-media">
-        <img src="./img/impresion5.jpg" alt="Corte de Vinil" class="catalog-image" loading="lazy">
-    </div>
-
-    <div class="catalog-body">
-        <div class="pill-row">
-            <span class="pill">Publicidad</span>
-            <span class="pill">Desde</span>
-        </div>
-        <h3>Corte de Vinil</h3>
-        <p>Vinil de color sólido recortado con plotter. Ideal para nombres, logotipos en paredes, vehículos o señalética.</p>
-        
-        <ul class="product-features" style="list-style: none; padding: 0; margin: 15px 0; font-size: 13px;">
-            <li>✅ Variedad de colores básicos</li>
-            <li>✅ Resistente a la intemperie</li>
-            <li>✅ Depilado y con transfer incluido</li>
-        </ul>
-
-        <div class="price-selection-group">
-            <button type="button" class="option-btn" 
-                    onclick="setCorteVinil(this, 'Corte de Vinil x M2', 95)" 
-                    oncontextmenu="restarCorteVinil(event, 'Corte de Vinil x M2', this)">
-                Corte de Vinil x M2 <span>$95 MXN</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="cotizador-box">
-        <div id="resumen-corte-vinil" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
-
-        <div class="info-servicios">
-            <span class="tag-servicio">🎨 Vectorización básica</span>
-            <span class="tag-servicio">📁 Envía tu trazo</span>
-        </div>
-
-        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppCorteVinil()">
-            Cotizar por WhatsApp
-        </button>
-    </div>
-</article>
-  <article class="catalog-card" data-category="stickers" id="planilla-stickers">
-    <div class="catalog-media">
-        <img src="./img/stickers.jpg" alt="Planilla de Stickers" class="catalog-image">
-    </div>
-
-    <div class="catalog-body">
-        <div class="pill-row">
-            <span class="pill">Impresión</span>
-            <span class="pill">Desde</span>
-        </div>
-        <h3>Planilla de Stickers</h3>
-        <p>Calidad premium. Planilla de 150 x 140 cm ideal para etiquetas y decoración profesional.</p>
-        
-        <div class="price-selection-group">
-            <button type="button" class="option-btn" 
-                onclick="setStickers(this, 'Planilla 150*140CM', 350)" 
-                oncontextmenu="restarStickers(event, 'Planilla 150*140CM', this)">
-                Planilla 150*140CM <span>$350 MXN</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="cotizador-box">
-        <div id="resumen-stickers" style="text-align: center; font-size: 11px; font-weight: 800; color: #e91e63; margin: 10px 0;"></div>
-
-        <div class="info-servicios">
-            <span class="tag-servicio">🎨 Diseño incluido</span>
-            <span class="tag-servicio">📦 Envía tu logo</span>
-        </div>
-
-        <button class="btn-whatsapp-fixed" onclick="enviarWhatsAppStickers()">
-            Cotizar por WhatsApp
-        </button>
-    </div>
-</article>
-        </div> </div> </section> <div id="apartado-canvas" style="display: block !important; padding: 60px 0; background-color: var(--color-surface-offset); position: relative; z-index: 10;">
+    <div id="apartado-canvas" style="display: block !important; padding: 60px 0; background-color: var(--color-surface-offset); position: relative; z-index: 10;">
       <div class="container">
         <div class="section-head" style="text-align: left; margin-bottom: 40px;">
           <span class="pill">PROCESO</span>
           <h2 style="font-size: 36px; max-width: 600px; margin-top: 10px;">Cuadros Canvas: Mira cómo creamos tu arte personalizado.</h2>
           <p>Calidad profesional en cada detalle y montaje artesanal.</p>
         </div>
-
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-          <div style="background: white; border-radius: 15px; overflow: hidden;">
-            <video width="100%" autoplay muted loop playsinline style="display: block; aspect-ratio: 1/1; object-fit: cover;">
-              <source src="./video/video1.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div style="background: white; border-radius: 15px; overflow: hidden;">
-            <video width="100%" autoplay muted loop playsinline style="display: block; aspect-ratio: 1/1; object-fit: cover;">
-              <source src="./video/video2.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div style="background: white; border-radius: 15px; overflow: hidden;">
-            <video width="100%" autoplay muted loop playsinline style="display: block; aspect-ratio: 1/1; object-fit: cover;">
-              <source src="./video/video3.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div style="background: white; border-radius: 15px; overflow: hidden;">
-            <video width="100%" autoplay muted loop playsinline style="display: block; aspect-ratio: 1/1; object-fit: cover;">
-              <source src="./video/video4.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div style="background: white; border-radius: 15px; overflow: hidden;">
-            <img src="./img/foto-canvas-1.jpg" alt="Canvas" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;">
-          </div>
-          <div style="background: white; border-radius: 15px; overflow: hidden;">
-            <img src="./img/foto-canvas-2.jpg" alt="Canvas" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;">
-          </div>
+          <div style="background: white; border-radius: 15px; overflow: hidden;"><video width="100%" autoplay muted loop playsinline style="display: block; aspect-ratio: 1/1; object-fit: cover;"><source src="./video/video1.mp4" type="video/mp4"></video></div>
+          <div style="background: white; border-radius: 15px; overflow: hidden;"><video width="100%" autoplay muted loop playsinline style="display: block; aspect-ratio: 1/1; object-fit: cover;"><source src="./video/video2.mp4" type="video/mp4"></video></div>
+          <div style="background: white; border-radius: 15px; overflow: hidden;"><video width="100%" autoplay muted loop playsinline style="display: block; aspect-ratio: 1/1; object-fit: cover;"><source src="./video/video3.mp4" type="video/mp4"></video></div>
+          <div style="background: white; border-radius: 15px; overflow: hidden;"><video width="100%" autoplay muted loop playsinline style="display: block; aspect-ratio: 1/1; object-fit: cover;"><source src="./video/video4.mp4" type="video/mp4"></video></div>
+          <div style="background: white; border-radius: 15px; overflow: hidden;"><img src="./img/foto-canvas-1.jpg" alt="Canvas" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;"></div>
+          <div style="background: white; border-radius: 15px; overflow: hidden;"><img src="./img/foto-canvas-2.jpg" alt="Canvas" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;"></div>
         </div>
       </div>
     </div>
+
     <section class="section" id="referencias">
       <div class="container">
         <div class="section-head" data-reveal>
           <span class="eyebrow">Referencias</span>
           <h2>Trabajos y ejemplos visuales que muestran el estilo del negocio.</h2>
-          <p>
-            Explora referencias visuales de impresión, promocionales, ropa, etiquetas y trabajos realizados.
-          </p>
+          <p>Explora referencias visuales de impresión, promocionales, ropa, etiquetas y trabajos realizados.</p>
         </div>
-
         <div class="references-wrap" data-reveal>
-          <button class="references-btn references-btn-prev" type="button" aria-label="Anterior">
-            &#10094;
-          </button>
-
+          <button class="references-btn references-btn-prev" type="button" aria-label="Anterior">&#10094;</button>
           <div class="references-track" id="referencesTrack">
-            <article class="references-card">
-              <img src="./img/ref1.png" alt="Referencia 1" class="references-image" loading="lazy">
-            </article>
-
-            <article class="references-card">
-              <img src="./img/ref2.png" alt="Referencia 2" class="references-image" loading="lazy">
-            </article>
-
-            <article class="references-card">
-              <img src="./img/ref3.png" alt="Referencia 3" class="references-image" loading="lazy">
-            </article>
-
-            <article class="references-card">
-              <img src="./img/ref4.png" alt="Referencia 4" class="references-image" loading="lazy">
-            </article>
-
-            <article class="references-card">
-              <img src="./img/ref5.png" alt="Referencia 5" class="references-image" loading="lazy">
-            </article>
-
-            <article class="references-card">
-              <img src="./img/ref6.png" alt="Referencia 6" class="references-image" loading="lazy">
-            </article>
-
-            <article class="references-card">
-              <img src="./img/ref7.png" alt="Referencia 7" class="references-image" loading="lazy">
-            </article>
+            <article class="references-card"><img src="./img/ref1.png" alt="Referencia 1" class="references-image" loading="lazy"></article>
+            <article class="references-card"><img src="./img/ref2.png" alt="Referencia 2" class="references-image" loading="lazy"></article>
+            <article class="references-card"><img src="./img/ref3.png" alt="Referencia 3" class="references-image" loading="lazy"></article>
+            <article class="references-card"><img src="./img/ref4.png" alt="Referencia 4" class="references-image" loading="lazy"></article>
+            <article class="references-card"><img src="./img/ref5.png" alt="Referencia 5" class="references-image" loading="lazy"></article>
+            <article class="references-card"><img src="./img/ref6.png" alt="Referencia 6" class="references-image" loading="lazy"></article>
+            <article class="references-card"><img src="./img/ref7.png" alt="Referencia 7" class="references-image" loading="lazy"></article>
           </div>
-
-          <button class="references-btn references-btn-next" type="button" aria-label="Siguiente">
-            &#10095;
-          </button>
+          <button class="references-btn references-btn-next" type="button" aria-label="Siguiente">&#10095;</button>
         </div>
       </div>
     </section>
-<section class="section" id="galeria">
-  <div class="container">
 
+    <section class="section" id="galeria">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Galería</span>
+          <h2>Bloques visuales inspirados en el catálogo para mostrar variedad y estilo comercial.</h2>
+          <p>Aquí se dejan espacios visuales listos para sustituirse por imágenes reales del catálogo.</p>
+        </div>
+        <div class="contenedor-interactivo">
+          <img src="./img/playera.jpg" id="playeraImg" class="imagen-base">
+          <div id="capaColor" class="capa-color"></div>
+          <div class="boton-invisible" style="left: 2.5%;"  onclick="cambiarColor('rojo')"></div>
+          <div class="boton-invisible" style="left: 10.2%;" onclick="cambiarColor('rosa')"></div>
+          <div class="boton-invisible" style="left: 17.9%;" onclick="cambiarColor('verde')"></div>
+          <div class="boton-invisible" style="left: 25.6%;" onclick="cambiarColor('vino')"></div>
+          <div class="boton-invisible" style="left: 33.3%;" onclick="cambiarColor('morado')"></div>
+          <div class="boton-invisible" style="left: 41.0%;" onclick="cambiarColor('amarillo')"></div>
+          <div class="boton-invisible" style="left: 48.7%;" onclick="cambiarColor('azulrey')"></div>
+          <div class="boton-invisible" style="left: 56.4%;" onclick="cambiarColor('naranja')"></div>
+          <div class="boton-invisible" style="left: 64.1%;" onclick="cambiarColor('azulmarino')"></div>
+          <div class="boton-invisible" style="left: 71.8%;" onclick="cambiarColor('fucsia')"></div>
+          <div class="boton-invisible" style="left: 79.5%;" onclick="cambiarColor('negro')"></div>
+          <div class="boton-invisible" style="left: 87.2%;" onclick="cambiarColor('azulcielo')"></div>
+          <div class="boton-invisible" style="left: 94.9%;" onclick="cambiarColor('gris')"></div>
+        </div>
 
-    </div>
-  </div>
-</section>
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">Galería</span>
-      <h2>Bloques visuales inspirados en el catálogo para mostrar variedad y estilo comercial.</h2>
-      <p>Aquí se dejan espacios visuales listos para sustituirse por imágenes reales del catálogo.</p>
-    </div>
-<div class="contenedor-interactivo">
-    <img src="./img/playera.jpg" id="playeraImg" class="imagen-base">
-
-    <div id="capaColor" class="capa-color"></div>
-
-    <div class="boton-invisible" style="left: 2.5%;"  onclick="cambiarColor('rojo')"></div>
-    <div class="boton-invisible" style="left: 10.2%;" onclick="cambiarColor('rosa')"></div>
-    <div class="boton-invisible" style="left: 17.9%;" onclick="cambiarColor('verde')"></div>
-    <div class="boton-invisible" style="left: 25.6%;" onclick="cambiarColor('vino')"></div>
-    <div class="boton-invisible" style="left: 33.3%;" onclick="cambiarColor('morado')"></div>
-    <div class="boton-invisible" style="left: 41.0%;" onclick="cambiarColor('amarillo')"></div>
-    <div class="boton-invisible" style="left: 48.7%;" onclick="cambiarColor('azulrey')"></div>
-    <div class="boton-invisible" style="left: 56.4%;" onclick="cambiarColor('naranja')"></div>
-    <div class="boton-invisible" style="left: 64.1%;" onclick="cambiarColor('azulmarino')"></div>
-    <div class="boton-invisible" style="left: 71.8%;" onclick="cambiarColor('fucsia')"></div>
-    <div class="boton-invisible" style="left: 79.5%;" onclick="cambiarColor('negro')"></div>
-    <div class="boton-invisible" style="left: 87.2%;" onclick="cambiarColor('azulcielo')"></div>
-    <div class="boton-invisible" style="left: 94.9%;" onclick="cambiarColor('gris')"></div>
-</div>
+        <article class="gallery-card" data-reveal>
+          <img src="./img/taza-blanca.jpeg" alt="Taza blanca personalizada" class="gallery-image" loading="lazy" width="1280" height="800"/>
         </article>
 
         <article class="gallery-card" data-reveal>
-            <img
-            src="./img/taza-blanca.jpeg"
-            alt="Taza blanca personalizada"
-            class="gallery-image"
-            loading="lazy"
-            width="1280"
-            height="800"
-            />
+          <img src="./img/gorras.jpg" alt="Gorras personalizadas" class="gallery-image" loading="lazy" width="1280" height="800"/>
+          <div id="capaColorGorra" class="capa-color-gorra"></div>
+          <div class="btn-gorra" style="left: 3%;"   onclick="cambiarColorGorra('rojo')"></div>
+          <div class="btn-gorra" style="left: 11.5%;" onclick="cambiarColorGorra('rosa')"></div>
+          <div class="btn-gorra" style="left: 20%;"   onclick="cambiarColorGorra('verde')"></div>
+          <div class="btn-gorra" style="left: 28.5%;" onclick="cambiarColorGorra('vino')"></div>
+          <div class="btn-gorra" style="left: 37%;"   onclick="cambiarColorGorra('morado')"></div>
+          <div class="btn-gorra" style="left: 45.5%;" onclick="cambiarColorGorra('amarillo')"></div>
+          <div class="btn-gorra" style="left: 54%;"   onclick="cambiarColorGorra('azulrey')"></div>
+          <div class="btn-gorra" style="left: 62.5%;" onclick="cambiarColorGorra('naranja')"></div>
+          <div class="btn-gorra" style="left: 71%;"   onclick="cambiarColorGorra('azulmarino')"></div>
+          <div class="btn-gorra" style="left: 79.5%;" onclick="cambiarColorGorra('fucsia')"></div>
+          <div class="btn-gorra" style="left: 88%;"   onclick="cambiarColorGorra('negro')"></div>
         </article>
 
         <article class="gallery-card" data-reveal>
-            <img
-            src="./img/gorras.jpg"
-            alt="Gorras personalizadas"
-            class="gallery-image"
-            loading="lazy"
-            width="1280"
-            height="800"
-            />
-            <div id="capaColorGorra" class="capa-color-gorra"></div>
-
-    <div class="btn-gorra" style="left: 3%;"   onclick="cambiarColorGorra('rojo')"></div>
-    <div class="btn-gorra" style="left: 11.5%;" onclick="cambiarColorGorra('rosa')"></div>
-    <div class="btn-gorra" style="left: 20%;"   onclick="cambiarColorGorra('verde')"></div>
-    <div class="btn-gorra" style="left: 28.5%;" onclick="cambiarColorGorra('vino')"></div>
-    <div class="btn-gorra" style="left: 37%;"   onclick="cambiarColorGorra('morado')"></div>
-    <div class="btn-gorra" style="left: 45.5%;" onclick="cambiarColorGorra('amarillo')"></div>
-    <div class="btn-gorra" style="left: 54%;"   onclick="cambiarColorGorra('azulrey')"></div>
-    <div class="btn-gorra" style="left: 62.5%;" onclick="cambiarColorGorra('naranja')"></div>
-    <div class="btn-gorra" style="left: 71%;"   onclick="cambiarColorGorra('azulmarino')"></div>
-    <div class="btn-gorra" style="left: 79.5%;" onclick="cambiarColorGorra('fucsia')"></div>
-    <div class="btn-gorra" style="left: 88%;"   onclick="cambiarColorGorra('negro')"></div>
-            
-            
-        </article>
-
-        <article class="gallery-card" data-reveal>
-            <img
-            src="./img/chamarras.png"
-            alt="Chamarras personalizadas"
-            class="gallery-image"
-            loading="lazy"
-            width="1280"
-            height="800"
-                />
-   <div id="capaSoft" class="capa-chamarra"></div>
-
-    <div id="capaRelleno" class="capa-chamarra"></div>
-</article>
-    </div>
-    </article>
+          <img src="./img/chamarras.png" alt="Chamarras personalizadas" class="gallery-image" loading="lazy" width="1280" height="800"/>
+          <div id="capaSoft" class="capa-chamarra"></div>
+          <div id="capaRelleno" class="capa-chamarra"></div>
         </article>
 
         <article class="gallery-card gallery-card-large" data-reveal>
-            <img
-            src="./img/productos.png"
-            alt="Productos personalizados"
-            class="gallery-image"
-            loading="lazy"
-            width="2560"
-            height="1600"
-            />
+          <img src="./img/productos.png" alt="Productos personalizados" class="gallery-image" loading="lazy" width="2560" height="1600"/>
         </article>
-
-        </div>
-
       </div>
     </section>
 
@@ -1222,7 +707,8 @@ presencia comercial.   Precio publicado por pieza.</p>
           <h2>Solicita tu cotización y resuelve dudas en una conversación directa.</h2>
           <p style="margin-top: 1rem;">El objetivo principal de esta página es llevar al visitante a WhatsApp con un mensaje precargado para pedir información sobre un producto o servicio del catálogo.</p>
           <div class="hero-actions" style="margin-top: 1.4rem;">
-            <a class="btn btn-primary wa-link" href="https://wa.me/5632971001?text=Hola,%20vi%20su%20cat%C3%A1logo%20y%20me%20gustar%C3%ADa%20cotizar%20un%20producto%20o%20servicio" target="_blank" rel="noopener noreferrer">Solicita tu cotización</a>
+            <!-- ✅ NÚMERO DINÁMICO -->
+            <a class="btn btn-primary wa-link" href="https://wa.me/<?php echo $whatsapp; ?>?text=Hola,%20vi%20su%20cat%C3%A1logo%20y%20me%20gustar%C3%ADa%20cotizar%20un%20producto%20o%20servicio" target="_blank" rel="noopener noreferrer">Solicita tu cotización</a>
           </div>
         </div>
 
@@ -1231,11 +717,13 @@ presencia comercial.   Precio publicado por pieza.</p>
           <div class="contact-list">
             <div class="contact-item">
               <span class="icon-chip" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92V19a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 3.18 2 2 0 0 1 4.11 1h2.09a2 2 0 0 1 2 1.72c.12.9.33 1.79.61 2.64a2 2 0 0 1-.45 2.11L7.1 8.9a16 16 0 0 0 8 8l1.43-1.26a2 2 0 0 1 2.11-.45c.85.28 1.74.49 2.64.61A2 2 0 0 1 22 16.92z"/></svg></span>
-              <div><strong>WhatsApp</strong><p>[5632971001]</p></div>
+              <!-- ✅ NÚMERO DINÁMICO -->
+              <div><strong>WhatsApp</strong><p><?php echo $whatsapp; ?></p></div>
             </div>
             <div class="contact-item">
               <span class="icon-chip" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg></span>
-              <div><strong>Correo</strong><p>barakimpresosymarketing@gmail.com</p></div>
+              <!-- ✅ CORREO DINÁMICO -->
+              <div><strong>Correo</strong><p><?php echo $correo; ?></p></div>
             </div>
             <div class="contact-item">
               <span class="icon-chip" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-6-4.35-6-11a6 6 0 1 1 12 0c0 6.65-6 11-6 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
@@ -1243,12 +731,11 @@ presencia comercial.   Precio publicado por pieza.</p>
             </div>
           </div>
 
-      <div class="faq-box" id="faq-box">
-  <button class="faq-head" type="button" aria-expanded="false">
-    <span>Preguntas frecuentes rápidas</span>
-    <span>+</span>
-  </button>
-
+          <div class="faq-box" id="faq-box">
+            <button class="faq-head" type="button" aria-expanded="false">
+              <span>Preguntas frecuentes rápidas</span>
+              <span>+</span>
+            </button>
             <div class="faq-body">
               <p><strong>¿Cómo pedir una cotización?</strong> Entra al botón de WhatsApp y envía el mensaje precargado.</p>
               <p style="margin-top: .75rem;"><strong>¿Los precios están publicados?</strong> La página deja el espacio para cotización personalizada cuando el producto depende de medidas, material o cantidad.</p>
@@ -1278,32 +765,40 @@ presencia comercial.   Precio publicado por pieza.</p>
       </div>
       <div>
         <h3>Contacto</h3>
-        <p class="footer-note" style="margin-top: .85rem;">WhatsApp: [5632971001]</p>
-        <p class="footer-note">Correo: barakimpresosymarketing@gmail.com</p>
-        <p class="footer-note">Horario o cobertura: 10 a.m. a 6 p.m.</p>
+        <!-- ✅ TODOS DINÁMICOS -->
+        <p class="footer-note" style="margin-top: .85rem;">WhatsApp: <?php echo $whatsapp; ?></p>
+        <p class="footer-note">Correo: <?php echo $correo; ?></p>
+        <p class="footer-note">Horario: <?php echo $horario; ?></p>
       </div>
       <div>
         <h3>Redes sociales</h3>
         <div class="socials" style="margin-top: .85rem;">
-          <!-- CAMBIAR # por los enlaces reales -->
-          <a href="https://www.facebook.com/profile.php?id=61579401668673" aria-label="Facebook">Facebook</a>
+          <!-- ✅ FACEBOOK DINÁMICO -->
+          <a href="<?php echo $facebook; ?>" aria-label="Facebook">Facebook</a>
         </div>
       </div>
     </div>
   </footer>
 
-  <a class="whatsapp-float wa-link" href="https://wa.me/5632971001?text=Hola,%20vi%20su%20cat%C3%A1logo%20y%20me%20gustar%C3%ADa%20cotizar%20un%20producto%20o%20servicio" target="_blank" rel="noopener noreferrer" aria-label="Abrir WhatsApp para cotizar">
+  <!-- ✅ BOTÓN FLOTANTE DINÁMICO -->
+  <a class="whatsapp-float wa-link" href="https://wa.me/<?php echo $whatsapp; ?>?text=Hola,%20vi%20su%20cat%C3%A1logo%20y%20me%20gustar%C3%ADa%20cotizar%20un%20producto%20o%20servicio" target="_blank" rel="noopener noreferrer" aria-label="Abrir WhatsApp para cotizar">
     <svg width="22" height="22" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M19.11 17.21c-.29-.14-1.7-.84-1.97-.93-.26-.1-.46-.14-.65.14-.2.29-.75.93-.93 1.12-.17.2-.35.22-.64.08-.3-.14-1.25-.46-2.38-1.46-.88-.79-1.47-1.76-1.65-2.06-.17-.29-.02-.45.13-.59.14-.14.29-.35.43-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.14-.66-1.58-.9-2.16-.24-.57-.49-.49-.66-.5h-.56c-.2 0-.52.08-.79.37-.27.3-1.04 1.02-1.04 2.49s1.06 2.89 1.2 3.09c.15.2 2.08 3.18 5.04 4.46.7.3 1.25.48 1.68.62.7.22 1.34.19 1.84.12.56-.08 1.7-.7 1.94-1.38.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.33Z"/><path d="M27.3 4.67A15.77 15.77 0 0 0 16.05 0C7.3 0 .18 7.12.18 15.88c0 2.8.73 5.53 2.12 7.94L0 32l8.4-2.2a15.82 15.82 0 0 0 7.65 1.95h.01c8.75 0 15.88-7.12 15.88-15.88 0-4.24-1.65-8.22-4.64-11.2Zm-11.24 24.4h-.01a13.2 13.2 0 0 1-6.72-1.84l-.48-.29-4.98 1.3 1.33-4.85-.31-.5A13.13 13.13 0 0 1 2.86 15.9c0-7.29 5.92-13.22 13.2-13.22 3.53 0 6.84 1.38 9.33 3.88 2.49 2.5 3.86 5.82 3.86 9.34 0 7.29-5.93 13.21-13.2 13.21Z"/></svg>
     <span>Contáctanos por WhatsApp</span>
   </a>
 
-  <script src="./assets/main.js" defer></script>
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar imagen">&times;</button>
+    <img src="" alt="Vista ampliada de referencia" class="lightbox-image" id="lightboxImage">
+  </div>
 
-<div class="lightbox" id="lightbox" aria-hidden="true">
-  <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar imagen">
-    &times;
-  </button>
-  <img src="" alt="Vista ampliada de referencia" class="lightbox-image" id="lightboxImage">
-</div>
-<script src="script.js"></script>
+  <!-- ✅ VARIABLE JS DINÁMICA — todos los botones del catálogo usan esto -->
+  <script>
+  const TELEFONO_BARAK = "<?php echo $whatsapp; ?>";
+  </script>
+
+  <script src="./assets/main.js"></script>
+  <script src="./assets/js/app.js"></script>
+  <script src="script.js"></script>
+
 </body>
+</html>
