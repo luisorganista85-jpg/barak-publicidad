@@ -11,7 +11,7 @@ if(!isset($_GET['id'])){
     die("Cotización no encontrada");
 }
 
-$id = $_GET['id'];
+$id = mysqli_real_escape_string($conexion, $_GET['id']);
 
 $cotizacion = mysqli_fetch_array(
     mysqli_query($conexion, "SELECT * FROM cotizaciones WHERE id='$id'")
@@ -28,17 +28,12 @@ $detalle = mysqli_query($conexion,
 */
 
 $logo = "C:/xampp/htdocs/BARAK_PUBLICIDAD/img/logo.png";
-
 $logoBase64 = "";
 
 if(file_exists($logo)){
-
     $tipo = pathinfo($logo, PATHINFO_EXTENSION);
-
     $data = file_get_contents($logo);
-
     $logoBase64 = 'data:image/' . $tipo . ';base64,' . base64_encode($data);
-
 }
 
 /*
@@ -66,7 +61,6 @@ body{
 }
 
 /* HEADER */
-
 .header{
     padding-bottom:15px;
     margin-bottom:20px;
@@ -124,7 +118,6 @@ body{
 }
 
 /* TABLA PRODUCTOS */
-
 table.productos{
     width:100%;
     border-collapse:collapse;
@@ -151,7 +144,6 @@ table.productos tr:nth-child(even){
 }
 
 /* TOTAL */
-
 .total-box{
     margin-top:25px;
     text-align:right;
@@ -176,7 +168,6 @@ table.productos tr:nth-child(even){
 }
 
 /* FOOTER */
-
 .footer{
     margin-top:35px;
     text-align:center;
@@ -191,83 +182,50 @@ table.productos tr:nth-child(even){
 
 <body>
 
-<!-- HEADER -->
-
 <div class="header">
-
 <table class="header-table">
-
 <tr>
 
 <td width="65%">
-
-    <table>
+    <table style="width: 100%; border-collapse: collapse;">
         <tr>
-
-            <td style="border:none; padding-right:15px;">
-
-                <img src="'.$logoBase64.'" class="logo">
-
+            <td style="border:none; width: 105px; padding-right: 30px; vertical-align: middle;">
+                <img src="'.$logoBase64.'" class="logo" style="width: 85px; display: block;">
             </td>
-
-            <td style="border:none;">
-
-                <div class="empresa-nombre">
-                    BARAK PUBLICIDAD
-                </div>
-
-                <div class="empresa-sub">
-                    Publicidad & Marketing
-                </div>
-
-                <span class="cotizacion-num">
-                    COTIZACIÓN #'.$id.'
-                </span>
-
+            <td style="border:none; vertical-align: middle;">
+                <div class="empresa-nombre">BARAK PUBLICIDAD</div>
+                <div class="empresa-sub">Publicidad & Marketing</div>
+                <span class="cotizacion-num">COTIZACIÓN #'.$id.'</span>
             </td>
-
         </tr>
     </table>
-
 </td>
 
-<td width="35%" class="info-right">
-
+<td width="35%" class="info-right" style="vertical-align: middle;">
     <span class="info-label">Cliente:</span>
     <span class="info-value">'.$cotizacion['cliente'].'</span>
     <br>
-
     <span class="info-label">Empresa:</span>
     <span class="info-value">'.$cotizacion['empresa'].'</span>
     <br>
-
     <span class="info-label">Canal:</span>
     <span class="info-value">'.$cotizacion['canal_venta'].'</span>
     <br>
-
     <span class="info-label">Fecha:</span>
     <span class="info-value">'.$cotizacion['fecha'].'</span>
     <br>
-
-<span class="info-label">Vendedor:</span>
-<span class="info-value">'.$cotizacion['usuario'].'</span>
-<br>
-
+    <span class="info-label">Vendedor:</span>
+    <span class="info-value">'.$cotizacion['usuario'].'</span>
+    <br>
     <span class="info-label">Estado:</span>
     <span class="info-value">'.$cotizacion['estado'].'</span>
-
 </td>
 
 </tr>
-
 </table>
-
 </div>
 
-<!-- TABLA -->
-
 <table class="productos">
-
 <tr>
     <th>Producto</th>
     <th>Cantidad</th>
@@ -278,45 +236,24 @@ table.productos tr:nth-child(even){
 ';
 
 while($d = mysqli_fetch_array($detalle)){
-
     $html .= '
-
     <tr>
-
         <td>'.$d['producto'].'</td>
-
         <td>'.$d['cantidad'].'</td>
-
         <td>'.$d['tipo_venta'].'</td>
-
         <td>$'.number_format($d['precio'],2).'</td>
-
         <td>$'.number_format($d['subtotal'],2).'</td>
-
     </tr>
-
     ';
 }
 
 $html .= '
-
 </table>
 
-<!-- TOTAL -->
-
 <div class="total-box">
-
-    <div class="total-label">
-        Total a Pagar
-    </div>
-
-    <div class="total-monto">
-        $'.number_format($cotizacion['total'],2).'
-    </div>
-
+    <div class="total-label">Total a Pagar</div>
+    <div class="total-monto">$'.number_format($cotizacion['total'],2).'</div>
 </div>
-
-<!-- FOOTER -->
 
 <div class="footer">
     BARAK PUBLICIDAD & MARKETING • Gracias por su preferencia
@@ -331,19 +268,13 @@ $html .= '
 | DOMPDF
 |--------------------------------------------------------------------------
 */
-
 $options = new Options();
-
 $options->set('isRemoteEnabled', true);
-
 $options->set('isHtml5ParserEnabled', true);
 
 $dompdf = new Dompdf($options);
-
 $dompdf->loadHtml($html);
-
 $dompdf->setPaper('A4', 'portrait');
-
 $dompdf->render();
 
 $dompdf->stream(

@@ -5,37 +5,47 @@ include("config/conexion.php");
 
 if(isset($_POST['ingresar'])){
 
-    $usuario = $_POST['usuario'];
+    $usuario = trim($_POST['usuario']);
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM usuarios WHERE usuario=?";
+    $sql = "SELECT * FROM usuarios WHERE usuario = ?";
     $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("s", $usuario);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
 
-    if($fila = mysqli_fetch_array($resultado)){
+    if($stmt){
 
-        if(password_verify($password, $fila['password'])){
+        $stmt->bind_param("s", $usuario);
+        $stmt->execute();
 
-            $_SESSION['usuario'] = $fila['usuario'];
-            $_SESSION['rol'] = $fila['rol'];
-            $_SESSION['nombre'] = $fila['nombre'];
+        $resultado = $stmt->get_result();
 
-            header("Location: panel/dashboard.php");
-            exit();
+        if($resultado->num_rows > 0){
+
+            $fila = $resultado->fetch_assoc();
+
+            if(password_verify($password, $fila['password'])){
+
+                $_SESSION['usuario'] = $fila['usuario'];
+                $_SESSION['rol']     = $fila['rol'];
+                $_SESSION['nombre']  = $fila['nombre'];
+
+                header("Location: panel/dashboard.php");
+                exit();
+
+            }else{
+                $error = "Usuario o contraseña incorrectos";
+            }
 
         }else{
             $error = "Usuario o contraseña incorrectos";
         }
 
+        $stmt->close();
+
     }else{
-        $error = "Usuario o contraseña incorrectos";
+        $error = "Error al conectar con la base de datos";
     }
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
