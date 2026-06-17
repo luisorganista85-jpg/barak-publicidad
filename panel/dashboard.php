@@ -78,9 +78,22 @@ $res_top = mysqli_query($conexion,
      GROUP BY producto
      ORDER BY total_vendido DESC
      LIMIT 3");
-while($tp = mysqli_fetch_array($res_top)){
-    $top_productos[] = $tp;
+if($res_top){
+    while($tp = mysqli_fetch_array($res_top)){
+        $top_productos[] = $tp;
+    }
 }
+
+// ALERTAS DE STOCK BAJO (5 o menos unidades)
+$stock_bajo = [];
+$res_stock = mysqli_query($conexion,
+    "SELECT nombre, stock FROM productos WHERE stock <= 5 ORDER BY stock ASC LIMIT 6");
+if($res_stock){
+    while($sb = mysqli_fetch_array($res_stock)){
+        $stock_bajo[] = $sb;
+    }
+}
+$total_alertas = count($stock_bajo);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -99,6 +112,10 @@ while($tp = mysqli_fetch_array($res_top)){
     <div class="topbar-left">
         <span style="font-size:24px;">📊</span>
         <h2>Dashboard Principal</h2>
+    </div>
+    <div class="topbar-right">
+        <span>Bienvenido: <strong><?php echo htmlspecialchars($_SESSION['usuario']); ?></strong></span>
+        <a href="../logout.php">Cerrar Sesión</a>
     </div>
 </div>
 
@@ -142,25 +159,22 @@ while($tp = mysqli_fetch_array($res_top)){
         </div>
     </div>
 
-    <!-- GRAFICA LINEA: VENTAS 6 MESES -->
+    <!-- GRAFICA BARRAS: VENTAS 6 MESES -->
     <div class="chart-full">
-        <h2>📈 Tendencia de Ventas — Últimos 6 Meses</h2>
+        <h2>📊 Ventas por Mes — Últimos 6 Meses</h2>
         <canvas id="graficaMeses" height="80"></canvas>
     </div>
 
     <!-- FILA 3 GRAFICAS -->
     <div class="chart-row">
-
         <div class="chart-box">
             <h2>📊 Ventas por Canal</h2>
             <canvas id="graficaCanal" height="200"></canvas>
         </div>
-
         <div class="chart-box">
             <h2>🔵 Estado de Cotizaciones</h2>
             <canvas id="graficaEstado" height="200"></canvas>
         </div>
-
         <div class="chart-box">
             <h2>🏆 Top 3 Productos Más Vendidos</h2>
             <?php if(count($top_productos) > 0): ?>
@@ -175,13 +189,41 @@ while($tp = mysqli_fetch_array($res_top)){
                 <p class="sin-datos">Sin datos de ventas aún.</p>
             <?php endif; ?>
         </div>
-
     </div>
 
-    <!-- TABLA ULTIMAS 5 COTIZACIONES -->
-    <div class="tabla-reciente">
+    <!-- ALERTAS DE STOCK -->
+    <div class="chart-full alerta-full">
+        <div class="alerta-header">
+            <h2>⚠️ Alertas de Stock Bajo</h2>
+            <?php if($total_alertas > 0): ?>
+                <span class="alerta-badge"><?php echo $total_alertas; ?> producto<?php echo $total_alertas > 1 ? 's' : ''; ?> requieren atención</span>
+            <?php else: ?>
+                <span class="alerta-badge alerta-badge-ok">✓ Todo el stock en orden</span>
+            <?php endif; ?>
+        </div>
+        <?php if($total_alertas > 0): ?>
+        <div class="alerta-grid">
+            <?php foreach($stock_bajo as $sb): ?>
+            <div class="alerta-card <?php echo $sb['stock'] == 0 ? 'alerta-card-cero' : 'alerta-card-bajo'; ?>">
+                <div class="alerta-card-nombre"><?php echo htmlspecialchars($sb['nombre']); ?></div>
+                <div class="alerta-card-stock">
+                    <?php if($sb['stock'] == 0): ?>
+                        <span class="stock-cero">⛔ Agotado</span>
+                    <?php else: ?>
+                        <span class="stock-bajo">⚠ <?php echo $sb['stock']; ?> uds.</span>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+        <?php else: ?>
+            <p class="sin-datos">No hay productos con stock crítico.</p>
+        <?php endif; ?>
+    </div>
+
+   <div class="tabla-reciente">
         <div class="tabla-header">
-            <h2>⏱️ Últimas 5 Cotizaciones Generadas</h2>
+            <h2>⏱️ Últimas 5 Cotizaciones Cerradas</h2>
         </div>
         <table>
             <thead>
@@ -195,7 +237,9 @@ while($tp = mysqli_fetch_array($res_top)){
             </thead>
             <tbody>
             <?php
-            $resultado = mysqli_query($conexion, "SELECT * FROM cotizaciones ORDER BY id DESC LIMIT 5");
+            // Filtramos específicamente por estado 'Cerrada'
+            $resultado = mysqli_query($conexion, "SELECT * FROM cotizaciones WHERE estado='Cerrada' ORDER BY id DESC LIMIT 5");
+            
             while($mostrar = mysqli_fetch_array($resultado)){
                 $det = mysqli_query($conexion,
                     "SELECT producto FROM detalle_cotizacion WHERE cotizacion_id='".$mostrar['id']."' LIMIT 1");
@@ -203,13 +247,13 @@ while($tp = mysqli_fetch_array($res_top)){
                 $nombre_producto = $d ? $d['producto'] : '—';
             ?>
             <tr>
-                <td><strong><?php echo $mostrar['cliente']; ?></strong></td>
-                <td><?php echo $mostrar['empresa'] ?: 'Particular'; ?></td>
-                <td><?php echo $nombre_producto; ?></td>
+                <td><strong><?php echo htmlspecialchars($mostrar['cliente']); ?></strong></td>
+                <td><?php echo htmlspecialchars($mostrar['empresa'] ?: 'Particular'); ?></td>
+                <td><?php echo htmlspecialchars($nombre_producto); ?></td>
                 <td>$<?php echo number_format($mostrar['total'], 2); ?></td>
                 <td>
-                    <span class="badge <?php echo ($mostrar['estado'] == 'Cerrada') ? 'badge-disponible' : 'badge-bajo'; ?>">
-                        <?php echo $mostrar['estado']; ?>
+                    <span class="badge badge-disponible">
+                        <?php echo htmlspecialchars($mostrar['estado']); ?>
                     </span>
                 </td>
             </tr>
@@ -269,23 +313,23 @@ while($tp = mysqli_fetch_array($res_top)){
 </div>
 
 <script>
-// GRAFICA LINEA: VENTAS 6 MESES
+// GRAFICA BARRAS: VENTAS 6 MESES
 var ctxMeses = document.getElementById('graficaMeses').getContext('2d');
+var datasetMeses = <?php echo json_encode($ventas_meses); ?>;
+var maxVal = Math.max.apply(null, datasetMeses);
+var coloresMeses = datasetMeses.map(function(v){
+    return v === maxVal && maxVal > 0 ? '#9b59b6' : 'rgba(111,66,193,0.7)';
+});
 new Chart(ctxMeses, {
-    type: 'line',
+    type: 'bar',
     data: {
         labels: <?php echo json_encode($labels_meses); ?>,
         datasets: [{
             label: 'Ventas Cerradas ($)',
-            data: <?php echo json_encode($ventas_meses); ?>,
-            borderColor: '#6f42c1',
-            backgroundColor: 'rgba(111,66,193,.12)',
-            borderWidth: 3,
-            pointBackgroundColor: '#6f42c1',
-            pointRadius: 6,
-            pointHoverRadius: 9,
-            fill: true,
-            tension: 0.4
+            data: datasetMeses,
+            backgroundColor: coloresMeses,
+            borderRadius: 8,
+            borderSkipped: false
         }]
     },
     options: {
@@ -306,7 +350,7 @@ new Chart(ctxMeses, {
                 ticks: { callback: function(val){ return '$' + val.toLocaleString('es-MX'); } },
                 grid: { color: 'rgba(128,128,128,.1)' }
             },
-            x: { grid: { color: 'rgba(128,128,128,.1)' } }
+            x: { grid: { display: false } }
         }
     }
 });

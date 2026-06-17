@@ -57,9 +57,13 @@ if (session_status() === PHP_SESSION_NONE) {
                     <span class="icon">⚙️</span> Configuración
                 </a>
             </li>
+            <li>
+                <a href="papelera.php?sec=clientes">
+                    <span class="icon">🗑️</span> Papelera Global
+                </a>
+            </li>
         <?php endif; ?>
 
-        <!-- TOGGLE MODO OSCURO -->
         <li class="menu-separator" style="margin: 0; padding: 0; list-style: none;">
             <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 5px 0 10px 0; padding: 0;">
         </li>
