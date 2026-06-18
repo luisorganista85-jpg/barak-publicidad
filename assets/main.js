@@ -1486,3 +1486,98 @@ function enviarWhatsAppBannerX() {
 
    window.open(`https://wa.me/${TELEFONO_BARAK}?text=${mensaje}`, '_blank');
 }
+// ── COTIZADOR GENÉRICO — productos dinámicos del inventario ──────────
+var pedidosGenericos = {};
+
+function sumarProd(pid, vi, medida, precio) {
+    var key = pid + '_' + vi;
+    if (!pedidosGenericos[key]) {
+        pedidosGenericos[key] = { pid: pid, medida: medida, precio: precio, cantidad: 0 };
+    }
+    pedidosGenericos[key].cantidad++;
+    _actualizarQty(pid, vi, pedidosGenericos[key].cantidad);
+    _resumenProd(pid);
+}
+
+function restarProd(pid, vi) {
+    var key = pid + '_' + vi;
+    if (pedidosGenericos[key] && pedidosGenericos[key].cantidad > 0) {
+        pedidosGenericos[key].cantidad--;
+        _actualizarQty(pid, vi, pedidosGenericos[key].cantidad);
+        _resumenProd(pid);
+    }
+}
+
+function _actualizarQty(pid, vi, cantidad) {
+    var span = document.getElementById('qty-' + pid + '-' + vi);
+    if (span) {
+        span.textContent = cantidad;
+        span.style.color = cantidad > 0 ? 'var(--color-primary)' : '';
+        span.style.fontWeight = cantidad > 0 ? '800' : '400';
+    }
+}
+
+function _resumenProd(pid) {
+    var div = document.getElementById('resumen-prod-' + pid);
+    if (!div) return;
+    var total = 0;
+    Object.keys(pedidosGenericos).forEach(function(key) {
+        var item = pedidosGenericos[key];
+        if (item.pid == pid) total += item.cantidad;
+    });
+    div.innerHTML = total > 0
+        ? '📦 Total de piezas: ' + total
+        : '';
+}
+
+function enviarWAProd(pid, nombre) {
+    var total = 0;
+    var msg = 'Hola BARAK, quiero cotizar: ' + nombre + '\n\n';
+    var tieneItems = false;
+
+    Object.keys(pedidosGenericos).forEach(function(key) {
+        var item = pedidosGenericos[key];
+        if (item.pid == pid && item.cantidad > 0) {
+            msg += '• ' + item.medida + ' x' + item.cantidad + ' pieza(s)\n';
+            total += item.cantidad;
+            tieneItems = true;
+        }
+    });
+
+    if (!tieneItems) {
+        alert('⚠️ Selecciona al menos una opción antes de cotizar.');
+        return;
+    }
+
+    msg += '\n📦 Total de piezas: ' + total + '\n\n¿Me podrían dar más información?';
+    window.open('https://wa.me/' + TELEFONO_BARAK + '?text=' + encodeURIComponent(msg), '_blank');
+
+    // Limpiar contadores después de enviar
+    Object.keys(pedidosGenericos).forEach(function(key) {
+        var item = pedidosGenericos[key];
+        if (item.pid == pid) {
+            var vi = key.split('_')[1];
+            _actualizarQty(pid, vi, 0);
+            delete pedidosGenericos[key];
+        }
+    });
+    _resumenProd(pid);
+}
+window.addEventListener('focus', function() {
+    location.reload();
+});
+// Actualiza solo el catálogo cada 30 segundos sin recargar la página
+setInterval(function() {
+    fetch(location.href)
+        .then(function(r) { return r.text(); })
+        .then(function(html) {
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(html, 'text/html');
+            var nuevoGrid = doc.getElementById('catalogoGrid');
+            var gridActual = document.getElementById('catalogoGrid');
+            if (nuevoGrid && gridActual) {
+                gridActual.innerHTML = nuevoGrid.innerHTML;
+            }
+        })
+        .catch(function() {});
+}, 30000);
