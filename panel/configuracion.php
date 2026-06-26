@@ -15,7 +15,6 @@ if(!in_array($_SESSION['rol'], ["Administrador", "Super Administrador"])){
 
 include("../config/conexion.php");
 
-$mensaje = "";
 $config_id = 1;
 
 $check_id = mysqli_query($conexion, "SELECT id FROM configuracion WHERE id = $config_id");
@@ -31,9 +30,12 @@ if(isset($_POST['guardar'])){
     $facebook = mysqli_real_escape_string($conexion, trim(str_replace(['"',"'"], '', $_POST['facebook'])));
 
     if(mysqli_query($conexion, "UPDATE configuracion SET whatsapp='$whatsapp', correo='$correo', horario='$horario', facebook='$facebook' WHERE id=$config_id")) {
-        $mensaje = "exito";
+        // Redirigir con parámetro de éxito para limpiar el formulario
+        header("Location: configuracion.php?guardado=1");
+        exit();
     } else {
-        $mensaje = "error";
+        header("Location: configuracion.php?guardado=0");
+        exit();
     }
 }
 
@@ -61,9 +63,9 @@ $config    = mysqli_fetch_array($resultado);
 
 <div class="content">
 
-    <?php if($mensaje == "exito"){ ?>
+    <?php if(isset($_GET['guardado']) && $_GET['guardado'] == '1'){ ?>
         <div class="alert-exito">✅ ¡Configuración guardada exitosamente! Los cambios ya están en vivo.</div>
-    <?php } elseif($mensaje == "error"){ ?>
+    <?php } elseif(isset($_GET['guardado']) && $_GET['guardado'] == '0'){ ?>
         <div class="alert-error">❌ Error al guardar. Intenta de nuevo.</div>
     <?php } ?>
 
@@ -116,7 +118,7 @@ $config    = mysqli_fetch_array($resultado);
                     value="<?php echo htmlspecialchars($config['facebook'] ?? ''); ?>">
             </div>
 
-            <button type="submit" name="guardar">
+            <button type="submit" name="guardar" class="btn-panel btn-verde">
                 💾 Guardar Configuración
             </button>
 

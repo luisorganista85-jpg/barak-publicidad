@@ -87,11 +87,24 @@ if (session_status() === PHP_SESSION_NONE) {
         </li>
 
         <li class="logout-item">
-            <a href="../logout.php" onclick="return confirm('¿Seguro que quieres salir del sistema?')">
+            <a href="#" onclick="abrirModalLogout(); return false;">
                 <span class="icon">🚪</span> Cerrar Sesión
             </a>
         </li>
     </ul>
+</div>
+
+<!-- Modal Cerrar Sesión -->
+<div id="modalLogout" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+        <div class="modal-icon">🚪</div>
+        <h3 class="modal-title">Cerrar Sesión</h3>
+        <p class="modal-message">¿Seguro que quieres salir del sistema?</p>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="cerrarModalLogout()">Cancelar</button>
+            <a href="../logout.php" class="btn btn-danger">Sí, salir</a>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -131,5 +144,22 @@ function actualizarBoton(tema) {
 document.addEventListener('DOMContentLoaded', function() {
     const tema = localStorage.getItem('tema_sgi') || 'claro';
     actualizarBoton(tema);
+});
+
+// ── Modal Logout ──────────────────────────────────────────
+function abrirModalLogout() {
+    const modal = document.getElementById('modalLogout');
+    modal.style.display = 'flex';
+}
+
+function cerrarModalLogout() {
+    const modal = document.getElementById('modalLogout');
+    modal.style.display = 'none';
+}
+
+// Cerrar al hacer clic en el fondo del overlay
+document.addEventListener('click', function(e) {
+    const modal = document.getElementById('modalLogout');
+    if (e.target === modal) cerrarModalLogout();
 });
 </script>
